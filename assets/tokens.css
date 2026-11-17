@@ -1,0 +1,8 @@
+/* Properties the theme's other styles read. The muted text holds WCAG AA (4.5:1)
+   on daisyUI's default light and dark themes. */
+@layer base {
+  :root {
+    --daisy-text-muted: color-mix(in oklab, var(--color-base-content) 72%, transparent);
+    --daisy-border: var(--color-base-300);
+  }
+}
