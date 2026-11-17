@@ -6,6 +6,7 @@ For the developer whose Sphinx site uses the theme: installing it and configurin
 :caption: Getting started
 
 installation
+move-from-furo-or-pydata-sphinx-theme
 ```
 
 ```{toctree}

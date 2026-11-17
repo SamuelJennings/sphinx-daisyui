@@ -8,6 +8,8 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- A documentation page for a site moving from Furo or pydata-sphinx-theme, listing which option
+  of this theme does what each of theirs did.
 - Edit and view links: the `source_repository`, `source_branch`, `source_directory` and
   `top_of_page_buttons` options, which draw edit and view buttons beside the breadcrumbs for
   GitHub, GitLab and Bitbucket repositories, and the `edit-this-page` component.
