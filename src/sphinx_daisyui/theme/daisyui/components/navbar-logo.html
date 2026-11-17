@@ -1,1 +1,8 @@
-<a class="daisy-brand flex min-w-0 items-center gap-2.5 rounded-field px-1 py-1 font-semibold hover:opacity-85" href="{{ pathto(root_doc)|e }}"><span class="truncate text-base">{{ docstitle|e }}</span></a>
+{%- set b = daisy.brand %}
+<a href="{{ b.href|e }}" class="daisy-brand flex min-w-0 items-center gap-2.5 rounded-field px-1 py-1 font-semibold hover:opacity-85">
+  {%- if b.light %}
+    <img src="{{ b.light|e }}" alt="{{ ('' if b.text else b.alt)|e }}" class="daisy-logo-light h-8 w-auto">
+    <img src="{{ b.dark|e }}" alt="{{ ('' if b.text else b.alt)|e }}" class="daisy-logo-dark h-8 w-auto">
+  {%- endif %}
+  {%- if b.text %}<span class="truncate text-base">{{ b.text|e }}</span>{% endif %}
+</a>

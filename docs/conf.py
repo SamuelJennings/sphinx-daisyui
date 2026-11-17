@@ -15,7 +15,11 @@ myst_heading_anchors = 3
 html_theme = "daisyui"
 html_title = "sphinx-daisyui"
 html_last_updated_fmt = "%d %B %Y"
+html_static_path = ["_static"]
+html_favicon = "_static/logo-light.svg"
 html_theme_options = {
+    "light_logo": "logo-light.svg",
+    "dark_logo": "logo-dark.svg",
     "footer_start": ["copyright", "last-updated"],
     "footer_end": ["sphinx-version", "theme-version"],
 }
