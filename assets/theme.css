@@ -1,0 +1,8 @@
+/* The theme's stylesheet: Tailwind 4 and daisyUI 5. Classes are collected from
+   the theme's templates only. */
+@import "tailwindcss" source(none);
+@source "../src/sphinx_daisyui/theme/daisyui";
+
+@plugin "daisyui" {
+  themes: all;
+}
