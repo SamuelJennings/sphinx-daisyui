@@ -20,3 +20,13 @@ class TestSetup:
         stylesheet = app.outdir / "_static" / "styles" / "sphinx-daisyui.css"
         assert 'href="_static/styles/sphinx-daisyui.css' in page
         assert stylesheet.stat().st_size > 0
+
+    @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
+    def test_the_theme_asks_for_neither_sphinx_design_nor_sphinx_copybutton(
+        self, app: SphinxTestApp
+    ) -> None:
+        app.build()
+
+        assert app.warning.getvalue() == ""
+        assert "sphinx_design" not in app.extensions
+        assert "sphinx_copybutton" not in app.extensions

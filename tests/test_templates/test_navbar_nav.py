@@ -36,6 +36,14 @@ def header(**options: Any) -> pytest.MarkDecorator:
     )
 
 
+def menu_links(page: Page) -> list[dict[str, str | None]]:
+    """Find the links of the site's menus, not those of a toctree in the article."""
+    links = page.classed("a", "daisy-nav-link")
+    return links[
+        : len(links) - len(page.inside("article").classed("a", "daisy-nav-link"))
+    ]
+
+
 def built(app: SphinxTestApp, name: str = "index.html") -> Page:
     app.build()
     return Page.read(Path(app.outdir) / name)
@@ -269,7 +277,7 @@ class TestSidebar:
         page = built(app)
 
         assert len(anchors(page.inside("header"))) >= LINK_COUNT
-        assert len(page.classed("a", "daisy-nav-link")) == 2 * SECTION_COUNT
+        assert len(menu_links(page)) == 2 * SECTION_COUNT
 
     @header(navbar_center=[], external_links=[])
     def test_no_navbar_nav_anywhere_draws_no_sections_and_keeps_the_whole_site(
@@ -278,7 +286,7 @@ class TestSidebar:
         page = built(app)
 
         assert not page.find("nav", **{"aria-label": translate("Sections")})
-        assert len(page.classed("a", "daisy-nav-link")) == 2 * SECTION_COUNT
+        assert len(menu_links(page)) == 2 * SECTION_COUNT
 
 
 class TestAlignment:

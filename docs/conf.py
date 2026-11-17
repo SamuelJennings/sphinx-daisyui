@@ -8,13 +8,39 @@ to compare them.
 """
 
 import os
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).parent / "_ext"))
 
 project = "sphinx-daisyui"
 author = "Sam Jennings"
 copyright = "2026, Sam Jennings"
 
-extensions = ["myst_parser"]
+extensions = [
+    "myst_parser",
+    "sphinx_design",
+    "sphinx_copybutton",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.mathjax",
+    "sphinx.ext.todo",
+    "sphinx.ext.viewcode",
+]
 myst_heading_anchors = 3
+# The kitchen sink links one name into the Python documentation.
+intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
+myst_enable_extensions = [
+    "colon_fence",
+    "deflist",
+    "tasklist",
+    "dollarmath",
+    "fieldlist",
+    "substitution",
+]
+todo_include_todos = True
+autodoc_member_order = "bysource"
 
 html_theme = "daisyui"
 html_title = "sphinx-daisyui"

@@ -1,0 +1,6 @@
+Second
+======
+
+.. toctree::
+
+   second-child

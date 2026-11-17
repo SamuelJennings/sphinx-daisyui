@@ -255,3 +255,33 @@ The `page-toc` component lists the headings of the page being read.
 - **Type:** list of component names
 - **Default:** `"theme-version"`
 - **Meaning:** The components at the end of the footer.
+
+## Pygments styles
+
+By default code is drawn with the theme's token colours. These two options give a mode a
+Pygments style instead. Sphinx's own `pygments_style` setting is not used: the theme drops
+Sphinx's Pygments stylesheet from every page.
+
+### `pygments_light_style`
+
+- **Type:** string
+- **Default:** empty, which keeps the theme's token highlighting
+- **Meaning:** The name of the Pygments style code uses in light mode, such as `"friendly"`.
+  The style follows the mode the page shows, and the system's colour scheme until the page
+  has a mode. A name that is not a Pygments style is reported as a warning of type `daisyui`
+  and subtype `pygments`, and the mode keeps the theme's token highlighting.
+
+### `pygments_dark_style`
+
+- **Type:** string
+- **Default:** empty, which keeps the theme's token highlighting
+- **Meaning:** The name of the Pygments style code uses in dark mode, such as `"monokai"`. It
+  follows the mode the page shows in the same way as `pygments_light_style`, and an unknown name
+  is handled in the same way.
+
+```python
+html_theme_options = {
+    "pygments_light_style": "friendly",
+    "pygments_dark_style": "monokai",
+}
+```
