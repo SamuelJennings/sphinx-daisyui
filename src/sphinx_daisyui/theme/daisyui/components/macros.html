@@ -1,0 +1,8 @@
+{#- Macros the layout and a site's own components share. -#}
+{%- macro components(names) -%}
+  {%- for name in names %}{% include ["components/" ~ name, name] ignore missing %}{% endfor -%}
+{%- endmacro %}
+
+{%- macro icon_button(label, icon, tooltip="") -%}
+  <button type="button" class="btn btn-ghost btn-sm btn-square{% if tooltip %} tooltip{% endif %}"{% if tooltip %} data-tip="{{ tooltip|e }}"{% endif %} aria-label="{{ label|e }}">{{ daisy.icon(icon) }}</button>
+{%- endmacro %}

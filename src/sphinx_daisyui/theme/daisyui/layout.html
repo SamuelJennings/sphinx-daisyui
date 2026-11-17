@@ -1,0 +1,84 @@
+{%- extends "basic/layout.html" %}
+{%- from 'components/macros.html' import components, icon_button with context %}
+{%- set d = daisy %}
+
+{%- block body_tag %}<body class="bg-base-100 text-base-content antialiased">{% endblock %}
+
+{%- block header %}
+  <a href="#main-content" class="btn btn-primary btn-sm absolute -top-20 left-4 z-50 focus:top-2">Skip to content</a>
+{%- endblock %}
+
+{%- block relbar1 %}{% endblock %}
+{%- block relbar2 %}{% endblock %}
+
+{%- block content %}
+  {%- set lay = d.layout %}
+  {#- Single quotes round the style: the grid areas are double-quoted strings. #}
+  <div class="daisy-layout" style='--daisy-areas-lg: {{ lay.areas_medium }}; --daisy-areas-xl: {{ lay.areas_wide }}; --daisy-primary-top: {{ lay.primary_top|e }}; --daisy-secondary-top: {{ lay.secondary_top|e }};' data-layout="{{ lay.code|e }}"{% if lay.header_sticky %} data-header-fixed{% endif %}{% if lay.primary_sticky %} data-primary-fixed{% endif %}{% if lay.secondary_sticky %} data-secondary-fixed{% endif %}{% if lay.footer_sticky %} data-footer-fixed{% endif %}>
+    <input id="daisy-drawer" type="checkbox" class="hidden" aria-hidden="true" tabindex="-1">
+
+    <header class="daisy-area-header daisy-navbar bg-base-100/90 backdrop-blur supports-[backdrop-filter]:bg-base-100/75">
+      <div class="navbar mx-auto min-h-16 max-w-[96rem] gap-2 px-3 sm:px-4">
+        <label for="daisy-drawer" class="btn btn-ghost btn-square btn-sm lg:hidden" aria-label="Open the navigation">{{ d.icon("menu") }}</label>
+        <div class="flex min-w-0 items-center gap-2">
+          {%- for name in d.navbar_start %}
+            {%- if name == "navbar-logo.html" and lay.brand_in_sidebar %}<div class="lg:hidden">{{ components([name]) }}</div>
+            {%- else %}{{ components([name]) }}{% endif %}
+          {%- endfor %}
+        </div>
+        <div class="hidden min-w-0 flex-1 items-center lg:flex justify-start ps-6">{{ components(d.navbar_center) }}</div>
+        <div class="ms-auto flex items-center gap-1">
+          {{ components(d.navbar_persistent) }}
+          <div class="hidden items-center gap-1 sm:flex" data-daisy-navbar-end>{{ components(d.navbar_end) }}</div>
+        </div>
+      </div>
+    </header>
+
+    <aside class="daisy-area-primary" aria-label="Site navigation">
+      <div class="daisy-primary-inner">
+        <div class="flex items-center gap-2 border-b border-base-300 p-3 {% if lay.brand_in_sidebar %}lg:min-h-16 lg:border-0 lg:px-4 lg:py-0{% else %}lg:hidden{% endif %}">
+          {% include "components/navbar-logo.html" %}
+          <label for="daisy-drawer" class="btn btn-ghost btn-sm btn-square ms-auto{% if lay.brand_in_sidebar %} lg:hidden{% endif %}" aria-label="Close the navigation">{{ d.icon("x") }}</label>
+        </div>
+        <div class="flex flex-wrap items-center gap-1 border-b border-base-300 p-3 sm:hidden empty:hidden" data-daisy-navbar-end-slot></div>
+        <div class="daisy-sidebar-scroll px-3 py-4 lg:py-8 lg:ps-4 lg:pe-2">
+          {{ components(sidebars) }}
+          {{ components(d.primary_sidebar_end) }}
+        </div>
+      </div>
+    </aside>
+    <label for="daisy-drawer" class="daisy-drawer-overlay" aria-label="Close the navigation"></label>
+
+    <main id="main-content" class="daisy-area-main min-w-0 px-4 sm:px-6 lg:px-10" tabindex="-1">
+      <div class="mx-auto max-w-[46rem] pt-6 pb-10">
+        {%- if d.article_header_start or d.article_header_end %}
+          <div class="daisy-article-header flex min-h-8 items-center gap-3">
+            <div class="min-w-0 flex-1">{{ components(d.article_header_start) }}</div>
+            <div class="flex shrink-0 items-center gap-1">{{ components(d.article_header_end) }}</div>
+          </div>
+        {%- endif %}
+        <article class="daisy-sphinx-content">
+          {% block body %}{% endblock %}
+        </article>
+        {{ components(d.article_footer_items) }}
+        {{ components(d.content_footer_items) }}
+      </div>
+    </main>
+
+    {%- if d.secondary %}
+      <aside class="daisy-area-secondary" aria-label="Page tools">
+        <div class="daisy-secondary daisy-secondary-inner">{{ components(d.secondary) }}</div>
+      </aside>
+    {%- endif %}
+
+    <footer class="daisy-area-footer daisy-footer border-t border-base-300 bg-base-100 px-4 py-8 text-sm sm:px-6 lg:px-10">
+      <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div class="flex flex-col gap-1">{{ components(d.footer_start) }}</div>
+        <div class="flex flex-col gap-1">{{ components(d.footer_center) }}</div>
+        <div class="flex flex-col gap-2 md:items-end">{{ components(d.footer_end) }}</div>
+      </div>
+    </footer>
+  </div>
+{%- endblock %}
+
+{%- block footer %}{% endblock %}
