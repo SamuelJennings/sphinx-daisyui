@@ -34,11 +34,10 @@ RESET = """\
 class PygmentsStyles:
     """The Pygments style a site sets for each colour mode.
 
+    ``styles`` maps each mode that has a valid style to the style's name.
+
     Args:
         options: The theme's option values.
-
-    Attributes:
-        styles: The style name of each mode that has a valid one.
     """
 
     def __init__(self, options: ThemeOptions) -> None:
