@@ -5,7 +5,7 @@
 @source "../src/sphinx_daisyui/*.py";
 /* daisyUI components compiled in so raw HTML in a page can use them, such as a
    mockup, an input, a join or a badge. */
-@source inline("mockup-browser mockup-browser-toolbar input input-sm join join-item btn-xs btn-active badge badge-primary badge-outline fieldset fieldset-legend label input-error text-error validator");
+@source inline("mockup-browser mockup-browser-toolbar input input-sm join join-item btn-xs btn-active badge badge-primary badge-outline kbd kbd-sm fieldset fieldset-legend label input-error text-error validator");
 
 @plugin "daisyui" {
   themes: all;

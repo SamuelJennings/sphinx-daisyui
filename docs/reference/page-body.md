@@ -93,6 +93,7 @@ the escape class can use them:
 - `join` and `join-item`
 - `btn-xs` and `btn-active`
 - `badge`, `badge-primary` and `badge-outline`
+- `kbd` and `kbd-sm`
 - `fieldset`, `fieldset-legend` and `label`
 - `text-error`
 - `validator`

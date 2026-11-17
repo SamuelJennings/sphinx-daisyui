@@ -8,7 +8,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from enum import Enum
 
-__all__ = ["DEFAULT_THEMES", "Colour", "Mode", "Palette", "contrast_ratio"]
+# The order is the order the API page documents them in.
+__all__ = ["Mode", "Colour", "Palette", "contrast_ratio", "DEFAULT_THEMES"]  # noqa: RUF022
 
 #: The themes the picker offers when none are named.
 DEFAULT_THEMES: tuple[str, ...] = ("light", "dark")

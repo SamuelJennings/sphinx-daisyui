@@ -22,12 +22,15 @@ extensions = [
     "sphinx_design",
     "sphinx_copybutton",
     "sphinx.ext.autodoc",
+    "sphinx.ext.intersphinx",
     "sphinx.ext.napoleon",
     "sphinx.ext.mathjax",
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
 ]
 myst_heading_anchors = 3
+# The kitchen sink links one name into the Python documentation.
+intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
 myst_enable_extensions = [
     "colon_fence",
     "deflist",

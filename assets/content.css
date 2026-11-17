@@ -10,7 +10,7 @@
 /* Everything is scoped to the page body, so the theme's frame keeps daisyUI's own styles.
    Raw HTML inside an element with the class daisy-sphinx-escape is left alone, and so
    is a contents list: the site navigation's rules draw that. */
-@scope (.daisy-sphinx-content) to (.daisy-sphinx-escape, .toctree-wrapper) {
+@scope (.daisy-sphinx-content) to (.daisy-sphinx-escape, .toctree-wrapper > *) {
   /* ------------------------------------------------------------------ */
   /* Tokens                                                              */
   /* ------------------------------------------------------------------ */
@@ -1288,8 +1288,15 @@
     background: none;
   }
 
-  :scope div.math > .daisy-sphinx-scroll > mjx-container {
+  :scope div.math > .daisy-sphinx-scroll > mjx-container,
+  :scope .daisy-sphinx-scroll > div.math > mjx-container {
     margin: 0;
+  }
+
+  /* The notation's own block inside the region is not a second equation row. */
+  :scope .daisy-sphinx-scroll > div.math {
+    display: block;
+    padding-block: 0;
   }
 
   :scope .eqno {
@@ -2033,3 +2040,12 @@ html:root, html[data-theme], html [data-theme] {
   --sd-color-tabs-overline: var(--color-base-300);
   --sd-color-tabs-underline: var(--color-base-300);
 }
+
+/* A contents list in a page is drawn by the site navigation's menu rules; these
+   are the few places its rows read as body text rather than as the sidebar. */
+.daisy-sphinx-content .toctree-wrapper .daisy-nav-link:not(.menu-active) {
+  line-height: 1.4;
+  color: var(--daisy-sphinx-text);
+}
+.daisy-sphinx-content .toctree-wrapper .daisy-nav-link:not(.menu-active):hover { color: var(--daisy-sphinx-heading); }
+.daisy-sphinx-content .toctree-wrapper .daisy-nav-toggle { margin-top: 0.3rem; }

@@ -141,4 +141,3 @@ template, and the translation tests share the one test catalogue, because Sphinx
 catalogue it loads in a process.
 
 **ADR:** none — local to how this repository's tests are written.
-
