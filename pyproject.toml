@@ -98,6 +98,8 @@ extend = "ruff-base.toml"
 [tool.ruff.lint.extend-per-file-ignores]
 # Asserts are how pytest tests assert.
 "tests/**" = ["S101"]
+# A test site's conf.py sets Sphinx's `copyright` option, which shadows a builtin.
+"tests/roots/**" = ["A001"]
 
 [tool.mypy]
 files = ["src/sphinx_daisyui"]

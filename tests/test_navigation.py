@@ -6,10 +6,9 @@ from docutils import nodes
 from markupsafe import Markup
 from sphinx import addnodes
 from sphinx.testing.util import SphinxTestApp
+from test_templates.page import Page
 
 from sphinx_daisyui.navigation import SiteNavigation, translate
-
-from test_templates.page import Page
 
 NAV = pytest.mark.sphinx("html", testroot="nav", freshenv=True)
 BASIC = pytest.mark.sphinx("html", testroot="basic", freshenv=True, srcdir="no-toctree")
