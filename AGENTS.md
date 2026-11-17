@@ -2,9 +2,8 @@
 
 <!-- Keep this a thin index. Details belong in the files it points to. -->
 
-A Sphinx HTML theme drawn with daisyUI 5 and Tailwind CSS 4 that reads the theme options of Furo
-and pydata-sphinx-theme. The vocabulary is pinned in `CONTEXT.md` and the rules are in
-`CONSTITUTION.md`.
+A Sphinx HTML theme drawn with daisyUI 5 and Tailwind CSS 4, with its own theme options. The
+vocabulary is pinned in `CONTEXT.md` and the rules are in `CONSTITUTION.md`.
 
 ## Stack & commands
 

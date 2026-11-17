@@ -1,6 +1,6 @@
 [project]
 name = "sphinx-daisyui"
-description = "A Sphinx theme drawn with daisyUI 5, configured with the options of Furo and pydata-sphinx-theme"
+description = "A Sphinx theme drawn with daisyUI 5, with its own options"
 license = "MIT"
 version = "0.0.1"
 readme = "README.md"

@@ -6,10 +6,10 @@ and what a pull request needs.
 ## Before you open an issue
 
 `sphinx-daisyui` styles what Sphinx and the extensions it supports already write. It adds no
-directives or roles of its own, and it doesn't restyle markup written for Bootstrap. A
-configuration written for Furo or pydata-sphinx-theme should build unchanged: if one doesn't, that
-is a bug worth reporting, with the `conf.py` that shows it. The README's *Scope & philosophy*
-section says more.
+directives or roles of its own, and it doesn't restyle markup written for Bootstrap. It has
+its own theme options, so a site coming from Furo or pydata-sphinx-theme reconfigures, and an
+option that exists only to accept another theme's configuration will not be added. The
+README's *Scope & philosophy* section says more.
 
 ## Setting up
 
