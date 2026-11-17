@@ -15,6 +15,7 @@ Set these in `html_theme_options` in `conf.py`.
 
 | Option | Default | What it does |
 |---|---|---|
+| `layout` | `"hHh LpR lff"` | Where the header, sidebars and footer sit, and which stay in place. See [](layout-code.md) |
 | `navbar_start` | `["navbar-logo"]` | Components at the start of the navbar |
 | `navbar_center` | `[]` | Components in the middle. `["navbar-nav"]` adds the top-level pages |
 | `navbar_end` | `["version-switcher", "theme-switcher", "navbar-icon-links"]` | Components at the end |

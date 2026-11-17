@@ -6,6 +6,7 @@ pygments_style = { default = "default" }
 
 [options]
 # daisyUI's own: the theme for each mode, the starting mode, and the optional picker.
+layout = "hHh LpR lff"
 light_theme = "light"
 dark_theme = "dark"
 default_mode = "auto"

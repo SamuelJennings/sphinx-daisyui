@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from functools import cache
 from pathlib import Path
 from typing import Any
@@ -99,6 +100,57 @@ def template_names(value: Any) -> list[str]:
     for name in as_list(value):
         names.append(name if name.endswith(".html") else f"{name}.html")
     return names
+
+
+# ---------------------------------------------------------------------------
+# Layout code
+# ---------------------------------------------------------------------------
+
+DEFAULT_LAYOUT = "hHh LpR lff"
+AREA_NAMES = {"h": "header", "l": "primary", "p": "main", "r": "secondary", "f": "footer"}
+LAYOUT_SHAPE = re.compile(r"^[hl]h[hr] lpr [fl]f[fr]$")
+HEADER_HEIGHT = "4.0625rem"
+
+
+def parse_layout(code: Any) -> dict:
+    """Read a layout code in Quasar's notation, such as "hHh LpR lff".
+
+    Three groups of three letters are the top, middle and bottom rows of the page,
+    each read left, centre, right: h header, l left sidebar, p page, r right
+    sidebar, f footer. A corner names which area reaches it. An upper-case
+    header, sidebar or footer letter stays in place while the page scrolls.
+
+    Raises ValueError for a code of the wrong shape.
+    """
+    text = " ".join(str(code or DEFAULT_LAYOUT).split())
+    if not LAYOUT_SHAPE.match(text.lower()):
+        raise ValueError(
+            f"layout {text!r} isn't a layout code. It needs three groups of three letters, "
+            "such as 'hHh LpR lff': the top row is h or l, then h, then h or r; the middle "
+            "row is l, p, r; the bottom row is f or l, then f, then f or r."
+        )
+    rows = text.split(" ")
+    lower = [row.lower() for row in rows]
+
+    def areas(grid: list[str]) -> str:
+        return " ".join('"' + " ".join(AREA_NAMES[c] for c in row) + '"' for row in grid)
+
+    # Without room for the right sidebar, its cells go to the area on their left.
+    narrow = ["".join(row[i - 1] if c == "r" else c for i, c in enumerate(row)) for row in lower]
+    header_fixed = rows[0][1] == "H"
+    return {
+        "code": text,
+        "areas_xl": Markup(areas(lower)),
+        "areas_lg": Markup(areas(narrow)),
+        "header_fixed": header_fixed,
+        "primary_fixed": rows[1][0] == "L",
+        "secondary_fixed": rows[1][2] == "R",
+        "footer_fixed": rows[2][1] == "F",
+        # A sidebar that stays in place starts under a sticky header that spans it.
+        "primary_top": HEADER_HEIGHT if header_fixed and lower[0][0] == "h" else "0px",
+        "secondary_top": HEADER_HEIGHT if header_fixed and lower[0][2] == "h" else "0px",
+        "brand_in_sidebar": lower[0][0] == "l",
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -464,7 +516,10 @@ def on_page_context(app: Sphinx, pagename: str, templatename: str, context: dict
         context["body"] = rewrite_body(context["body"])
 
     sources = source_links(context, opt)
+    layout = parse_layout(opt("layout", DEFAULT_LAYOUT))
     context["daisy"] = {
+        "layout": layout,
+        "brand_in_sidebar": layout["brand_in_sidebar"],
         "version": __version__,
         "icon": icon,
         "brand": brand(context, opt),
@@ -509,10 +564,16 @@ def on_page_context(app: Sphinx, pagename: str, templatename: str, context: dict
 
 
 def on_builder_inited(app: Sphinx) -> None:
-    """Write daisyUI-scoped Pygments styles when a pydata-style pygments option is set."""
+    """Check the layout code, and write Pygments styles when a pydata-style option asks for them."""
     if app.config.html_theme != "daisyui" or app.builder.format != "html":
         return
     options = {**(app.builder.theme.get_options() if app.builder.theme else {}), **app.config.html_theme_options}
+    try:
+        parse_layout(options.get("layout") or DEFAULT_LAYOUT)
+    except ValueError as error:
+        from sphinx.errors import ConfigError
+
+        raise ConfigError(f"html_theme_options: {error}") from None
     light = options.get("pygments_light_style") or ""
     dark = options.get("pygments_dark_style") or ""
     if not (light or dark):

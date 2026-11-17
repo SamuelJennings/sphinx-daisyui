@@ -41,101 +41,43 @@
       </div>
     </div>
   {%- endif %}
-  <header class="daisy-navbar sticky top-0 z-30 border-b border-base-300 bg-base-100/90 backdrop-blur supports-[backdrop-filter]:bg-base-100/75">
-    <div class="navbar mx-auto min-h-16 max-w-[96rem] gap-2 px-3 sm:px-4">
-      <label for="daisy-drawer" class="btn btn-ghost btn-square btn-sm lg:hidden" aria-label="Open the navigation">{{ d.icon("menu") }}</label>
-      <div class="flex min-w-0 items-center gap-2">{{ components(d.navbar_start) }}</div>
-      <div class="hidden min-w-0 flex-1 items-center lg:flex {% if theme_navbar_align == 'right' %}justify-end{% elif theme_navbar_align == 'left' %}justify-start{% else %}justify-start ps-6{% endif %}">{{ components(d.navbar_center) }}</div>
-      <div class="ms-auto flex items-center gap-1">
-        {{ components(d.navbar_persistent) }}
-        <div class="hidden items-center gap-1 sm:flex">{{ components(d.navbar_end) }}</div>
-      </div>
-    </div>
-  </header>
 {%- endblock %}
 
 {%- block relbar1 %}{% endblock %}
 {%- block relbar2 %}{% endblock %}
 
 {%- block content %}
-  <div class="drawer mx-auto max-w-[96rem] lg:drawer-open">
-    <input id="daisy-drawer" type="checkbox" class="drawer-toggle" aria-hidden="true">
-    <div class="drawer-content min-w-0">
-      <div class="flex min-w-0 justify-center gap-8 px-4 sm:px-6 lg:px-10">
-        <main id="main-content" class="min-w-0 flex-1 max-w-[46rem] pt-6 pb-10" tabindex="-1">
-          {%- if d.article_header_start or d.article_header_end or d.top_buttons %}
-            <div class="daisy-article-header flex min-h-8 items-center gap-3">
-              <div class="min-w-0 flex-1">{{ components(d.article_header_start) }}</div>
-              <div class="flex shrink-0 items-center gap-1">
-                {{ components(d.article_header_end) }}
-                {%- for button in d.top_buttons %}
-                  {%- if button == "edit" %}
-                    <a class="btn btn-ghost btn-sm btn-square tooltip tooltip-left" data-tip="Edit this page" href="{{ d.sources.edit }}" aria-label="Edit this page">{{ d.icon("pencil", "size-4") }}</a>
-                  {%- elif button == "view" %}
-                    <a class="btn btn-ghost btn-sm btn-square tooltip tooltip-left" data-tip="View this page's source" href="{{ d.sources.view }}" aria-label="View this page's source">{{ d.icon("file-code", "size-4") }}</a>
-                  {%- endif %}
-                {%- endfor %}
-              </div>
-            </div>
-          {%- endif %}
-          {%- if d.page_toc_count and "page-toc.html" in d.secondary %}
-            <details class="daisy-toc-mobile collapse collapse-arrow mt-4 rounded-box border border-base-300 bg-base-200/60 xl:hidden">
-              <summary class="collapse-title min-h-0 py-3 text-sm font-semibold">On this page</summary>
-              <nav class="collapse-content text-sm" aria-label="On this page, mobile">{{ d.page_toc }}</nav>
-            </details>
-          {%- endif %}
-          <article class="daisy-sphinx-content" role="main">
-            {% block body %}{% endblock %}
-          </article>
-          {{ components(d.article_footer_items) }}
-          {%- if d.show_prev_next and (prev or next) and pagename not in ("search", "genindex") %}
-            <nav class="daisy-prev-next mt-12 grid gap-3 border-t border-base-300 pt-6 sm:grid-cols-2" aria-label="Previous and next page">
-              {%- if prev %}
-                <a href="{{ prev.link|e }}" rel="prev" class="group flex items-center gap-3 rounded-box border border-base-300 p-4 transition hover:border-primary/50 hover:bg-base-200 focus-visible:bg-base-200">
-                  {{ d.icon("arrow-left", "size-4 shrink-0 opacity-60 transition group-hover:-translate-x-0.5") }}
-                  <span class="min-w-0"><span class="block text-xs opacity-70">Previous</span><span class="block font-medium">{{ prev.title }}</span></span>
-                </a>
-              {%- else %}<span class="hidden sm:block"></span>{% endif %}
-              {%- if next %}
-                <a href="{{ next.link|e }}" rel="next" class="group flex items-center justify-end gap-3 rounded-box border border-base-300 p-4 text-end transition hover:border-primary/50 hover:bg-base-200 focus-visible:bg-base-200">
-                  <span class="min-w-0"><span class="block text-xs opacity-70">Next</span><span class="block font-medium">{{ next.title }}</span></span>
-                  {{ d.icon("arrow-right", "size-4 shrink-0 opacity-60 transition group-hover:translate-x-0.5") }}
-                </a>
-              {%- endif %}
-            </nav>
-          {%- endif %}
-          {{ components(d.content_footer_items) }}
-        </main>
-        {%- if d.secondary and pagename not in ("search", "genindex") %}
-          <aside class="daisy-secondary sticky top-16 hidden max-h-[calc(100dvh-4rem)] w-60 shrink-0 self-start overflow-y-auto py-8 xl:block" aria-label="Page tools">
-            {{ components(d.secondary) }}
-          </aside>
-        {%- endif %}
-      </div>
-      <footer class="daisy-footer border-t border-base-300 px-4 py-8 text-sm text-base-content/70 sm:px-6 lg:px-10">
-        <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <div class="flex flex-col gap-1">{{ components(d.footer_start) }}</div>
-          <div class="flex flex-col gap-1">{{ components(d.footer_center) }}</div>
-          <div class="flex flex-col gap-2 md:items-end">
-            {{ components(d.footer_end) }}
-            {%- if d.footer_icons %}
-              <div class="flex gap-1">
-                {%- for link in d.footer_icons %}
-                  <a class="btn btn-ghost btn-sm btn-square [&_svg]:size-5" href="{{ link.url }}" aria-label="{{ link.name }}">{{ link.svg }}</a>
-                {%- endfor %}
-              </div>
-            {%- endif %}
-          </div>
+  {%- set lay = d.layout %}
+  {#- Single quotes round the style: the grid areas are double-quoted strings. #}
+  <div class="daisy-layout" style='--daisy-areas-lg: {{ lay.areas_lg }}; --daisy-areas-xl: {{ lay.areas_xl }}; --daisy-primary-top: {{ lay.primary_top }}; --daisy-secondary-top: {{ lay.secondary_top }};' data-layout="{{ lay.code }}"{% if lay.header_fixed %} data-header-fixed{% endif %}{% if lay.primary_fixed %} data-primary-fixed{% endif %}{% if lay.secondary_fixed %} data-secondary-fixed{% endif %}{% if lay.footer_fixed %} data-footer-fixed{% endif %}>
+    <input id="daisy-drawer" type="checkbox" class="hidden" aria-hidden="true" tabindex="-1">
+
+    <header class="daisy-area-header daisy-navbar border-b border-base-300 bg-base-100/90 backdrop-blur supports-[backdrop-filter]:bg-base-100/75">
+      <div class="navbar mx-auto min-h-16 max-w-[96rem] gap-2 px-3 sm:px-4">
+        <label for="daisy-drawer" class="btn btn-ghost btn-square btn-sm lg:hidden" aria-label="Open the navigation">{{ d.icon("menu") }}</label>
+        <div class="flex min-w-0 items-center gap-2">
+          {%- for name in d.navbar_start %}
+            {%- if name == "navbar-logo.html" and d.brand_in_sidebar %}<div class="lg:hidden">{% include "components/navbar-logo.html" %}</div>
+            {%- else %}{% include ["components/" ~ name, name] ignore missing %}{% endif %}
+          {%- endfor %}
         </div>
-      </footer>
-    </div>
-    <div class="drawer-side z-40 lg:z-auto">
-      <label for="daisy-drawer" class="drawer-overlay" aria-label="Close the navigation"></label>
-      <div class="daisy-primary flex min-h-full w-80 max-w-[85vw] flex-col bg-base-200 lg:min-h-0 lg:w-72 lg:bg-transparent">
+        <div class="hidden min-w-0 flex-1 items-center lg:flex {% if theme_navbar_align == 'right' %}justify-end{% elif theme_navbar_align == 'left' %}justify-start{% else %}justify-start ps-6{% endif %}">{{ components(d.navbar_center) }}</div>
+        <div class="ms-auto flex items-center gap-1">
+          {{ components(d.navbar_persistent) }}
+          <div class="hidden items-center gap-1 sm:flex">{{ components(d.navbar_end) }}</div>
+        </div>
+      </div>
+    </header>
+
+    <aside class="daisy-area-primary" aria-label="Site navigation">
+      <div class="daisy-primary-inner">
         <div class="flex items-center gap-2 border-b border-base-300 p-3 lg:hidden">
           {% include "components/navbar-logo.html" %}
           <label for="daisy-drawer" class="btn btn-ghost btn-sm btn-square ms-auto" aria-label="Close the navigation">{{ d.icon("x") }}</label>
         </div>
+        {%- if d.brand_in_sidebar %}
+          <div class="hidden min-h-16 items-center border-b border-base-300 px-4 lg:flex">{% include "components/navbar-logo.html" %}</div>
+        {%- endif %}
         <div class="flex flex-wrap items-center gap-1 border-b border-base-300 p-3 sm:hidden">{{ components(d.navbar_end) }}</div>
         {%- if d.sectioned and d.header_links %}
           <nav class="border-b border-base-300 p-3 lg:hidden" aria-label="Sections">
@@ -146,12 +88,83 @@
             </ul>
           </nav>
         {%- endif %}
-        <div class="daisy-sidebar-scroll flex-1 overflow-y-auto px-3 py-4 lg:py-8 lg:ps-4 lg:pe-2">
+        <div class="daisy-sidebar-scroll px-3 py-4 lg:py-8 lg:ps-4 lg:pe-2">
           {%- for sidebartemplate in sidebars %}{% include ["components/" ~ sidebartemplate, sidebartemplate] ignore missing %}{% endfor %}
           {{ components(d.primary_sidebar_end) }}
         </div>
       </div>
-    </div>
+    </aside>
+    <label for="daisy-drawer" class="daisy-drawer-overlay" aria-label="Close the navigation"></label>
+
+    <main id="main-content" class="daisy-area-main min-w-0 px-4 sm:px-6 lg:px-10" tabindex="-1">
+      <div class="mx-auto max-w-[46rem] pt-6 pb-10">
+            {%- if d.article_header_start or d.article_header_end or d.top_buttons %}
+              <div class="daisy-article-header flex min-h-8 items-center gap-3">
+                <div class="min-w-0 flex-1">{{ components(d.article_header_start) }}</div>
+                <div class="flex shrink-0 items-center gap-1">
+                  {{ components(d.article_header_end) }}
+                  {%- for button in d.top_buttons %}
+                    {%- if button == "edit" %}
+                      <a class="btn btn-ghost btn-sm btn-square tooltip tooltip-left" data-tip="Edit this page" href="{{ d.sources.edit }}" aria-label="Edit this page">{{ d.icon("pencil", "size-4") }}</a>
+                    {%- elif button == "view" %}
+                      <a class="btn btn-ghost btn-sm btn-square tooltip tooltip-left" data-tip="View this page's source" href="{{ d.sources.view }}" aria-label="View this page's source">{{ d.icon("file-code", "size-4") }}</a>
+                    {%- endif %}
+                  {%- endfor %}
+                </div>
+              </div>
+            {%- endif %}
+            {%- if d.page_toc_count and "page-toc.html" in d.secondary %}
+              <details class="daisy-toc-mobile collapse collapse-arrow mt-4 rounded-box border border-base-300 bg-base-200/60 xl:hidden">
+                <summary class="collapse-title min-h-0 py-3 text-sm font-semibold">On this page</summary>
+                <nav class="collapse-content text-sm" aria-label="On this page, mobile">{{ d.page_toc }}</nav>
+              </details>
+            {%- endif %}
+            <article class="daisy-sphinx-content" role="main">
+              {% block body %}{% endblock %}
+            </article>
+            {{ components(d.article_footer_items) }}
+            {%- if d.show_prev_next and (prev or next) and pagename not in ("search", "genindex") %}
+              <nav class="daisy-prev-next mt-12 grid gap-3 border-t border-base-300 pt-6 sm:grid-cols-2" aria-label="Previous and next page">
+                {%- if prev %}
+                  <a href="{{ prev.link|e }}" rel="prev" class="group flex items-center gap-3 rounded-box border border-base-300 p-4 transition hover:border-primary/50 hover:bg-base-200 focus-visible:bg-base-200">
+                    {{ d.icon("arrow-left", "size-4 shrink-0 opacity-60 transition group-hover:-translate-x-0.5") }}
+                    <span class="min-w-0"><span class="block text-xs opacity-70">Previous</span><span class="block font-medium">{{ prev.title }}</span></span>
+                  </a>
+                {%- else %}<span class="hidden sm:block"></span>{% endif %}
+                {%- if next %}
+                  <a href="{{ next.link|e }}" rel="next" class="group flex items-center justify-end gap-3 rounded-box border border-base-300 p-4 text-end transition hover:border-primary/50 hover:bg-base-200 focus-visible:bg-base-200">
+                    <span class="min-w-0"><span class="block text-xs opacity-70">Next</span><span class="block font-medium">{{ next.title }}</span></span>
+                    {{ d.icon("arrow-right", "size-4 shrink-0 opacity-60 transition group-hover:translate-x-0.5") }}
+                  </a>
+                {%- endif %}
+              </nav>
+            {%- endif %}
+            {{ components(d.content_footer_items) }}
+      </div>
+    </main>
+
+    {%- if d.secondary and pagename not in ("search", "genindex") %}
+      <aside class="daisy-area-secondary" aria-label="Page tools">
+        <div class="daisy-secondary daisy-secondary-inner">{{ components(d.secondary) }}</div>
+      </aside>
+    {%- endif %}
+
+    <footer class="daisy-area-footer daisy-footer border-t border-base-300 bg-base-100 px-4 py-8 text-sm text-base-content/70 sm:px-6 lg:px-10">
+      <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div class="flex flex-col gap-1">{{ components(d.footer_start) }}</div>
+        <div class="flex flex-col gap-1">{{ components(d.footer_center) }}</div>
+        <div class="flex flex-col gap-2 md:items-end">
+          {{ components(d.footer_end) }}
+          {%- if d.footer_icons %}
+            <div class="flex gap-1">
+              {%- for link in d.footer_icons %}
+                <a class="btn btn-ghost btn-sm btn-square [&_svg]:size-5" href="{{ link.url }}" aria-label="{{ link.name }}">{{ link.svg }}</a>
+              {%- endfor %}
+            </div>
+          {%- endif %}
+        </div>
+      </div>
+    </footer>
   </div>
   {%- if d.back_to_top %}
     <button type="button" class="daisy-back-to-top btn btn-sm fixed bottom-6 left-1/2 z-30 -translate-x-1/2 gap-1 rounded-full shadow-lg" hidden>{{ d.icon("arrow-up", "size-4") }}Back to top</button>

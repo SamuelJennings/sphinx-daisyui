@@ -109,3 +109,11 @@ else:
         "footer_end": ["sphinx-version", "theme-version"],
         "navigation_with_keys": True,
     }
+
+# DAISY_LAYOUT builds these pages with another layout code, to compare them.
+if os.environ.get("DAISY_LAYOUT"):
+    html_theme_options["layout"] = os.environ["DAISY_LAYOUT"]
+    html_theme_options["announcement"] = (
+        f'This build uses <code>layout = "{os.environ["DAISY_LAYOUT"]}"</code>. '
+        '<a class="link" href="/configure/layout-code.html">Compare the layouts</a>'
+    )

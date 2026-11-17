@@ -75,7 +75,7 @@
   }
 
   const drawer = $("#daisy-drawer");
-  $$(".drawer-side a").forEach((a) => a.addEventListener("click", () => { if (drawer) drawer.checked = false; }));
+  $$(".daisy-area-primary a").forEach((a) => a.addEventListener("click", () => { if (drawer) drawer.checked = false; }));
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && drawer && drawer.checked) drawer.checked = false; });
 
   /* ---------------------------------------------------------------- */

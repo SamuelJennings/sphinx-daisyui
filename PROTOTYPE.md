@@ -57,6 +57,12 @@ file is the record that would otherwise be its issue.
   sink (typography, admonitions, code, tables, lists, maths, sphinx-design, autodoc). Built three
   times: with the theme's own options at `/`, with a Furo configuration at `/as-furo/`, and with
   a pydata-sphinx-theme configuration at `/as-pydata/`.
+- **Layout code**: the `layout` option, in Quasar's notation (`"hHh LpR lff"`). The page is
+  one CSS grid with five named areas (header, primary, main, secondary, footer). Python
+  validates the code, writes `grid-template-areas` for wide screens and for screens without
+  room for the right sidebar, and marks which areas stay in place. Below `lg` the page is one
+  column and the sidebar is a drawer. When the sidebar reaches the top, the logo moves to its
+  head. Compared at `/layouts/<code>/` for four codes besides the default.
 - **Serving**: `scripts/serve.sh` (sphinx-autobuild, rebuilding the stylesheet and all three
   sites on change), on port 8062.
 
@@ -74,6 +80,9 @@ file is the record that would otherwise be its issue.
 - Icons are inline SVG (Lucide, ISC; Simple Icons, CC0), never an icon font.
 
 ## Faked or skipped
+
+- A layout code of the wrong shape stops the build with a clear message, but Sphinx prints it
+  inside a traceback, because the check runs in an event handler.
 
 - No tests. No accessibility audit beyond keyboard paths and named regions.
 - The search ranking is a light stemmer and prefix matcher, not Sphinx's Porter stemmer, and
@@ -96,3 +105,8 @@ file is the record that would otherwise be its issue.
   compact: 4px between one-line items, wider spacing only when an item holds several blocks.
   A toctree in a page is drawn as the sidebar's menu, with toggles, and the first two levels
   start open.
+- 2026-11-17 Sam: the layout is configurable with a Quasar-style code over named CSS grid
+  areas. Default `hHh LpR lff`. Decided on my own: the option is called `layout`. The page
+  column stays centred on wide screens, with the two sidebar columns taking the spare width.
+  The logo moves into the sidebar when the sidebar reaches the top, rather than relying on
+  Furo's `sidebar/brand.html`.

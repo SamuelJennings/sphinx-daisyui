@@ -71,6 +71,7 @@ get-started/from-pydata
 configure/options
 configure/themes
 configure/layout
+configure/layout-code
 configure/search-and-versions
 ```
 
