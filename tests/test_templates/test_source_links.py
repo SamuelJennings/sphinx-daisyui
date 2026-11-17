@@ -45,6 +45,11 @@ def leading_to(page: Page, repository: str) -> list[str]:
     ]
 
 
+def leading_nowhere(page: Page) -> list[dict[str, str | None]]:
+    """List the links on the page with no address."""
+    return [tag for tag in page.find("a") if tag.get("href", "x") in ("", None)]
+
+
 class TestTopOfPageButtons:
     @pytest.mark.parametrize(
         ("repository", "edit", "suffix"),
@@ -289,6 +294,7 @@ class TestEditThisPage:
         page = built(app)
 
         assert leading_to(page, "https://example.org") == []
+        assert leading_nowhere(page) == []
         assert "WARNING" not in app.warning.getvalue()
 
 
@@ -327,6 +333,7 @@ class TestWithoutAnAddress:
         page = built(app)
 
         assert not [t for t in page.having("href") if "/edit/" in str(t["href"])]
+        assert leading_nowhere(page) == []
         assert "WARNING" not in app.warning.getvalue()
 
     @pytest.mark.sphinx(
@@ -386,6 +393,7 @@ class TestSourceLink:
         page = built(app)
 
         assert not [t for t in page.having("href") if "_sources/" in str(t["href"])]
+        assert leading_nowhere(page) == []
 
     @pytest.mark.sphinx(
         "html",
@@ -402,6 +410,7 @@ class TestSourceLink:
         page = built(app)
 
         assert not [t for t in page.having("href") if "_sources/" in str(t["href"])]
+        assert leading_nowhere(page) == []
 
     @pytest.mark.sphinx(
         "html", testroot="links", freshenv=True, confoverrides=options(**SIDEBAR)
