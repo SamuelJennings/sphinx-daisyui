@@ -145,7 +145,7 @@
     link.addEventListener("click", () => dialog.close());
 
     const badge = document.createElement("span");
-    badge.className = "badge badge-sm badge-ghost mt-0.5 w-16 shrink-0 justify-center capitalize";
+    badge.className = "badge badge-sm badge-ghost mt-0.5 min-w-16 shrink-0 justify-center whitespace-nowrap capitalize";
     badge.textContent = shown.badge;
     const body = document.createElement("span");
     body.className = "min-w-0";
