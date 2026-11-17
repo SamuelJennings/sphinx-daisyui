@@ -47,7 +47,8 @@ html_theme = "daisyui"
 - A theme with its own options, which follow pydata-sphinx-theme's names and shapes where it has
   the same setting. A site coming from Furo or pydata-sphinx-theme reconfigures.
 - Every colour comes from a daisyUI token, so any daisyUI theme works, in light and dark.
-- The page layout can be rearranged with one option.
+- The page layout can be rearranged with one option, and each part of the page is filled from a
+  list of components.
 
 **What it is not**
 

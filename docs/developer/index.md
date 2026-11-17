@@ -7,3 +7,9 @@ For the developer whose Sphinx site uses the theme: installing it and configurin
 
 installation
 ```
+
+```{toctree}
+:caption: Arranging the page
+
+arrange-the-page
+```
