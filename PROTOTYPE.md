@@ -147,6 +147,14 @@ Each item names the feature (see "The features" below) that does it properly in 
 - 2026-11-17 Sam: prototype accepted ("ready to get this show on the road"). Next: set up the
   repository, then build `main` from this branch, feature by feature, each one specified,
   planned, built, reviewed and merged on its own.
+- 2026-11-17 Sam: no compatibility layer for Furo or pydata-sphinx-theme. The theme has its own
+  options, modelled on pydata-sphinx-theme's names and shapes where they fit, with one name and
+  one shape per setting. Nothing maps, aliases or accepts another theme's options, template
+  names, `html_context` keys or CSS variables, and a site coming from either theme reconfigures.
+  The layout code is how a site gets a page like either one. The `/as-furo/` and `/as-pydata/`
+  builds, the switching guides and feature 14 and 15 go, and features 5, 7, 10 and 11 keep one
+  shape of their options. This replaces "A configuration written for another theme builds
+  unchanged" under "What it's based on".
 
 ## The hand-over
 
