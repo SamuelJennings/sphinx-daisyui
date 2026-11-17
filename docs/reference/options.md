@@ -289,6 +289,45 @@ The `navbar-icon-links` component draws a link for each entry of `icon_links`, a
 - **Meaning:** The name of the list of icon links, which a screen reader announces before the
   links.
 
+## Source links
+
+The edit and view buttons above a page, and the `edit-this-page` component, link each page to
+its source file in the site's repository. The theme recognises three hosts, `github.com`,
+`gitlab.com` and `bitbucket.org`, and reads the host from the address in `source_repository`.
+A repository on any other host gets no edit or view link, and the build does not warn. A page
+with no source file of its own, such as the search page or an index, gets none either.
+
+### `source_repository`
+
+- **Type:** text
+- **Default:** empty
+- **Meaning:** The address of the repository that holds the site's source, such as
+  `https://github.com/SamuelJennings/sphinx-daisyui`. A trailing slash or `.git` is ignored.
+  With no address, or an address on a host the theme does not recognise, no edit or view
+  link is drawn.
+
+### `source_branch`
+
+- **Type:** text
+- **Default:** `main`
+- **Meaning:** The branch the edit and view links lead to.
+
+### `source_directory`
+
+- **Type:** text
+- **Default:** empty, which means the source files are at the top of the repository
+- **Meaning:** The folder of the repository that holds the site's source files, such as
+  `docs/`. A slash at the start or the end is ignored.
+
+### `top_of_page_buttons`
+
+- **Type:** list of names
+- **Default:** `["edit"]`
+- **Meaning:** The buttons drawn beside the breadcrumbs, from the first to the last. `edit`
+  leads to the page's source file on the host's editing page, and `view` to the file as the
+  host shows it. Any other name is left out, and an empty list shows no button. A name whose
+  address is unknown draws no button.
+
 ## On this page
 
 The `page-toc` component lists the headings of the page being read.

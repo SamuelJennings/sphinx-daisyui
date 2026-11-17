@@ -59,6 +59,15 @@ as an icon with the entry's name as its accessible name and its tooltip. The lis
 component list, such as `footer_end`. It draws nothing when no entry has a `url`.
 [Link the sources](../developer/link-the-sources.md) shows the steps.
 
+## `edit-this-page`
+
+Shows a link labelled Edit this page, drawn as a ghost button with a pencil icon, that leads to
+the page's source file on the host's editing page. The address comes from the
+[options](options.md) `source_repository`, `source_branch` and `source_directory`. It draws
+nothing when the page has no edit address. It is not in a component list by default, and is
+meant for `secondary_sidebar_items`. [Link the sources](../developer/link-the-sources.md) shows
+the steps.
+
 ## `theme-switcher`
 
 Shows a button that opens a menu of the three modes: match the system, light and dark. When the
@@ -121,7 +130,7 @@ A name that matches no template draws nothing and raises no warning.
 
 ## Macros
 
-`components/macros.html` holds three macros a component may import:
+`components/macros.html` holds four macros a component may import:
 
 ```jinja
 {%- from 'components/macros.html' import components, icon_button with context %}
@@ -137,6 +146,9 @@ A name that matches no template draws nothing and raises no warning.
   the button by it. With an `href`, the macro draws a link to that address in place of the
   button, with the same label, tooltip and attributes. Used with `call`, the caller's markup
   fills the button in place of the named icon.
+- `source_link(href, icon, label, rel="")` draws a ghost link, as wide as its content, holding
+  the named icon and the label, for a list of page tools. `rel` is added to the link when
+  given.
 - `navbar_dropdown(tag="div", panel_tag="div", trigger_class="", panel_class="", label="",
   attrs={}, trigger_attrs={})` draws one menu in the navbar and is used with `call`. It draws
   the outer element, the button that opens the menu and the panel, and the caller fills the

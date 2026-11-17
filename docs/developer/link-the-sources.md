@@ -1,7 +1,8 @@
 # Link the sources
 
 A site links its repository, its package index and its other accounts as icons, in the navbar
-or in the footer.
+or in the footer. It also links each page to its source file, with edit and view buttons above
+the page and a link in the page tools.
 
 ## Link the repository and other accounts
 
@@ -67,3 +68,51 @@ The default navbar now shows each link as an icon, and the list is named for scr
 
 The footer now carries the same links. [Components](../reference/components.md) describes the
 component.
+
+## Set up the edit and view buttons
+
+1. Set the repository, the branch and the folder holding the source in `html_theme_options`:
+
+   ```python
+   html_theme_options = {
+       "source_repository": "https://github.com/SamuelJennings/sphinx-daisyui",
+       "source_branch": "main",
+       "source_directory": "docs/",
+   }
+   ```
+
+   The theme builds each page's address from the host named in `source_repository`: GitHub,
+   GitLab or Bitbucket. On any other host the pages get no edit or view link, and the build
+   does not warn.
+
+2. Choose the buttons with `top_of_page_buttons`. The default is `["edit"]`. List `view` as
+   well to add a button to the file as the host shows it, in the order you want them:
+
+   ```python
+   html_theme_options = {
+       "top_of_page_buttons": ["edit", "view"],
+   }
+   ```
+
+   An empty list shows no button.
+
+3. Build the site.
+
+Each page now has the buttons beside its breadcrumbs, and each links to that page's own source
+file, whatever its suffix and however deep it is. [Options](../reference/options.md) describes
+each value.
+
+## Link the edit address in the sidebar
+
+1. Name `edit-this-page` in `secondary_sidebar_items`, after the page's contents:
+
+   ```python
+   html_theme_options = {
+       "secondary_sidebar_items": ["page-toc", "edit-this-page"],
+   }
+   ```
+
+2. Build the site.
+
+The sidebar now carries an Edit this page link to the same address as the edit button.
+[Components](../reference/components.md) describes the component.

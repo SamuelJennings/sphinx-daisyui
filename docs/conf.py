@@ -64,6 +64,10 @@ html_theme_options = {
             "icon": "pypi",
         },
     ],
+    "source_repository": "https://github.com/SamuelJennings/sphinx-daisyui",
+    "source_branch": "main",
+    "source_directory": "docs/",
+    "top_of_page_buttons": ["edit"],
     "navigation_with_keys": True,
     "theme_picker": True,
     "switcher": {"json_url": "_static/switcher.json", "version_match": "dev"},
@@ -83,6 +87,13 @@ if os.environ.get("DAISY_FOOTER_ICONS"):
     html_theme_options["footer_end"] = [
         *html_theme_options.get("footer_end", []),
         "navbar-icon-links",
+    ]
+
+if os.environ.get("DAISY_SOURCE_SIDEBAR"):
+    html_theme_options["secondary_sidebar_items"] = [
+        "page-toc",
+        "edit-this-page",
+        "sourcelink",
     ]
 
 # docs/agents/ and the brainstorm are notes for maintainers, not part of the site.
