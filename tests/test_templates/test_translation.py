@@ -23,6 +23,10 @@ SEARCH = "Search"
 SEARCH_PROMPT = "Type to search pages, sections and API names."
 SEARCH_UNAVAILABLE = "Search is not available here."
 CHOOSE_VERSION = "Choose a version"
+ICON_LINKS = "Icon links"
+EDIT_PAGE = "Edit this page"
+VIEW_SOURCE = "View this page's source"
+SHOW_SOURCE = "Show source"
 MARKUP_TEXT = 'Suche "nicht" <b>da</b>'
 THEME = Path(sphinx_daisyui.__file__).parent
 SHIPPED = THEME / "locale" / "sphinx.pot"
@@ -43,6 +47,10 @@ def catalogue(app_params: object) -> Catalog:
     catalogue.add(SEARCH, "Suchen")
     catalogue.add(SEARCH_PROMPT, "Seiten, Abschnitte und API-Namen suchen.")
     catalogue.add(SEARCH_UNAVAILABLE, MARKUP_TEXT)
+    catalogue.add(ICON_LINKS, "Symbollinks")
+    catalogue.add(EDIT_PAGE, "Diese Seite bearbeiten")
+    catalogue.add(VIEW_SOURCE, "Quelltext dieser Seite ansehen")
+    catalogue.add(SHOW_SOURCE, "Quelltext anzeigen")
     srcdir = Path(app_params.kwargs["srcdir"])  # type: ignore[attr-defined]
     folder = srcdir / "locale" / "de" / "LC_MESSAGES"
     folder.mkdir(parents=True, exist_ok=True)
@@ -161,6 +169,43 @@ class TestTranslation:
         dialog = page.find("dialog", id="daisy-search")
         assert dialog[0].get("data-daisy-unavailable") == MARKUP_TEXT
         assert not page.find("b")
+
+    @pytest.mark.sphinx(
+        "html",
+        testroot="locale",
+        freshenv=True,
+        confoverrides={
+            "html_theme_options": {
+                "icon_links": [{"name": "Code", "url": "https://example.org/code"}],
+                "source_repository": "https://github.com/owner/project",
+                "top_of_page_buttons": ["edit", "view"],
+                "secondary_sidebar_items": ["edit-this-page", "sourcelink"],
+            }
+        },
+    )
+    def test_the_link_texts_are_translated(
+        self, catalogue: Catalog, app: SphinxTestApp
+    ) -> None:
+        app.build()
+
+        names = {
+            key: catalogue.get(key)
+            for key in (ICON_LINKS, EDIT_PAGE, VIEW_SOURCE, SHOW_SOURCE)
+        }
+        assert all(names.values())
+        translated = {key: message.string for key, message in names.items() if message}
+        text = (Path(app.outdir) / "index.html").read_text(encoding="utf-8")
+        page = Page(text)
+        labelled = [t.get("aria-label") for name, t in page.tags if name in ("ul", "a")]
+        assert translated[ICON_LINKS] in labelled
+        assert translated[EDIT_PAGE] in labelled
+        assert translated[VIEW_SOURCE] in labelled
+        assert re.search(
+            r"<a [^>]*_sources/[^>]*>.*?" + re.escape(translated[SHOW_SOURCE]), text
+        )
+        assert re.search(
+            r"<a [^>]*/edit/[^>]*>.*?" + re.escape(translated[EDIT_PAGE]), text
+        )
 
     def test_every_message_the_templates_mark_is_in_the_shipped_template(self) -> None:
         marked = {
