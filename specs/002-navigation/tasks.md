@@ -74,3 +74,5 @@ live in `tests/test_templates/`.
 - [ ] T010 [US2] `navbar_align` styles, Escape closing the header menu in `navigation.js`, a
   `navbar-nav` build in `scripts/variants.sh`, documentation of the US2 options and component
   and a page in `docs/developer/`, CHANGELOG. Check scenarios 3 and 7 in headless Chrome.
+- [ ] T016 [US2] Header links mark the current section with `aria-current="true"`, since the
+  link leads to the section, not the page being read. Wrap a long line in `docs/conf.py`.

@@ -13,6 +13,8 @@ own, so they are scenarios of the reader's story rather than a story of their ow
 stay the site author's story: placing `navbar-nav` is a choice a site author makes, and what the
 reader then gets is its scenarios.
 
+**ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
+
 ## D2. The interpretation was written, not grilled
 
 The issue, the prototype and its recorded decisions leave nothing open about what the feature
@@ -29,10 +31,14 @@ does, and the maintainer handed the work over. The interpretation below was trea
 > page frame (#4), a toctree in a page body (#6), the shared navbar menu (#7), edit and source
 > links (#8).
 
+**ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
+
 ## D3. `show_toc_level` defaults to 2
 
 The accepted prototype defaults it to 2, and its screens, which are agreed, show two levels. The
 option is the theme's own, so its default is the theme's choice. It is one value in `theme.toml`.
+
+**ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
 
 ## D4. `show_toc_level` lists levels at all times and shows deeper ones in their section
 
@@ -40,11 +46,15 @@ The prototype only tells level 1 from the rest, which leaves every value above 1
 The spec gives each value a meaning: headings down to the level are listed at all times, and
 deeper ones are shown while the reader is in their section (FR-016).
 
+**ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
+
 ## D5. Only `navbar_center` switches the primary sidebar to the current section
 
 The prototype's recorded decision says putting `navbar-nav` in `navbar_center` switches to the
 sectioned layout. Placed in another list, it draws the header links and leaves the site
 navigation whole, so a site that wants both can have them.
+
+**ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
 
 ## D6. A page in no section shows no site navigation with header links on
 
@@ -52,11 +62,15 @@ With header links in the navbar, the home page belongs to no section, and the pr
 menu there. Whether the frame then leaves the empty primary
 sidebar out is #4's behaviour, not this feature's.
 
+**ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
+
 ## D7. The current entry and the heading being read are marked for assistive technology
 
 The prototype marks the heading being read and external entries by class only. Article XIV asks
 for the theme's controls and states to be named for a screen reader, so the spec asks for a mark
 assistive technology reads (FR-006, FR-015).
+
+**ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
 
 ## D8. `beautifulsoup4` is decided at planning, against the doctree
 
@@ -64,15 +78,21 @@ The prototype carries it with no stated reason. The spec asks only that any runt
 has a stated reason and `deptry` passes (FR-021). Whether to keep it or read docutils' doctree is
 how, and research decides it from the check in `research.md`.
 
+**ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
+
 ## D9. The default of `header_dropdown_text` is translated
 
 Its default is the theme's own text, so Article VIII asks for it to be translatable. A value the
 site author sets is theirs and is never translated.
 
+**ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
+
 ## D10. No goal id
 
 The repository has no `GOALS.md` yet, so the spec cites no goal and the issue carries no goal
 footer.
+
+**ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
 
 ## D11. The theme's own configuration, with no compatibility layer
 
@@ -82,6 +102,8 @@ reconfigures. The options this feature uses keep pydata-sphinx-theme's names and
 they are good names for the same settings, but they are the theme's own. The site navigation is
 the `sidebar-nav` component under that one name.
 
+**ADR:** none — the rule is the constitution's; this records how this feature follows it.
+
 ## D12. Sphinx's toctree is read as nodes, with no new dependency
 
 The theme reads the site toctree with `global_toctree_for_doc` and the page's headings with
@@ -89,11 +111,15 @@ The theme reads the site toctree with `global_toctree_for_doc` and the page's he
 same signature (`research.md`). `beautifulsoup4` is not added, so no page is parsed back from
 HTML and the theme adds no runtime dependency.
 
+**ADR:** docs/adr/0001-read-toctrees-as-document-nodes.md
+
 ## D13. A branch's open state lives on its toggle
 
 The toggle's `aria-expanded` is the one record of whether a branch is open. The stylesheet hides
 the list of a closed branch, so the script changes one attribute and nothing can disagree with
 it.
+
+**ADR:** none — how one control keeps its state, local to the site navigation.
 
 ## D14. Header link titles are plain text
 
@@ -101,10 +127,14 @@ A header link shows its page's title as text, escaped by the template. Markup in
 as code, would need styles in the navbar that nothing else there has, and the prototype shows
 plain text.
 
+**ADR:** none — local to the header links' template.
+
 ## D15. The heading being read is marked with `aria-current="location"`
 
 WAI-ARIA's `location` value is for the current item within a set of links to parts of the page.
 The site navigation's current page keeps `aria-current="page"`.
+
+**ADR:** none — follows WAI-ARIA's meaning of the value, nothing to decide again.
 
 ## D16. Domain indices count as index pages
 
@@ -112,6 +142,8 @@ A domain index such as `py-modindex` is a list of entries with no headings of it
 `genindex`, so the secondary sidebar and the On this page disclosure are left out there too. The
 pages are told apart by the template Sphinx renders them with (`genindex*.html`,
 `domainindex.html`, `search.html`), which holds for every split and every domain.
+
+**ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
 
 ## D17. Header links aligned to the article are placed by a measuring script
 
@@ -125,3 +157,14 @@ at the start of the navbar's free space.
 
 Revisit if the layout code gives the header a fixed column, which would let the stylesheet place
 the links on the same grid columns.
+
+**ADR:** none — local to the header links' alignment, inside one script.
+
+## D18. A header link marks its section with `aria-current="true"`
+
+A header link leads to a section's first page, and it is marked while the reader is anywhere in
+that section. `aria-current="page"` would tell a screen reader the link is the page being read,
+which holds only on the section's first page, so the mark is `true`. The site navigation's
+entry for the page being read keeps `page`.
+
+**ADR:** none — follows WAI-ARIA's meaning of the value, nothing to decide again.

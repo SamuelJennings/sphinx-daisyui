@@ -70,7 +70,7 @@ class TestSectionLinks:
 
         current = [a for a in anchors(shown) + anchors(menu) if a.get("aria-current")]
         assert [a["href"] for a in current] == ["index.html"]
-        assert current[0]["aria-current"] == "page"
+        assert current[0]["aria-current"] == "true"
 
     @header()
     def test_the_home_page_marks_no_link(self, app: SphinxTestApp) -> None:
@@ -204,7 +204,7 @@ class TestMenu:
         assert control["aria-current"] == "true"
         assert "btn-active" in (control["class"] or "").split()
         assert [a["aria-current"] for a in anchors(menu) if a.get("aria-current")] == [
-            "page"
+            "true"
         ]
 
 
@@ -225,7 +225,7 @@ class TestDrawer:
             "../" + h for h in SECTION_HREFS[:-1]
         ] + ["index.html"]
         assert len(listed) >= LINK_COUNT
-        assert [a["aria-current"] for a in listed if a.get("aria-current")] == ["page"]
+        assert [a["aria-current"] for a in listed if a.get("aria-current")] == ["true"]
 
     @header(navbar_center=[], navbar_end=["navbar-nav"])
     def test_a_header_elsewhere_leaves_the_drawer_without_sections(
@@ -279,7 +279,7 @@ class TestAlignment:
     ) -> None:
         page = built(app)
 
-        assert [v for v in page.order("data-navbar-align")] == ["content"]
+        assert list(page.order("data-navbar-align")) == ["content"]
 
     @header(navbar_align="right")
     def test_a_given_alignment_is_carried(self, app: SphinxTestApp) -> None:

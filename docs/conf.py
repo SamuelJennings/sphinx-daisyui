@@ -1,4 +1,6 @@
-"""Sphinx configuration for the sphinx-daisyui documentation, built with the theme itself.
+"""Sphinx configuration for the sphinx-daisyui documentation.
+
+The documentation is built with the theme itself.
 
 Set DAISY_LAYOUT to build these pages with another layout code, and DAISY_NAVBAR_CENTER to
 build them with a component in the middle of the navbar, to compare them.
@@ -36,4 +38,4 @@ if os.environ.get("DAISY_NAVBAR_CENTER"):
     html_theme_options["navbar_center"] = [os.environ["DAISY_NAVBAR_CENTER"]]
 
 # docs/agents/ and the brainstorm are notes for maintainers, not part of the site.
-exclude_patterns = ["_build", "agents", "brainstorm.md"]
+exclude_patterns = ["_build", "adr", "agents", "brainstorm.md"]
