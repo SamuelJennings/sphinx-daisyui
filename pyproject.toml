@@ -43,7 +43,12 @@ dev = [
     "ruff>=0.15.22",
     "types-docutils>=0.20",
 ]
-docs = ["myst-parser>=4.0", "sphinx-autobuild>=2024.10.3"]
+docs = [
+    "myst-parser>=4.0",
+    "sphinx-autobuild>=2024.10.3",
+    "sphinx-copybutton>=0.5.2",
+    "sphinx-design>=0.8.0",
+]
 
 [build-system]
 requires = ["hatchling", "hatch-jupyter-builder>=0.10"]

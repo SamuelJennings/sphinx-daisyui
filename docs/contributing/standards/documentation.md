@@ -247,8 +247,15 @@ before it is written down.
 
 ## Project additions
 
-<!-- Rules that apply to this repository only, such as a Guides table or a Topics section. Leave
-empty when there are none. -->
+### Guides
+
+| Guide | Lives in | Reader | Covers |
+|---|---|---|---|
+| Developer guide | `developer/` | A developer building a documentation site with the theme | Installing the theme, configuring it, arranging the page |
+| Kitchen sink | `kitchen-sink/` | A person judging how the theme looks | One page for each kind of content a page can hold, shown in the theme |
+
+The Kitchen sink follows Reference in the navbar. Its pages describe no task and list no
+settings.
 
 ---
 

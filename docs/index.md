@@ -10,6 +10,7 @@ it in light and dark.
 Home <self>
 developer/index
 reference/index
+kitchen-sink/index
 contributing/index
 Changelog <https://github.com/SamuelJennings/sphinx-daisyui/blob/main/CHANGELOG.md>
 ```
