@@ -1,0 +1,7 @@
+{%- if daisy.announcement or daisy.announcement_url %}
+  <div role="region" aria-label="{{ _('Announcement')|e }}" class="daisy-announcement bg-primary text-primary-content text-sm"{% if daisy.announcement_url %} data-daisy-announcement="{{ daisy.announcement_url|e }}"{% endif %}>
+    <div class="mx-auto flex max-w-[96rem] items-center justify-center gap-2 px-4 py-2 text-center">
+      {%- if daisy.announcement_url %}<span data-daisy-announcement-body></span>{% else %}<span>{{ daisy.announcement }}</span>{% endif %}
+    </div>
+  </div>
+{%- endif %}

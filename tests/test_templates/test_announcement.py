@@ -80,3 +80,21 @@ class TestAnnouncement:
         sources = [tag.get("src") for tag in read(app, "sub/third.html").find("script")]
 
         assert f"../_static/scripts/{SCRIPT}" in sources
+
+
+class TestStickyBanners:
+    @pages(announcement="Version 2 is out", sticky_banners="false")
+    def test_off_the_banner_comes_before_the_header(self, app: SphinxTestApp) -> None:
+        page = read(app)
+
+        assert len(banners(page)) == 1
+        assert banners(page.inside("header")) == []
+
+    @pages(announcement="Version 2 is out", sticky_banners="true")
+    def test_on_the_banner_is_inside_the_header_and_still_one(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = read(app)
+
+        assert len(banners(page)) == 1
+        assert len(banners(page.inside("header"))) == 1

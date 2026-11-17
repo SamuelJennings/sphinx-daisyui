@@ -14,13 +14,7 @@
 
 {%- block header %}
   <a href="#main-content" class="btn btn-primary btn-sm absolute -top-20 left-4 z-50 focus:top-2">{{ _("Skip to content") }}</a>
-  {%- if d.announcement or d.announcement_url %}
-    <div role="region" aria-label="{{ _('Announcement')|e }}" class="daisy-announcement bg-primary text-primary-content text-sm"{% if d.announcement_url %} data-daisy-announcement="{{ d.announcement_url|e }}"{% endif %}>
-      <div class="mx-auto flex max-w-[96rem] items-center justify-center gap-2 px-4 py-2 text-center">
-        {%- if d.announcement_url %}<span data-daisy-announcement-body></span>{% else %}<span>{{ d.announcement }}</span>{% endif %}
-      </div>
-    </div>
-  {%- endif %}
+  {%- if not d.sticky_banners %}{% include "components/announcement.html" %}{% endif %}
 {%- endblock %}
 
 {%- block relbar1 %}{% endblock %}
@@ -33,6 +27,7 @@
     <input id="daisy-drawer" type="checkbox" class="hidden" aria-hidden="true" tabindex="-1">
 
     <header class="daisy-area-header daisy-navbar bg-base-100/90 backdrop-blur supports-[backdrop-filter]:bg-base-100/75">
+      {%- if d.sticky_banners %}{% include "components/announcement.html" %}{% endif %}
       <div class="navbar mx-auto min-h-16 max-w-[96rem] gap-2 px-3 sm:px-4">
         <label for="daisy-drawer" class="btn btn-ghost btn-square btn-sm lg:hidden" aria-label="{{ _('Open the navigation')|e }}">{{ d.icon("menu") }}</label>
         <div class="flex min-w-0 items-center gap-2">
