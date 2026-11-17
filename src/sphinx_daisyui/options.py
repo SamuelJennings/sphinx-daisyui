@@ -1,7 +1,7 @@
 """The theme options a site sets, read in the forms Furo and pydata-sphinx-theme allow."""
 
 import json
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from typing import Any
 
 from .layout import LayoutCode
@@ -93,6 +93,25 @@ class ThemeOptions:
             except ValueError:
                 return {}
         return dict(value) if isinstance(value, dict) else {}
+
+    def static_url(self, path: str, pathto: Callable[..., str]) -> str:
+        """Resolve the address of a file the site ships, from the current page.
+
+        Args:
+            path: A full address, a path starting ``_static/``, or a path
+                relative to ``_static``.
+            pathto: Sphinx's ``pathto`` for the page.
+
+        Returns:
+            The address to print on the page, empty when the path is empty.
+        """
+        if not path:
+            return ""
+        if "://" in path or path.startswith(("//", "data:")):
+            return path
+        if path.startswith("_static/"):
+            return str(pathto(path, 1))
+        return str(pathto(f"_static/{path}", 1))
 
     def components(self, name: str) -> list[str]:
         """Read an option as a list of template names.

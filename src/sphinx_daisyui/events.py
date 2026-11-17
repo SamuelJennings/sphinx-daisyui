@@ -7,6 +7,7 @@ from sphinx.application import Sphinx
 from sphinx.builders.html import StandaloneHTMLBuilder
 from sphinx.util import logging
 
+from .brand import Brand
 from .icons import Icons
 from .layout import LayoutCodeError
 from .options import ThemeOptions
@@ -96,6 +97,7 @@ def add_page_context(
     options = ThemeOptions.from_context(context)
     context["daisy"] = {
         "layout": options.layout(),
+        "brand": Brand.from_options(options, context),
         "icon": ICONS.svg,
         "version": VERSION,
         "repository": REPOSITORY,

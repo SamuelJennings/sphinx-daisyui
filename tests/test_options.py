@@ -95,3 +95,26 @@ class TestThemeOptions:
     def test_layout_refuses_a_wrong_code(self) -> None:
         with pytest.raises(LayoutCodeError):
             ThemeOptions({"layout": "xxx"}).layout()
+
+
+class TestStaticUrl:
+    @staticmethod
+    def pathto(path: str, resource: int = 0) -> str:
+        return f"../{path}"
+
+    @pytest.mark.parametrize(
+        ("path", "expected"),
+        [
+            ("", ""),
+            ("logo.svg", "../_static/logo.svg"),
+            ("img/logo.svg", "../_static/img/logo.svg"),
+            ("_static/logo.svg", "../_static/logo.svg"),
+            ("https://example.org/logo.svg", "https://example.org/logo.svg"),
+            ("//example.org/logo.svg", "//example.org/logo.svg"),
+            ("data:image/svg+xml;base64,AAAA", "data:image/svg+xml;base64,AAAA"),
+        ],
+    )
+    def test_each_form_of_path_resolves_from_the_page(
+        self, path: str, expected: str
+    ) -> None:
+        assert ThemeOptions({}).static_url(path, self.pathto) == expected
