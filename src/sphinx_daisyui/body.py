@@ -11,10 +11,32 @@ from sphinx.locale import _, get_translation
 from sphinx.util.math import get_node_equation_number
 from sphinx.writers.html5 import HTML5Translator
 
+from .icons import ICONS
+
 translate = get_translation("sphinx")
 
 REGION_CLASS = "daisy-sphinx-scroll"
 ATTRIBUTION_SPACE = "\N{THIN SPACE}"
+ICON_CLASSES = "size-4.5 shrink-0"
+ADMONITION_ICONS = {
+    "note": "info",
+    "seealso": "link",
+    "tip": "lightbulb",
+    "hint": "lightbulb",
+    "important": "star",
+    "warning": "triangle-alert",
+    "caution": "triangle-alert",
+    "attention": "triangle-alert",
+    "danger": "octagon-x",
+    "error": "octagon-x",
+    "admonition-todo": "square-plus",
+}
+VERSION_ICONS = {
+    "versionadded": "circle-plus",
+    "versionchanged": "pencil",
+    "deprecated": "triangle-alert",
+    "versionremoved": "circle-x",
+}
 
 
 class PageBodyTranslator(HTML5Translator):
@@ -152,6 +174,28 @@ class PageBodyTranslator(HTML5Translator):
             'class="headerlink"', f'class="headerlink" aria-label="{label}"', 1
         )
         self.body[-1] = link
+
+    def visit_title(self, node: nodes.title) -> None:
+        """Start an admonition's title with the icon for its kind.
+
+        Args:
+            node: The title.
+        """
+        super().visit_title(node)
+        parent = node.parent
+        if isinstance(parent, nodes.Admonition) and isinstance(parent, nodes.Element):
+            kind = next((c for c in parent["classes"] if c in ADMONITION_ICONS), "note")
+            self.body.append(ICONS.svg(ADMONITION_ICONS[kind], ICON_CLASSES))
+
+    def visit_versionmodified(self, node: nodes.Element) -> None:
+        """Start a version note with the icon for what changed.
+
+        Args:
+            node: The version note.
+        """
+        super().visit_versionmodified(node)
+        if node["type"] in VERSION_ICONS:
+            self.body.append(ICONS.svg(VERSION_ICONS[node["type"]], ICON_CLASSES))
 
     def visit_attribution(self, node: nodes.Element) -> None:
         """Space a quotation's attribution the same however it was written.

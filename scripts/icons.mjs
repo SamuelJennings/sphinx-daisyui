@@ -4,7 +4,7 @@
 // Interface icons come from Lucide (ISC), brand icons from Simple Icons (CC0).
 import fs from "node:fs";
 import * as si from "simple-icons";
-const lucide = ["search","sun","moon","sun-moon","menu","x","chevron-right","chevron-down","pencil","file-code","arrow-up","arrow-left","arrow-right","external-link","palette","list","copy","check","link","book-open","history","languages","megaphone","square-arrow-out-up-right"];
+const lucide = ["search","sun","moon","sun-moon","menu","x","chevron-right","chevron-down","pencil","file-code","arrow-up","arrow-left","arrow-right","external-link","palette","list","copy","check","link","book-open","history","languages","megaphone","square-arrow-out-up-right","info","lightbulb","star","triangle-alert","octagon-x","square-plus","circle-plus","circle-x"];
 const brands = {github:"siGithub",gitlab:"siGitlab",bitbucket:"siBitbucket","x-twitter":"siX",mastodon:"siMastodon",discord:"siDiscord",pypi:"siPypi",python:"siPython",youtube:"siYoutube",discourse:"siDiscourse",stackoverflow:"siStackoverflow",readthedocs:"siReadthedocs",bluesky:"siBluesky",matrix:"siMatrix",zulip:"siZulip",condaforge:"siCondaforge",docker:"siDocker",npm:"siNpm",anaconda:"siAnaconda",codeberg:"siCodeberg",orcid:"siOrcid",zenodo:"siZenodo",jupyter:"siJupyter"};
 const out = {};
 for (const name of lucide) {

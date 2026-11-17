@@ -11,6 +11,8 @@ OUTER_TABLES = 4
 DISPLAY_EQUATIONS = 2
 ATTRIBUTION = re.compile(r'<p class="attribution">(.*?)</p>', re.DOTALL)
 NAMES = ["Ada", "Grace", "Alan"]
+ADMONITIONS = 13
+VERSION_NOTES = 4
 
 
 def built(app: SphinxTestApp) -> tuple[str, Page]:
@@ -189,3 +191,39 @@ class TestAttributions:
         assert all(item.endswith(name) for item, name in zip(found, NAMES, strict=True))
         assert len(prefixes) == 1
         assert next(iter(prefixes)).endswith("\u2009")
+
+
+class TestAdmonitionIcons:
+    @pytest.mark.sphinx("html", testroot="body")
+    def test_every_admonition_title_starts_with_an_icon(
+        self, app: SphinxTestApp
+    ) -> None:
+        text, _ = built(app)
+
+        titles = re.findall(
+            r'<(?:p|summary)[^>]*class="admonition-title[^"]*"[^>]*>', text
+        )
+        iconed = re.findall(r'class="admonition-title[^"]*"[^>]*><svg', text)
+        assert len(titles) == ADMONITIONS
+        assert len(iconed) == ADMONITIONS
+
+    @pytest.mark.sphinx("html", testroot="body")
+    def test_every_version_note_starts_with_an_icon(self, app: SphinxTestApp) -> None:
+        text, _ = built(app)
+
+        notes = re.findall(
+            r'<div class="(?:versionadded|versionchanged|deprecated|versionremoved)">'
+            r"\s*<svg",
+            text,
+        )
+        assert len(notes) == VERSION_NOTES
+
+    @pytest.mark.sphinx("html", testroot="body")
+    def test_a_generic_admonition_keeps_its_own_title(self, app: SphinxTestApp) -> None:
+        text, _ = built(app)
+
+        assert re.search(
+            r'class="admonition-title[^"]*"[^>]*><svg.*?</svg>A custom title</p>',
+            text,
+            re.DOTALL,
+        )
