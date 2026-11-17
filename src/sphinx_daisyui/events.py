@@ -11,6 +11,7 @@ from sphinx.util import logging
 from .brand import Brand
 from .icons import ICONS
 from .layout import LayoutCodeError
+from .links import IconLinks
 from .modes import Modes
 from .navigation import HeaderLinks, PageContents, SiteNavigation
 from .options import ThemeOptions
@@ -153,6 +154,8 @@ def add_page_context(
         "search": SearchSettings.from_options(options),
         "switcher": VersionSwitcher.from_options(options),
         "icon": ICONS.svg,
+        "icon_links": IconLinks.from_options(options, context["pathto"]),
+        "icon_links_label": options.text("icon_links_label"),
         "version": VERSION,
         "repository": REPOSITORY,
         **{name: options.components(name) for name in COMPONENT_OPTIONS},
