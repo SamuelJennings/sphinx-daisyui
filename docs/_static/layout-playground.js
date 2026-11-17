@@ -45,7 +45,7 @@
         (top[0] === "h" ? "It runs across above the left sidebar" : "It starts beside the left sidebar") +
         (top[2] === "h" ? " and above the right one." : ", and the right sidebar reaches the top beside it.")],
       ["primary", `Left sidebar: ${p.primaryFixed ? "stays beside the page and scrolls on its own" : "scrolls with the page"}. ` +
-        (top[0] === "l" ? "It reaches the top, with the logo at its head" : "It starts under the header") +
+        (top[0] === "l" ? "It reaches the top with the logo at its head" : "It starts under the header") +
         (bottom[0] === "l" ? " and runs to the bottom." : ", and the footer runs under it.")],
       ["main", "Page: always the centre."],
       ["secondary", `Right sidebar: ${p.secondaryFixed ? "stays beside the page" : "scrolls with the page"}. ` +

@@ -98,3 +98,17 @@
   .lp-primary, .lp-secondary { padding: 0; }
   .lp-title { font-size: 0.75rem; }
 }
+
+/* A sidebar that stays in place carries its own top edge, so the edge stays
+   with it as the page scrolls. The area keeps its sides and bottom as borders,
+   which don't move the sticky box. */
+.lp-grid[data-primary-fixed] .lp-primary,
+.lp-grid[data-secondary-fixed] .lp-secondary {
+  outline: none;
+  border: 1px dashed color-mix(in oklab, var(--lp-c) 70%, transparent);
+  border-top: 0;
+}
+.lp-grid[data-primary-fixed] .lp-primary .lp-inner,
+.lp-grid[data-secondary-fixed] .lp-secondary .lp-inner {
+  border-top: 1px dashed color-mix(in oklab, var(--lp-c) 70%, transparent);
+}
