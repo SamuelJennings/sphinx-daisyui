@@ -1,6 +1,6 @@
 # Components
 
-A component is a template that a [component list](options.md) names. The theme provides five.
+A component is a template that a [component list](options.md) names. The theme provides seven.
 Each one draws nothing when what it shows is switched off, so a list can name it without
 checking.
 
@@ -28,6 +28,20 @@ date format, such as `"%d %B %Y"`. Sphinx leaves it unset by default.
 ## `navbar-logo`
 
 Shows the site's title, linked to the front page.
+
+## `sidebar-nav`
+
+Shows the site's table of contents as a menu: the captions of its `toctree` directives, its
+entries, a toggle that opens and closes each entry that has children, and a mark on the current
+page. The [options](options.md) `navigation_depth`, `show_nav_level`, `collapse_navigation` and
+`sidebar_includehidden` set how much of it is listed and open. The theme puts it in the primary
+sidebar, and it draws nothing when the site has no table of contents.
+
+## `breadcrumbs`
+
+Shows the path to the page: a link home, a link to each page above it in the table of contents,
+and the page's own title as plain text. It draws nothing on the front page. It is named in
+`article_header_start` by default.
 
 ## Your own components
 

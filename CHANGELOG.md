@@ -22,3 +22,5 @@ All notable changes to this project are recorded here. The format follows
   Sphinx's arrow-key navigation.
 - An announcement banner across every page, set with the `announcement` option as text, HTML or
   an address to fetch, and the `sticky_banners` option, which keeps it with the header.
+- The site navigation in the primary sidebar, with a toggle for each entry that has children and
+  the current page marked, and breadcrumbs above each page that lead from the front page to it.

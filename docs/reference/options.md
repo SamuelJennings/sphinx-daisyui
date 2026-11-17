@@ -91,6 +91,37 @@ to `_static`. Sphinx's `html_logo` is used for both modes when `logo` gives no i
   the layout code keeps the header in place. When off, the banner is the first thing on the page
   and scrolls away.
 
+## Site navigation
+
+The navigation in the primary sidebar is the site's table of contents, drawn from its `toctree`
+directives.
+
+### `navigation_depth`
+
+- **Type:** integer
+- **Default:** `4`
+- **Meaning:** How many levels of entries the navigation lists. Deeper entries are left out. Zero lists them all.
+
+### `show_nav_level`
+
+- **Type:** integer
+- **Default:** `1`
+- **Meaning:** How many levels of entries are open before the reader opens any. The entries on
+  the way to the current page are always open.
+
+### `collapse_navigation`
+
+- **Type:** boolean
+- **Default:** `False`
+- **Meaning:** Whether the navigation leaves out the children of every entry that is not on the
+  way to the current page.
+
+### `sidebar_includehidden`
+
+- **Type:** boolean
+- **Default:** `True`
+- **Meaning:** Whether the navigation lists the pages of a `toctree` marked `:hidden:`.
+
 ## Component lists
 
 ### `navbar_start`
