@@ -1,1 +1,1 @@
-<p>Theme: <a class="link link-hover" href="{{ daisy.repository|e }}">sphinx-daisyui</a> {{ daisy.version|e }}.</p>
+<p>{% trans theme_link='<a class="link link-hover" href="' ~ daisy.repository|e ~ '">sphinx-daisyui</a>', version=daisy.version|e %}Theme: {{ theme_link }} {{ version }}.{% endtrans %}</p>

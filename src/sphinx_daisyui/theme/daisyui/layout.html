@@ -5,7 +5,7 @@
 {%- block body_tag %}<body class="bg-base-100 text-base-content antialiased" data-daisy-root="{{ pathto('', 1)|e }}" data-daisy-suffix="{{ file_suffix|e }}" data-daisy-link-suffix="{{ link_suffix|e }}" data-daisy-builder="{{ builder|e }}" data-daisy-page="{{ pagename|e }}">{% endblock %}
 
 {%- block header %}
-  <a href="#main-content" class="btn btn-primary btn-sm absolute -top-20 left-4 z-50 focus:top-2">Skip to content</a>
+  <a href="#main-content" class="btn btn-primary btn-sm absolute -top-20 left-4 z-50 focus:top-2">{{ _("Skip to content") }}</a>
 {%- endblock %}
 
 {%- block relbar1 %}{% endblock %}
@@ -19,7 +19,7 @@
 
     <header class="daisy-area-header daisy-navbar bg-base-100/90 backdrop-blur supports-[backdrop-filter]:bg-base-100/75">
       <div class="navbar mx-auto min-h-16 max-w-[96rem] gap-2 px-3 sm:px-4">
-        <label for="daisy-drawer" class="btn btn-ghost btn-square btn-sm lg:hidden" aria-label="Open the navigation">{{ d.icon("menu") }}</label>
+        <label for="daisy-drawer" class="btn btn-ghost btn-square btn-sm lg:hidden" aria-label="{{ _('Open the navigation')|e }}">{{ d.icon("menu") }}</label>
         <div class="flex min-w-0 items-center gap-2">
           {%- for name in d.navbar_start %}
             {%- if name == "navbar-logo.html" and lay.brand_in_sidebar %}<div class="lg:hidden">{{ components([name]) }}</div>
@@ -34,11 +34,11 @@
       </div>
     </header>
 
-    <aside class="daisy-area-primary" aria-label="Site navigation">
+    <aside class="daisy-area-primary" aria-label="{{ _('Site navigation')|e }}">
       <div class="daisy-primary-inner">
         <div class="flex items-center gap-2 border-b border-base-300 p-3 {% if lay.brand_in_sidebar %}lg:min-h-16 lg:border-0 lg:px-4 lg:py-0{% else %}lg:hidden{% endif %}">
           {% include "components/navbar-logo.html" %}
-          <label for="daisy-drawer" class="btn btn-ghost btn-sm btn-square ms-auto{% if lay.brand_in_sidebar %} lg:hidden{% endif %}" aria-label="Close the navigation">{{ d.icon("x") }}</label>
+          <label for="daisy-drawer" class="btn btn-ghost btn-sm btn-square ms-auto{% if lay.brand_in_sidebar %} lg:hidden{% endif %}" aria-label="{{ _('Close the navigation')|e }}">{{ d.icon("x") }}</label>
         </div>
         <div class="flex flex-wrap items-center gap-1 border-b border-base-300 p-3 sm:hidden empty:hidden" data-daisy-navbar-end-slot></div>
         <div class="daisy-sidebar-scroll px-3 py-4 lg:py-8 lg:ps-4 lg:pe-2">
@@ -47,7 +47,7 @@
         </div>
       </div>
     </aside>
-    <label for="daisy-drawer" class="daisy-drawer-overlay" aria-label="Close the navigation"></label>
+    <label for="daisy-drawer" class="daisy-drawer-overlay" aria-label="{{ _('Close the navigation')|e }}"></label>
 
     <main id="main-content" class="daisy-area-main min-w-0 px-4 sm:px-6 lg:px-10" tabindex="-1">
       <div class="mx-auto max-w-[46rem] pt-6 pb-10">
@@ -66,7 +66,7 @@
     </main>
 
     {%- if d.secondary and pagename not in ("search", "genindex") %}
-      <aside class="daisy-area-secondary" aria-label="Page tools">
+      <aside class="daisy-area-secondary" aria-label="{{ _('Page tools')|e }}">
         <div class="daisy-secondary daisy-secondary-inner">{{ components(d.secondary) }}</div>
       </aside>
     {%- endif %}

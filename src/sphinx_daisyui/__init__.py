@@ -12,6 +12,7 @@ from sphinx.util.typing import ExtensionMetadata
 from .events import add_page_context, check_layout
 
 THEME_DIR = Path(__file__).parent / "theme" / "daisyui"
+LOCALE_DIR = Path(__file__).parent / "locale"
 
 
 def setup(app: Sphinx) -> ExtensionMetadata:
@@ -24,6 +25,8 @@ def setup(app: Sphinx) -> ExtensionMetadata:
         The extension's metadata, declaring it safe for parallel builds.
     """
     app.add_html_theme("daisyui", str(THEME_DIR))
+    # The theme's text joins Sphinx's own domain, which is the one templates read.
+    app.add_message_catalog("sphinx", str(LOCALE_DIR))
     app.connect("builder-inited", check_layout)
     app.connect("html-page-context", add_page_context)
     return {"parallel_read_safe": True, "parallel_write_safe": True}

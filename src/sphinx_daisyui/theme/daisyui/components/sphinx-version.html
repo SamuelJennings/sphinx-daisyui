@@ -1,1 +1,1 @@
-{%- if show_sphinx %}<p>Built with <a class="link link-hover" href="https://www.sphinx-doc.org/">Sphinx</a> {{ sphinx_version|e }}.</p>{% endif %}
+{%- if show_sphinx %}<p>{% trans sphinx_version=sphinx_version|e, sphinx_link='<a class="link link-hover" href="https://www.sphinx-doc.org/">Sphinx</a>' %}Built with {{ sphinx_link }} {{ sphinx_version }}.{% endtrans %}</p>{% endif %}
