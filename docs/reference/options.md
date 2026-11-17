@@ -3,15 +3,15 @@
 The theme options a site sets in `html_theme_options` in `conf.py`. Each is described the same
 way: its type, its default and what it does.
 
-A component list may be a Python list or a comma-separated string, and a name may be written with
-or without `.html`. These are the same:
+A component list is a Python list of names, and a name may be written with or without `.html`.
+These are the same:
 
 ```python
 html_theme_options = {
     "footer_start": ["copyright", "sphinx-version"],
 }
 html_theme_options = {
-    "footer_start": "copyright.html, sphinx-version.html",
+    "footer_start": ["copyright.html", "sphinx-version.html"],
 }
 ```
 
@@ -91,6 +91,85 @@ to `_static`. Sphinx's `html_logo` is used for both modes when `logo` gives no i
   the layout code keeps the header in place. When off, the banner is the first thing on the page
   and scrolls away.
 
+## Site navigation
+
+The navigation in the primary sidebar is the site's table of contents, drawn from its `toctree`
+directives.
+
+### `navigation_depth`
+
+- **Type:** integer
+- **Default:** `4`
+- **Meaning:** How many levels of entries the navigation lists. Deeper entries are left out. Zero lists them all.
+
+### `show_nav_level`
+
+- **Type:** integer
+- **Default:** `1`
+- **Meaning:** How many levels of entries are open before the reader opens any. The entries on
+  the way to the current page are always open.
+
+### `collapse_navigation`
+
+- **Type:** boolean
+- **Default:** `False`
+- **Meaning:** Whether the navigation leaves out the children of every entry that is not on the
+  way to the current page.
+
+### `sidebar_includehidden`
+
+- **Type:** boolean
+- **Default:** `True`
+- **Meaning:** Whether the navigation lists the pages of a `toctree` marked `:hidden:`.
+
+## Header links
+
+The `navbar-nav` component draws a link to each top-level page of the site's table of contents,
+and to each of `external_links`, in the header.
+
+### `external_links`
+
+- **Type:** list of dicts
+- **Default:** empty
+- **Meaning:** Links to other sites, drawn by `navbar-nav` after the site's own sections. Each dict
+  has a `name`, which is the link's text, and a `url`. A dict with no `url` is left out. Each link
+  is marked as leading outside the site.
+
+### `header_links_before_dropdown`
+
+- **Type:** integer
+- **Default:** `5`
+- **Meaning:** How many header links are shown before the rest go into a menu. Zero puts every
+  link in the menu, and a number at or above the number of links draws no menu.
+
+### `header_dropdown_text`
+
+- **Type:** text
+- **Default:** empty, which shows "More" in the site's language
+- **Meaning:** The label of the menu that holds the links past `header_links_before_dropdown`.
+
+### `navbar_align`
+
+- **Type:** text, one of `content`, `left` or `right`
+- **Default:** `"content"`
+- **Meaning:** Where the header links sit in the navbar, on screens 64rem wide and up. `content`
+  starts the first link where the page's text starts, `left` starts it at the start of the
+  navbar's free space and `right` ends the links at the end of that space. Any other value is
+  read as `content`.
+
+## On this page
+
+The `page-toc` component lists the headings of the page being read.
+
+### `show_toc_level`
+
+- **Type:** integer
+- **Default:** `2`
+- **Meaning:** How many levels of headings are shown before the reader reaches them. Headings
+  under that depth stay hidden until the section above them is being read. A level of `1`
+  shows only the headings directly under the page's title, and a level larger than the page's
+  deepest heading shows them all.
+
 ## Component lists
 
 ### `navbar_start`
@@ -157,7 +236,7 @@ to `_static`. Sphinx's `html_logo` is used for both modes when `logo` gives no i
 - **Type:** list of component names
 - **Default:** `"page-toc"`
 - **Meaning:** The components in the secondary sidebar. The sidebar is left out when the list is
-  empty.
+  empty, and on the search page and every index page.
 
 ### `footer_start`
 

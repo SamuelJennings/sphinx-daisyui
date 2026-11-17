@@ -26,7 +26,7 @@ and from the keyboard, and moves between pages from the foot of each page.
 
 Everything a site author writes here is a theme option in `html_theme_options`. The options are
 the theme's own, named and shaped after pydata-sphinx-theme's where it has the same setting, with
-one name and one shape for each (Article X).
+one name and one shape for each.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -64,7 +64,7 @@ the built page's areas, the stay-in-place markers and the order of the component
    without a traceback.
 5. **Given** a layout code written with extra spaces or in mixed case within its rules, **When**
    the site builds, **Then** it is read as the same code.
-6. **Given** a component list written as a list or as a comma-separated string, with or without
+6. **Given** a component list written as a Python list of names, with or without
    the `.html` ending on each name, **When** the site builds, **Then** the components appear in
    that area in the order given.
 7. **Given** a component list that names a template the site provides in its own
@@ -268,8 +268,8 @@ button's presence. Check the scroll and key behaviour in a browser.
   `navbar_end`, `navbar_persistent`, `article_header_start`, `article_header_end`,
   `article_footer_items`, `content_footer_items`, `primary_sidebar_end`,
   `secondary_sidebar_items`, `footer_start`, `footer_center` and `footer_end`, with
-  pydata-sphinx-theme's names and types and the prototype's defaults, each as a list or a
-  comma-separated string of names with or without `.html`.
+  pydata-sphinx-theme's names and types and the prototype's defaults (`navbar_center` empty,
+  with no header links), each as a Python list of names with or without `.html`.
 - **FR-007**: Each component list MUST draw its components in its area in the order given,
   looking first in the theme's components and then in the site's templates, and MUST skip a name
   that resolves to no template without failing the build.
@@ -367,8 +367,6 @@ button's presence. Check the scroll and key behaviour in a browser.
   five areas of the default layout code.
 - **SC-002**: Every valid layout code builds, and every code of the wrong shape stops the build
   with one message and no traceback.
-- **SC-003**: Every option this feature adds has one name and one shape, and no option exists
-  only to accept another theme's configuration.
 - **SC-004**: Every page passes a keyboard walk: the skip link first, the drawer opened and closed
   without a pointer, and every control the frame adds focused visibly.
 - **SC-005**: Each page shown at 390, 1100 and 1440 pixels wide matches the prototype's
@@ -386,8 +384,9 @@ button's presence. Check the scroll and key behaviour in a browser.
   stories, one for the site author who arranges it and one for the reader who uses it, because a
   site author's and a reader's stories are never merged.
 - Q: What do component lists default to when they name components another feature ships (such as
-  `theme-switcher` or `page-toc`)? → A: pydata-sphinx-theme's defaults, as the prototype has
-  them. A name whose component does not exist yet draws nothing, as FR-007 already requires for
+  `theme-switcher` or `page-toc`)? → A: The prototype's defaults, which follow Furo's layout
+  with no header links, so `navbar_center` is empty where pydata-sphinx-theme puts
+  `navbar-nav`. A name whose component does not exist yet draws nothing, as FR-007 already requires for
   any unknown name, and starts drawing when its feature lands.
 - Q: Does `sticky_banners` belong here or with a later feature? → A: Here. The prototype accepted
   it and did nothing, and names this feature to do it properly (FR-028).
@@ -400,8 +399,8 @@ button's presence. Check the scroll and key behaviour in a browser.
 
 - Q: Does the theme accept Furo's logo options or pydata-sphinx-theme's `logo_link` beside
   `logo`? → A: No. The maintainer ruled that the theme has its own options, modelled on
-  pydata-sphinx-theme's, with one name and one shape per setting, and a site coming from another
-  theme reconfigures (Article X as rewritten). The logo is `logo`, with `html_logo` as the
+  pydata-sphinx-theme's, with one name and one shape per setting, and a site that used Furo's or
+  pydata-sphinx-theme's options sets the theme's own. The logo is `logo`, with `html_logo` as the
   fallback.
 
 ## Assumptions

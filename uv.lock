@@ -1286,6 +1286,8 @@ name = "sphinx-daisyui"
 version = "0.0.1"
 source = { editable = "." }
 dependencies = [
+    { name = "docutils", version = "0.22.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.13'" },
+    { name = "docutils", version = "0.23", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.13'" },
     { name = "markupsafe" },
     { name = "sphinx", version = "9.0.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "sphinx", version = "9.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.12.*'" },
@@ -1301,6 +1303,7 @@ dev = [
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
+    { name = "types-docutils" },
 ]
 docs = [
     { name = "myst-parser" },
@@ -1309,6 +1312,7 @@ docs = [
 
 [package.metadata]
 requires-dist = [
+    { name = "docutils", specifier = ">=0.20" },
     { name = "markupsafe", specifier = ">=2.1" },
     { name = "sphinx", specifier = ">=7.4" },
 ]
@@ -1322,6 +1326,7 @@ dev = [
     { name = "pytest", specifier = ">=9.1.1" },
     { name = "pytest-cov", specifier = ">=7.1.0" },
     { name = "ruff", specifier = ">=0.15.22" },
+    { name = "types-docutils", specifier = ">=0.20" },
 ]
 docs = [
     { name = "myst-parser", specifier = ">=4.0" },
@@ -1465,6 +1470,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/1c/b8/63a75cfb27a17c38550e44025d3a6e7be64516fd8608a3b75703bf37d81b/tomli-2.5.0-cp315-cp315t-win_amd64.whl", hash = "sha256:f3fcbc57b1791fa6cbe5d8434179d51de12be1a4811469529f47f6e7487a2571", size = 117281, upload-time = "2026-10-07T12:23:34.648Z" },
     { url = "https://files.pythonhosted.org/packages/72/01/e8c1debb2173973372934c68fc8e46170ab60ef23ed4592dff4dec6e8993/tomli-2.5.0-cp315-cp315t-win_arm64.whl", hash = "sha256:d2ba24db8a9376921b5e87b4762b9adb0f3f1deaea68f2b8b0bb2c11efb9c3e7", size = 115069, upload-time = "2026-10-07T12:23:35.77Z" },
     { url = "https://files.pythonhosted.org/packages/60/3f/3e3f8fd0919249b0200c80fbc4f9a1e70be19f9883da71dfb7f8b9ab8aca/tomli-2.5.0-py3-none-any.whl", hash = "sha256:32a7b79ac57a2e83670ce329ccf675798bc5a2094783a63676866b70503f2e2b", size = 14765, upload-time = "2026-10-07T12:23:36.875Z" },
+]
+
+[[package]]
+name = "types-docutils"
+version = "0.23.0.20261107"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/5f/80/d19724558bad27983fa500f0e44f159e97031bbc842207995b66480baa21/types_docutils-0.23.0.20261107.tar.gz", hash = "sha256:9bb297fc33fe0f606c883217779a4f532ee023d7da852dcc244513c0f100228a", size = 58673, upload-time = "2026-11-07T07:55:19.171Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9e/26/5ffc9517119f08e530509af6296c6e8fff36176ef479ddb8f765fdfee8fd/types_docutils-0.23.0.20261107-py3-none-any.whl", hash = "sha256:47def8a8c78bff72d6aa86a6daaa0a49ef3911e1f538f911f1bbd8006f3e196e", size = 92176, upload-time = "2026-11-07T07:55:18.144Z" },
 ]
 
 [[package]]

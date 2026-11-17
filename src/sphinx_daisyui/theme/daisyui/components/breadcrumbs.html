@@ -1,0 +1,11 @@
+{%- if pagename != root_doc %}
+<nav class="breadcrumbs daisy-breadcrumbs py-0 text-sm" aria-label="{{ _('Breadcrumb')|e }}">
+  <ul>
+    <li><a href="{{ pathto(root_doc)|e }}" aria-label="{{ _('Home')|e }}">{{ daisy.icon('book-open', 'size-4') }}</a></li>
+    {%- for parent in parents %}
+    <li><a href="{{ parent.link|e }}">{{ parent.title }}</a></li>
+    {%- endfor %}
+    <li aria-current="page"><span class="truncate">{{ title|striptags|e }}</span></li>
+  </ul>
+</nav>
+{%- endif %}

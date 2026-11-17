@@ -5,4 +5,5 @@ build() { uv run --group docs sphinx-build -q -a -b html docs "$OUT/$1" -d "docs
 for code in "lHh LpR lff" "hHh LpR fff" "hhh lpr fff" "hHr LpR lfr"; do
   DAISY_LAYOUT="$code" build "layouts/${code// /-}" &
 done
+DAISY_NAVBAR_CENTER=navbar-nav build "header-links" &
 wait

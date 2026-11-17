@@ -1,6 +1,6 @@
 # Components
 
-A component is a template that a [component list](options.md) names. The theme provides five.
+A component is a template that a [component list](options.md) names. The theme provides eight.
 Each one draws nothing when what it shows is switched off, so a list can name it without
 checking.
 
@@ -28,6 +28,43 @@ date format, such as `"%d %B %Y"`. Sphinx leaves it unset by default.
 ## `navbar-logo`
 
 Shows the site's title, linked to the front page.
+
+## `sidebar-nav`
+
+Shows the site's table of contents as a menu: the captions of its `toctree` directives, its
+entries, a toggle that opens and closes each entry that has children, and a mark on the current
+page. The [options](options.md) `navigation_depth`, `show_nav_level`, `collapse_navigation` and
+`sidebar_includehidden` set how much of it is listed and open. The theme puts it in the primary
+sidebar, and it draws nothing when the site has no table of contents.
+
+## `navbar-nav`
+
+Shows a link to each top-level page of the site's table of contents, then each of the
+[options](options.md) `external_links`, in the order they are given. The link to the section
+holding the page is marked. Links past `header_links_before_dropdown` are in a menu labelled
+by `header_dropdown_text`, which opens from the keyboard and is marked when the current section is
+in it. It draws nothing when the site has no table of contents and no external links.
+
+Named in `navbar_center`, it also changes the primary sidebar: `sidebar-nav` then lists only the
+pages of the current section, and nothing on a page that is in no section, such as the front
+page. On a narrow window the drawer lists every header link above it. Named in any other
+component list, it draws the links there and leaves the sidebar's navigation whole.
+[Put the sections in the header](../developer/put-the-sections-in-the-header.md) shows the steps.
+
+## `breadcrumbs`
+
+Shows the path to the page: a link home, a link to each page above it in the table of contents,
+and the page's own title as plain text. It draws nothing on the front page. It is named in
+`article_header_start` by default.
+
+## `page-toc`
+
+Shows the headings of the page, nested as they are in the page, under the label On this page.
+The heading being read is marked as the reader scrolls, and the last heading is marked at the
+foot of the page. The [option](options.md) `show_toc_level` sets how deep the list is open.
+It draws nothing on a page with no headings below its title, nor on the search page or an
+index. It is named in `secondary_sidebar_items` by default, and when it is named there, a
+closed On this page disclosure with the same headings appears above the page on narrow windows.
 
 ## Your own components
 

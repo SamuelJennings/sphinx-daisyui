@@ -1,0 +1,6 @@
+Crumbs
+======
+
+.. toctree::
+
+   parent

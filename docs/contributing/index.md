@@ -10,5 +10,6 @@ problem with someone's conduct to the maintainer at samuel.scott.jennings@gmail.
 ```{toctree}
 set-up-a-development-environment
 run-the-tests-and-checks
+how-the-theme-is-built
 standards/index
 ```

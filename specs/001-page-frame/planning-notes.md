@@ -66,6 +66,10 @@ named.
 - **A path under `_static` or a full URL** (from feature 5). A method on the options class.
   Reused by icon links (#8). Check Sphinx's `pathto(…, 1)` and its handling of URLs in
   `html_logo` first.
+- **The logo for the reader's mode** (FR-023). Until #7 lands, the only mode is the system
+  setting, so `prefers-color-scheme` picks the light or dark logo. The rule lives in one place,
+  `assets/frame.css`, so #7, which owns the mode attributes on `<html>`, can replace it with a
+  rule on those attributes.
 
 ## The keyboard helper
 

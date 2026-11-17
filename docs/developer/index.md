@@ -12,4 +12,5 @@ installation
 :caption: Arranging the page
 
 arrange-the-page
+put-the-sections-in-the-header
 ```

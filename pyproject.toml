@@ -21,7 +21,7 @@ classifiers = [
     "Topic :: Documentation :: Sphinx",
     "Topic :: Software Development :: Documentation",
 ]
-dependencies = ["markupsafe>=2.1", "sphinx>=7.4"]
+dependencies = ["docutils>=0.20", "markupsafe>=2.1", "sphinx>=7.4"]
 
 [project.entry-points."sphinx.html_themes"]
 daisyui = "sphinx_daisyui"
@@ -41,6 +41,7 @@ dev = [
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "ruff>=0.15.22",
+    "types-docutils>=0.20",
 ]
 docs = ["myst-parser>=4.0", "sphinx-autobuild>=2024.10.3"]
 
@@ -97,6 +98,8 @@ extend = "ruff-base.toml"
 [tool.ruff.lint.extend-per-file-ignores]
 # Asserts are how pytest tests assert.
 "tests/**" = ["S101"]
+# A test site's conf.py sets Sphinx's `copyright` option, which shadows a builtin.
+"tests/roots/**" = ["A001"]
 
 [tool.mypy]
 files = ["src/sphinx_daisyui"]

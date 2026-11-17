@@ -13,14 +13,16 @@ merged into one, so the page frame is two stories, and the spec has five.
 
 **ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
 
-## D2. Component lists keep pydata-sphinx-theme's defaults
+## D2. Component lists take the prototype's defaults
 
-`navbar_end` defaults to the version switcher, the theme switcher and the icon links,
-`navbar_persistent` to the search button, `article_header_start` to the breadcrumbs and
-`secondary_sidebar_items` to On this page. None of those components exists until its own feature
-is built. A name that resolves to no template draws nothing, so the defaults are set now and each
-component appears when its feature lands, with no default to change later. The defaults are the
-ones the prototype uses.
+The default layout follows Furo, with no header links. The defaults are the prototype's:
+`navbar_start` is the logo, `navbar_center` is empty (pydata-sphinx-theme puts `navbar-nav`
+there), `navbar_end` is the version switcher, the theme switcher and the icon links,
+`navbar_persistent` is the search button, `secondary_sidebar_items` is On this page, and the
+footer holds the copyright and Sphinx version at the start and the theme version at the end. Only
+the option names and types come from pydata-sphinx-theme. Several of those components arrive
+with later features. A name that resolves to no template draws nothing, so the defaults are set
+now and each component appears when its feature lands, with no default to change later.
 
 **ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
 
@@ -37,7 +39,7 @@ check reaches Sphinx without the crash report is planning work.
 
 The prototype accepts the option and does nothing, and names the announcement feature as the one
 that does it properly. FR-028 says it keeps its source theme's meaning. Research confirms which
-theme defines it and what it does before it is built (Article X).
+theme defines it and what it does before it is built.
 
 **ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
 
@@ -121,8 +123,8 @@ building, and the CI suite is left to a change that can edit the workflows.
 ## D15. The logo is `logo` only
 
 The maintainer ruled that the theme has its own options, modelled on pydata-sphinx-theme's, with
-one name and one shape per setting, and Article X was rewritten to say so. Furo's `light_logo`,
+one name and one shape per setting. Furo's `light_logo`,
 `dark_logo` and `sidebar_hide_name` and pydata-sphinx-theme's `logo_link` are dropped. The
-specification is amended to match (FR-021, FR-024, SC-003 and User Story 3).
+specification is amended to match (FR-021, FR-024 and User Story 3).
 
-**ADR:** none — the rule is the constitution's Article X; this records how this feature follows it.
+**ADR:** none — this records how this feature follows the maintainer's ruling.

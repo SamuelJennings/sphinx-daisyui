@@ -19,9 +19,9 @@ def footer(app: SphinxTestApp) -> Page:
 def only(name: str) -> dict[str, object]:
     return {
         "html_theme_options": {
-            "footer_start": name,
-            "footer_center": "",
-            "footer_end": "",
+            "footer_start": [name],
+            "footer_center": [],
+            "footer_end": [],
         }
     }
 
@@ -172,3 +172,24 @@ class TestNavbarLogo:
 
         assert "&lt;b&gt;&amp;" in brand
         assert "<b>" not in brand
+
+
+class TestSecondarySidebarItems:
+    @pytest.mark.sphinx(
+        "html",
+        testroot="components",
+        freshenv=True,
+        confoverrides={
+            "html_theme_options": {
+                "footer_start": ["secondary"],
+                "secondary_sidebar_items": ["secondary", "page-toc"],
+            }
+        },
+    )
+    def test_a_site_template_reads_the_list_under_its_own_name(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = footer(app)
+
+        assert page.find("span", **{"data-test": "secondary"})
+        assert "secondary.html,page-toc.html" in page.text

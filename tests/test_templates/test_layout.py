@@ -81,7 +81,7 @@ class TestFrame:
         "html",
         testroot="basic",
         freshenv=True,
-        confoverrides={"html_theme_options": {"secondary_sidebar_items": ""}},
+        confoverrides={"html_theme_options": {"secondary_sidebar_items": []}},
     )
     def test_the_secondary_sidebar_is_left_out_when_empty(
         self, app: SphinxTestApp
@@ -132,7 +132,10 @@ class TestComponentLists:
         testroot="components",
         freshenv=True,
         confoverrides={
-            "html_theme_options": {"footer_start": "second, first", "footer_end": ""}
+            "html_theme_options": {
+                "footer_start": ["second", "first"],
+                "footer_end": [],
+            }
         },
     )
     def test_components_are_drawn_in_the_order_listed(self, app: SphinxTestApp) -> None:
@@ -157,7 +160,7 @@ class TestComponentLists:
         "html",
         testroot="components",
         freshenv=True,
-        confoverrides={"html_theme_options": {"footer_start": "no-such-component"}},
+        confoverrides={"html_theme_options": {"footer_start": ["no-such-component"]}},
     )
     def test_an_unknown_name_draws_nothing_and_warns_of_nothing(
         self, app: SphinxTestApp
@@ -173,11 +176,11 @@ class TestComponentLists:
         freshenv=True,
         confoverrides={
             "html_theme_options": {
-                "navbar_start": "",
-                "footer_start": "",
-                "footer_end": "",
-                "secondary_sidebar_items": "",
-                "article_header_start": "",
+                "navbar_start": [],
+                "footer_start": [],
+                "footer_end": [],
+                "secondary_sidebar_items": [],
+                "article_header_start": [],
             }
         },
     )
@@ -200,9 +203,9 @@ class TestComponentLists:
         freshenv=True,
         confoverrides={
             "html_theme_options": {
-                "navbar_center": "first",
-                "footer_start": "first",
-                "primary_sidebar_end": "first",
+                "navbar_center": ["first"],
+                "footer_start": ["first"],
+                "primary_sidebar_end": ["first"],
             }
         },
     )
@@ -217,7 +220,7 @@ class TestComponentLists:
         "html",
         testroot="components",
         freshenv=True,
-        confoverrides={"html_theme_options": {"navbar_end": "second"}},
+        confoverrides={"html_theme_options": {"navbar_end": ["second"]}},
     )
     def test_navbar_end_components_appear_once_in_the_page(
         self, app: SphinxTestApp
@@ -232,7 +235,7 @@ class TestComponentLists:
         "html",
         testroot="components",
         freshenv=True,
-        confoverrides={"html_theme_options": {"footer_start": "button"}},
+        confoverrides={"html_theme_options": {"footer_start": ["button"]}},
     )
     def test_the_icon_button_labels_and_escapes_its_text(
         self, app: SphinxTestApp
@@ -346,7 +349,7 @@ class TestReaderPage:
         "html",
         testroot="basic",
         freshenv=True,
-        confoverrides={"html_theme_options": {"secondary_sidebar_items": ""}},
+        confoverrides={"html_theme_options": {"secondary_sidebar_items": []}},
     )
     def test_an_empty_secondary_list_leaves_one_sidebar(
         self, app: SphinxTestApp
@@ -399,3 +402,28 @@ class TestPageScripts:
         classes = [(attrs.get("class") or "").split() for _, attrs in page.tags]
         for name in ("daisy-layout", "daisy-area-header", "daisy-area-primary"):
             assert any(name in found for found in classes)
+
+
+class TestIndexPages:
+    @pytest.mark.sphinx("html", testroot="indexes", freshenv=True)
+    def test_no_index_page_has_a_secondary_sidebar(self, app: SphinxTestApp) -> None:
+        app.build()
+        index_pages = [
+            "genindex.html",
+            "genindex-all.html",
+            "py-modindex.html",
+            "search.html",
+            *sorted(p.name for p in Path(app.outdir).glob("genindex-?.html")),
+        ]
+
+        assert "genindex-F.html" in index_pages
+        for name in index_pages:
+            page = Page.read(Path(app.outdir) / name)
+            assert page.find("aside", **{"aria-label": "Page tools"}) == [], name
+            assert page.find("main", id="main-content"), name
+
+    @pytest.mark.sphinx("html", testroot="indexes", freshenv=True)
+    def test_an_ordinary_page_has_it(self, app: SphinxTestApp) -> None:
+        page = built(app)
+
+        assert len(page.find("aside", **{"aria-label": "Page tools"})) == 1

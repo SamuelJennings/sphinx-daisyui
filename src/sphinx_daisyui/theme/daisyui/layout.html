@@ -8,6 +8,8 @@
   <script defer src="{{ pathto('_static/scripts/frame.js', 1)|e }}"></script>
   <script defer src="{{ pathto('_static/scripts/back-to-top.js', 1)|e }}"></script>
   <script defer src="{{ pathto('_static/scripts/announcement.js', 1)|e }}"></script>
+  <script defer src="{{ pathto('_static/scripts/navigation.js', 1)|e }}"></script>
+  <script defer src="{{ pathto('_static/scripts/page-toc.js', 1)|e }}"></script>
 {%- endblock %}
 
 {%- block body_tag %}<body class="bg-base-100 text-base-content antialiased" data-daisy-root="{{ pathto('', 1)|e }}" data-daisy-suffix="{{ file_suffix|e }}" data-daisy-link-suffix="{{ link_suffix|e }}" data-daisy-builder="{{ builder|e }}" data-daisy-page="{{ pagename|e }}">{% endblock %}
@@ -36,7 +38,7 @@
             {%- else %}{{ components([name]) }}{% endif %}
           {%- endfor %}
         </div>
-        <div class="hidden min-w-0 flex-1 items-center lg:flex justify-start ps-6">{{ components(d.navbar_center) }}</div>
+        <div class="hidden min-w-0 flex-1 items-center lg:flex" data-navbar-align="{{ d.navbar_align|e }}">{{ components(d.navbar_center) }}</div>
         <div class="ms-auto flex items-center gap-1">
           {{ components(d.navbar_persistent) }}
           <div class="hidden items-center gap-1 sm:flex" data-daisy-navbar-end>{{ components(d.navbar_end) }}</div>
@@ -51,6 +53,15 @@
           <label for="daisy-drawer" role="button" tabindex="0" data-daisy-drawer-close class="btn btn-ghost btn-sm btn-square ms-auto{% if lay.brand_in_sidebar %} lg:hidden{% endif %}" aria-label="{{ _('Close the navigation')|e }}">{{ d.icon("x") }}</label>
         </div>
         <div class="flex flex-wrap items-center gap-1 border-b border-base-300 p-3 sm:hidden empty:hidden" data-daisy-navbar-end-slot></div>
+        {%- if d.sectioned and d.header and (d.header.shown or d.header.more) %}
+          <nav class="border-b border-base-300 p-3 lg:hidden" aria-label="{{ _('Sections')|e }}">
+            <ul class="menu menu-sm w-full p-0">
+              {%- for link in d.header.shown + d.header.more %}
+                <li><a href="{{ link.href|e }}"{% if link.current %} class="menu-active" aria-current="true"{% endif %}>{{ link.title|e }}{% if link.external %}{{ d.icon("external-link", "size-3.5 opacity-60") }}<span class="sr-only">{{ _("(leads outside the site)") }}</span>{% endif %}</a></li>
+              {%- endfor %}
+            </ul>
+          </nav>
+        {%- endif %}
         <div class="daisy-sidebar-scroll px-3 py-4 lg:py-8 lg:ps-4 lg:pe-2">
           {{ components(sidebars) }}
           {{ components(d.primary_sidebar_end) }}
@@ -66,6 +77,12 @@
             <div class="min-w-0 flex-1">{{ components(d.article_header_start) }}</div>
             <div class="flex shrink-0 items-center gap-1">{{ components(d.article_header_end) }}</div>
           </div>
+        {%- endif %}
+        {%- if d.page_toc_count and 'page-toc.html' in d.secondary_sidebar_items %}
+          <details class="daisy-toc-mobile collapse collapse-arrow mt-4 rounded-box border border-base-300 bg-base-200/60 xl:hidden">
+            <summary class="collapse-title min-h-0 py-3 text-sm font-semibold">{{ _("On this page") }}</summary>
+            <nav class="collapse-content text-sm" aria-label="{{ _('On this page')|e }}">{{ d.page_toc }}</nav>
+          </details>
         {%- endif %}
         <article class="daisy-sphinx-content">
           {% block body %}{% endblock %}
@@ -91,9 +108,9 @@
       </div>
     </main>
 
-    {%- if d.secondary and pagename not in ("search", "genindex") %}
+    {%- if d.secondary_sidebar_items %}
       <aside class="daisy-area-secondary" aria-label="{{ _('Page tools')|e }}">
-        <div class="daisy-secondary daisy-secondary-inner">{{ components(d.secondary) }}</div>
+        <div class="daisy-secondary daisy-secondary-inner">{{ components(d.secondary_sidebar_items) }}</div>
       </aside>
     {%- endif %}
 

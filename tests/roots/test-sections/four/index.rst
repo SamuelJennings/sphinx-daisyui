@@ -1,0 +1,6 @@
+Section four
+============
+
+.. toctree::
+
+   page

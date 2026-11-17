@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sphinx-daisyui VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-17 14:40+0100\n"
+"POT-Creation-Date: 2026-11-17 16:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,10 +22,16 @@ msgstr ""
 msgid "&copy; %(copyright)s"
 msgstr ""
 
+msgid "(leads outside the site)"
+msgstr ""
+
 msgid "Announcement"
 msgstr ""
 
 msgid "Back to top"
+msgstr ""
+
+msgid "Breadcrumb"
 msgstr ""
 
 #, python-format
@@ -35,11 +41,23 @@ msgstr ""
 msgid "Close the navigation"
 msgstr ""
 
+msgid "Documentation"
+msgstr ""
+
+msgid "Home"
+msgstr ""
+
 #, python-format
 msgid "Last updated %(last_updated)s."
 msgstr ""
 
+msgid "More"
+msgstr ""
+
 msgid "Next"
+msgstr ""
+
+msgid "On this page"
 msgstr ""
 
 msgid "Open the navigation"
@@ -52,6 +70,13 @@ msgid "Previous"
 msgstr ""
 
 msgid "Previous and next page"
+msgstr ""
+
+msgid "Sections"
+msgstr ""
+
+#, python-format
+msgid "Show the pages in %(title)s"
 msgstr ""
 
 msgid "Site navigation"
