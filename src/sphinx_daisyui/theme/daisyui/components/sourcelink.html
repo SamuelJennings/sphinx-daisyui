@@ -1,0 +1,4 @@
+{%- from "components/macros.html" import source_link with context %}
+{%- if daisy.sources.source %}
+{{ source_link(daisy.sources.source, "file-code", _("Show source"), rel="nofollow") }}
+{%- endif %}

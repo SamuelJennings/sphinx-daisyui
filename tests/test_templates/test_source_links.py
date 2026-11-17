@@ -345,3 +345,71 @@ class TestWithoutAnAddress:
         page = built(app, name)
 
         assert leading_to(page, GITHUB) == []
+
+
+class TestSourceLink:
+    SIDEBAR = {"top_of_page_buttons": [], "secondary_sidebar_items": ["sourcelink"]}
+
+    @pytest.mark.sphinx(
+        "html",
+        testroot="links",
+        freshenv=True,
+        confoverrides=options(**SIDEBAR),
+    )
+    @pytest.mark.parametrize(
+        ("name", "source"),
+        [("index.html", "index.rst.txt"), (DEEP, "a/b/c/page.rst.txt")],
+    )
+    def test_the_link_reaches_sphinxs_copy_of_the_source(
+        self, app: SphinxTestApp, name: str, source: str
+    ) -> None:
+        page = built(app, name)
+
+        [found] = [t for t in page.having("href") if "_sources/" in str(t["href"])]
+        target = (Path(app.outdir) / name).parent / str(found["href"])
+        assert target.resolve() == (Path(app.outdir) / "_sources" / source).resolve()
+        assert target.is_file()
+        assert found["rel"] == "nofollow"
+
+    @pytest.mark.sphinx(
+        "html",
+        testroot="links",
+        freshenv=True,
+        confoverrides={
+            "html_show_sourcelink": False,
+            "html_theme_options": {**SIDEBAR},
+        },
+    )
+    def test_no_link_when_sphinx_does_not_show_the_source_link(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = built(app)
+
+        assert not [t for t in page.having("href") if "_sources/" in str(t["href"])]
+
+    @pytest.mark.sphinx(
+        "html",
+        testroot="links",
+        freshenv=True,
+        confoverrides={
+            "html_copy_source": False,
+            "html_theme_options": {**SIDEBAR},
+        },
+    )
+    def test_no_link_when_sphinx_does_not_copy_the_source(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = built(app)
+
+        assert not [t for t in page.having("href") if "_sources/" in str(t["href"])]
+
+    @pytest.mark.sphinx(
+        "html", testroot="links", freshenv=True, confoverrides=options(**SIDEBAR)
+    )
+    @pytest.mark.parametrize("name", ["search.html", "genindex.html"])
+    def test_the_search_and_index_pages_carry_none(
+        self, app: SphinxTestApp, name: str
+    ) -> None:
+        page = built(app, name)
+
+        assert not [t for t in page.having("href") if "_sources/" in str(t["href"])]

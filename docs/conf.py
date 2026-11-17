@@ -68,6 +68,7 @@ html_theme_options = {
     "source_branch": "main",
     "source_directory": "docs/",
     "top_of_page_buttons": ["edit"],
+    "secondary_sidebar_items": ["page-toc", "sourcelink"],
     "navigation_with_keys": True,
     "theme_picker": True,
     "switcher": {"json_url": "_static/switcher.json", "version_match": "dev"},

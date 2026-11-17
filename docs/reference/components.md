@@ -68,6 +68,14 @@ nothing when the page has no edit address. It is not in a component list by defa
 meant for `secondary_sidebar_items`. [Link the sources](../developer/link-the-sources.md) shows
 the steps.
 
+## `sourcelink`
+
+Shows a link labelled Show source, drawn as a ghost button with a file icon, that leads to
+Sphinx's copy of the page's source under `_sources`. It draws only when both
+`html_show_sourcelink` and `html_copy_source` are on, and a page with no source draws nothing.
+It is not in a component list by default, and is meant for `secondary_sidebar_items`.
+[Link the sources](../developer/link-the-sources.md) shows the steps.
+
 ## `theme-switcher`
 
 Shows a button that opens a menu of the three modes: match the system, light and dark. When the

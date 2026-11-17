@@ -116,3 +116,20 @@ each value.
 
 The sidebar now carries an Edit this page link to the same address as the edit button.
 [Components](../reference/components.md) describes the component.
+
+## Link Sphinx's copy of the source
+
+1. Name `sourcelink` in `secondary_sidebar_items`:
+
+   ```python
+   html_theme_options = {
+       "secondary_sidebar_items": ["page-toc", "sourcelink"],
+   }
+   ```
+
+2. Leave `html_show_sourcelink` and `html_copy_source` on. Their default is on.
+3. Build the site.
+
+Each page now carries a Show source link to Sphinx's copy of its source under `_sources`.
+With either setting off, nothing is drawn. [Components](../reference/components.md) describes
+the component.
