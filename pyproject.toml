@@ -2,7 +2,7 @@
 name = "sphinx-daisyui"
 description = "A Sphinx theme drawn with daisyUI 5, with its own options"
 license = "MIT"
-version = "0.0.1"
+version = "0.1.0"
 readme = "README.md"
 authors = [{ name = "Sam", email = "samuel.scott.jennings@gmail.com" }]
 requires-python = ">=3.11"
