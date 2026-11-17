@@ -74,3 +74,27 @@ class TestSearchScript:
         app.build()
 
         assert (Path(app.outdir) / "_static" / "scripts" / "search.js").is_file()
+
+
+class TestVersionsScript:
+    @pytest.mark.sphinx("html", testroot="versions", freshenv=True)
+    @pytest.mark.parametrize(
+        ("name", "prefix"),
+        [("index.html", "_static/"), ("deep/er/page.html", "../../_static/")],
+    )
+    def test_each_page_links_it_deferred_after_the_address_script(
+        self, app: SphinxTestApp, name: str, prefix: str
+    ) -> None:
+        app.build()
+
+        found = sources(Page.read(Path(app.outdir) / name))
+        address = f"{prefix}scripts/page-address.js"
+        versions = f"{prefix}scripts/versions.js"
+        assert versions in found
+        assert found.index(address) < found.index(versions)
+
+    @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
+    def test_the_script_is_in_the_output(self, app: SphinxTestApp) -> None:
+        app.build()
+
+        assert (Path(app.outdir) / "_static" / "scripts" / "versions.js").is_file()
