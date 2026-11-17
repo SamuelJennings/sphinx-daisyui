@@ -1,0 +1,31 @@
+<div class="daisy-theme-switcher dropdown dropdown-end">
+  <div tabindex="0" role="button" class="btn btn-ghost btn-sm btn-square" aria-label="Choose the colour theme">
+    <span data-daisy-mode-icon="auto">{{ daisy.icon("sun-moon", "size-5") }}</span>
+    <span data-daisy-mode-icon="light">{{ daisy.icon("sun", "size-5") }}</span>
+    <span data-daisy-mode-icon="dark">{{ daisy.icon("moon", "size-5") }}</span>
+    <span data-daisy-mode-icon="theme">{{ daisy.icon("palette", "size-5") }}</span>
+  </div>
+  <div tabindex="-1" class="dropdown-content z-40 mt-2 w-60 rounded-box border border-base-300 bg-base-100 p-2 shadow-lg">
+    <ul class="menu menu-sm w-full p-0">
+      <li><button type="button" data-daisy-set-mode="auto">{{ daisy.icon("sun-moon", "size-4") }}Match the system</button></li>
+      <li><button type="button" data-daisy-set-mode="light">{{ daisy.icon("sun", "size-4") }}Light</button></li>
+      <li><button type="button" data-daisy-set-mode="dark">{{ daisy.icon("moon", "size-4") }}Dark</button></li>
+    </ul>
+    {%- if daisy.picker %}
+      <div class="divider my-1 text-xs text-base-content/60">Themes</div>
+      <ul class="menu menu-sm max-h-72 w-full flex-nowrap overflow-y-auto p-0">
+        {%- for name in daisy.picker %}
+          <li>
+            <button type="button" data-daisy-set-theme="{{ name }}" class="gap-3">
+              <span data-theme="{{ name }}" class="grid shrink-0 grid-cols-2 gap-0.5 rounded-field border border-base-content/10 bg-base-100 p-1" aria-hidden="true">
+                <span class="size-1.5 rounded-full bg-base-content"></span><span class="size-1.5 rounded-full bg-primary"></span>
+                <span class="size-1.5 rounded-full bg-secondary"></span><span class="size-1.5 rounded-full bg-accent"></span>
+              </span>
+              <span class="capitalize">{{ name }}</span>
+            </button>
+          </li>
+        {%- endfor %}
+      </ul>
+    {%- endif %}
+  </div>
+</div>

@@ -1,0 +1,22 @@
+{%- if not theme_disable_search %}
+<dialog id="daisy-search" class="modal modal-top sm:modal-middle" aria-label="Search the documentation">
+  <div class="modal-box flex max-h-[min(40rem,85dvh)] max-w-2xl flex-col gap-0 p-0 sm:rounded-box">
+    <form action="{{ pathto('search') }}" method="get" class="flex items-center gap-3 border-b border-base-300 px-4 py-3" role="search">
+      {{ daisy.icon("search", "size-5 shrink-0 opacity-60") }}
+      <input type="search" name="q" class="daisy-search-input min-w-0 flex-1 bg-transparent text-base outline-none" placeholder="{{ daisy.search_bar_text }}" autocomplete="off" spellcheck="false" aria-controls="daisy-search-results" aria-autocomplete="list">
+      <kbd class="kbd kbd-sm hidden sm:inline-flex">Esc</kbd>
+      <button type="button" class="btn btn-ghost btn-sm btn-square sm:hidden" data-daisy-search-close aria-label="Close search">{{ daisy.icon("x", "size-5") }}</button>
+    </form>
+    <div class="min-h-0 flex-1 overflow-y-auto p-2">
+      <p class="daisy-search-status px-3 py-6 text-center text-sm text-base-content/60" aria-live="polite">Type to search pages, sections and API names.</p>
+      <ul id="daisy-search-results" class="daisy-search-results menu w-full gap-0.5 p-0" role="listbox"></ul>
+    </div>
+    <div class="hidden items-center gap-4 border-t border-base-300 px-4 py-2 text-xs text-base-content/60 sm:flex">
+      <span class="flex items-center gap-1"><kbd class="kbd kbd-xs">↑</kbd><kbd class="kbd kbd-xs">↓</kbd> to move</span>
+      <span class="flex items-center gap-1"><kbd class="kbd kbd-xs">↵</kbd> to open</span>
+      <span class="ms-auto">Enter with nothing chosen opens the full results.</span>
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop"><button aria-label="Close search">close</button></form>
+</dialog>
+{%- endif %}

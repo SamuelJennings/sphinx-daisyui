@@ -1,0 +1,203 @@
+/* The frame around a page: navbar, sidebars, navigation and search. */
+
+html { scroll-padding-top: 5rem; }
+[id] { scroll-margin-top: 5rem; }
+
+/* The logo for the other mode stays hidden. */
+html[data-mode="dark"] .daisy-logo-light,
+html:not([data-mode="dark"]) .daisy-logo-dark { display: none; }
+.daisy-logo-light[src=""], .daisy-logo-dark[src=""] { display: none; }
+
+/* The theme button shows the reader's current choice. */
+[data-daisy-mode-icon] { display: none; }
+html[data-mode-choice="auto"] [data-daisy-mode-icon="auto"],
+html[data-mode-choice="light"] [data-daisy-mode-icon="light"],
+html[data-mode-choice="dark"] [data-daisy-mode-icon="dark"],
+html[data-mode-choice="theme"] [data-daisy-mode-icon="theme"] { display: inline-flex; }
+
+/* The sidebar sits under the navbar and scrolls on its own on a wide screen. */
+@media (width >= 64rem) {
+  .drawer.lg\:drawer-open > .drawer-side {
+    position: sticky;
+    top: 4rem;
+    height: calc(100dvh - 4rem);
+    overflow: visible;
+  }
+  .drawer.lg\:drawer-open > .drawer-side > .daisy-primary { height: 100%; border-inline-end: 1px solid var(--color-base-300); }
+}
+.daisy-announcement ~ .drawer.lg\:drawer-open > .drawer-side { top: 4rem; }
+
+/* ------------------------------------------------------------------ */
+/* Sidebar navigation, drawn as daisyUI's menu                         */
+/* ------------------------------------------------------------------ */
+
+.daisy-nav { font-size: 0.875rem; }
+.daisy-nav-caption {
+  margin: 1.25rem 0 0.375rem;
+  padding-inline: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--color-base-content) 60%, transparent);
+}
+.daisy-nav-caption:first-child { margin-top: 0; }
+.daisy-nav-list { display: flex; flex-direction: column; gap: 1px; }
+.daisy-nav-list .daisy-nav-list {
+  margin: 1px 0 2px 0.875rem;
+  padding-inline-start: 0.5rem;
+  border-inline-start: 1px solid var(--color-base-300);
+}
+.daisy-nav-list[hidden] { display: none; }
+.daisy-nav-row { display: flex; align-items: flex-start; gap: 0.125rem; }
+.daisy-nav-row > .daisy-nav-link { flex: 1 1 auto; }
+.daisy-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius-field);
+  line-height: 1.35;
+  color: color-mix(in oklab, var(--color-base-content) 82%, transparent);
+  transition: background-color 120ms, color 120ms;
+}
+.daisy-nav-link:hover { background: color-mix(in oklab, var(--color-base-content) 7%, transparent); color: var(--color-base-content); }
+.daisy-nav-link:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+.daisy-nav-link.daisy-on-path { color: var(--color-base-content); font-weight: 600; }
+.daisy-nav-link.menu-active {
+  background: color-mix(in oklab, var(--color-primary) 13%, transparent);
+  color: color-mix(in oklab, var(--color-primary) 70%, var(--color-base-content));
+  font-weight: 600;
+}
+.daisy-nav-toggle { margin-top: 0.125rem; color: color-mix(in oklab, var(--color-base-content) 60%, transparent); }
+.daisy-nav-toggle svg { transition: transform 150ms ease; }
+.daisy-nav-toggle[aria-expanded="true"] svg { transform: rotate(90deg); }
+.daisy-nav-list > li > .daisy-nav-row > .daisy-nav-link,
+.daisy-nav-list > li > .daisy-nav-link { overflow-wrap: anywhere; }
+
+/* ------------------------------------------------------------------ */
+/* On this page                                                         */
+/* ------------------------------------------------------------------ */
+
+.daisy-toc-list { display: flex; flex-direction: column; font-size: 0.8125rem; line-height: 1.4; }
+.daisy-page-toc > .daisy-toc-list { border-inline-start: 1px solid var(--color-base-300); }
+.daisy-toc-list .daisy-toc-list { padding-inline-start: 0.75rem; }
+.daisy-page-toc[data-toc-level="1"] .daisy-toc-list .daisy-toc-list { display: none; }
+.daisy-toc-link {
+  display: block;
+  margin-inline-start: -1px;
+  padding: 0.3rem 0.75rem;
+  border-inline-start: 2px solid transparent;
+  color: color-mix(in oklab, var(--color-base-content) 70%, transparent);
+  transition: color 120ms, border-color 120ms;
+}
+.daisy-toc-link:hover { color: var(--color-base-content); }
+.daisy-toc-link.daisy-toc-current {
+  border-inline-start-color: var(--color-primary);
+  color: color-mix(in oklab, var(--color-primary) 75%, var(--color-base-content));
+  font-weight: 600;
+}
+.daisy-toc-mobile .daisy-toc-list { gap: 0.125rem; }
+.daisy-toc-mobile .daisy-toc-link { border: 0; padding-inline: 0; }
+
+/* ------------------------------------------------------------------ */
+/* Search                                                              */
+/* ------------------------------------------------------------------ */
+
+.daisy-search-results mark { background: color-mix(in oklab, var(--color-warning) 35%, transparent); color: inherit; border-radius: 2px; }
+.daisy-search-results a.menu-active { background: color-mix(in oklab, var(--color-primary) 13%, transparent); color: inherit; }
+#daisy-search .modal-box { overflow: hidden; }
+@media (width < 40rem) {
+  #daisy-search.modal-top .modal-box { max-height: 100dvh; height: 100dvh; border-radius: 0; }
+}
+
+/* The full search page Sphinx writes. */
+#search-results { margin-top: 1.5rem; }
+#search-results .search-summary { color: color-mix(in oklab, var(--color-base-content) 70%, transparent); }
+#search-results ul.search { list-style: none; padding: 0; margin: 1rem 0 0; display: flex; flex-direction: column; gap: 0.75rem; }
+#search-results ul.search li {
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--color-base-300);
+  border-radius: var(--radius-box);
+  margin: 0;
+}
+#search-results ul.search li > a { font-weight: 600; }
+#search-results ul.search li p.context { margin: 0.25rem 0 0; font-size: 0.875rem; color: color-mix(in oklab, var(--color-base-content) 75%, transparent); }
+#search-results span.highlighted, .daisy-sphinx-content span.highlighted { background: color-mix(in oklab, var(--color-warning) 35%, transparent); border-radius: 2px; }
+
+/* sphinx-copybutton, as a quiet daisyUI ghost button on the code block. */
+.daisy-sphinx-content button.copybtn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid color-mix(in oklab, var(--color-neutral-content) 20%, transparent);
+  border-radius: var(--radius-field);
+  background: color-mix(in oklab, var(--color-neutral) 85%, var(--color-neutral-content));
+  color: var(--color-neutral-content);
+  opacity: 0;
+  transition: opacity 150ms;
+  cursor: pointer;
+}
+.daisy-sphinx-content .highlight:hover button.copybtn, .daisy-sphinx-content button.copybtn:focus-visible, .daisy-sphinx-content button.copybtn.success { opacity: 1; }
+.daisy-sphinx-content button.copybtn svg { width: 1rem; height: 1rem; stroke: currentColor; }
+.daisy-sphinx-content button.copybtn.success { color: var(--color-success); }
+.daisy-sphinx-content .highlight { position: relative; }
+.o-tooltip--left::after { display: none !important; }
+
+/* sphinx-design colours follow the daisyUI theme. The extra type selector wins over
+   sphinx-design's own :root rule, which loads after this stylesheet. */
+html:root, html[data-theme], html [data-theme] {
+  --sd-color-primary: var(--color-primary);
+  --sd-color-secondary: var(--color-secondary);
+  --sd-color-success: var(--color-success);
+  --sd-color-info: var(--color-info);
+  --sd-color-warning: var(--color-warning);
+  --sd-color-danger: var(--color-error);
+  --sd-color-light: var(--color-base-200);
+  --sd-color-muted: color-mix(in oklab, var(--color-base-content) 55%, transparent);
+  --sd-color-dark: var(--color-neutral);
+  --sd-color-black: var(--color-neutral);
+  --sd-color-white: var(--color-base-100);
+  --sd-color-primary-highlight: color-mix(in oklab, var(--color-primary) 85%, black);
+  --sd-color-secondary-highlight: color-mix(in oklab, var(--color-secondary) 85%, black);
+  --sd-color-success-highlight: color-mix(in oklab, var(--color-success) 85%, black);
+  --sd-color-info-highlight: color-mix(in oklab, var(--color-info) 85%, black);
+  --sd-color-warning-highlight: color-mix(in oklab, var(--color-warning) 85%, black);
+  --sd-color-danger-highlight: color-mix(in oklab, var(--color-error) 85%, black);
+  --sd-color-primary-text: var(--color-primary-content);
+  --sd-color-secondary-text: var(--color-secondary-content);
+  --sd-color-success-text: var(--color-success-content);
+  --sd-color-info-text: var(--color-info-content);
+  --sd-color-warning-text: var(--color-warning-content);
+  --sd-color-danger-text: var(--color-error-content);
+  --sd-color-light-text: var(--color-base-content);
+  --sd-color-dark-text: var(--color-neutral-content);
+  --sd-color-white-text: var(--color-base-content);
+  --sd-color-black-text: var(--color-neutral-content);
+  --sd-color-muted-text: var(--color-base-100);
+  --sd-color-card-border: var(--color-base-300);
+  --sd-color-card-background: var(--color-base-100);
+  --sd-color-card-text: inherit;
+  --sd-color-card-header: transparent;
+  --sd-color-card-footer: transparent;
+  --sd-color-tabs-label-active: var(--color-primary);
+  --sd-color-tabs-label-hover: var(--color-base-content);
+  --sd-color-tabs-label-inactive: color-mix(in oklab, var(--color-base-content) 65%, transparent);
+  --sd-color-tabs-underline-active: var(--color-primary);
+  --sd-color-tabs-underline-hover: var(--color-base-300);
+  --sd-color-tabs-underline-inactive: transparent;
+  --sd-color-tabs-overline: var(--color-base-300);
+  --sd-color-tabs-underline: var(--color-base-300);
+}
+
+/* Furo's brand-content override, when a configuration sets it. */
+.daisy-sphinx-content { --daisy-sphinx-link: var(--daisy-sphinx-link-override, color-mix(in oklab, var(--color-primary) 82%, var(--color-base-content))); }
+
+/* Tooltips under the last navbar icons never widen the page. */
+.daisy-navbar { overflow-x: clip; }

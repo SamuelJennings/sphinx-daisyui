@@ -1,0 +1,6 @@
+{%- if daisy.page_toc_count %}
+<nav class="daisy-page-toc mb-6" aria-labelledby="daisy-page-toc-label" data-toc-level="{{ daisy.show_toc_level }}">
+  <p id="daisy-page-toc-label" class="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-base-content/60">{{ daisy.icon("list", "size-4") }}On this page</p>
+  {{ daisy.page_toc }}
+</nav>
+{%- endif %}

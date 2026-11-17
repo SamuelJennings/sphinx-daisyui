@@ -1,0 +1,7 @@
+{%- if daisy.icon_links %}
+<ul class="flex items-center" aria-label="{{ theme_icon_links_label }}">
+  {%- for link in daisy.icon_links %}
+    <li><a href="{{ link.url }}" class="btn btn-ghost btn-sm btn-square tooltip tooltip-bottom" data-tip="{{ link.name }}" aria-label="{{ link.name }}" rel="noopener">{{ link.svg }}</a></li>
+  {%- endfor %}
+</ul>
+{%- endif %}

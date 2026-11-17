@@ -1,0 +1,12 @@
+/* The theme's stylesheet: Tailwind 4 and daisyUI 5, the frame around a page,
+   and what Sphinx writes into a page body. */
+@import "tailwindcss" source(none);
+@source "../src/sphinx_daisyui/theme/daisyui";
+@source "../src/sphinx_daisyui/__init__.py";
+
+@plugin "daisyui" {
+  themes: all;
+}
+
+@import "./frame.css";
+@import "./content.css";

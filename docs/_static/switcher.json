@@ -1,0 +1,5 @@
+[
+  {"name": "0.1 (dev)", "version": "0.1", "url": "/"},
+  {"name": "Built as Furo would be configured", "version": "furo", "url": "/as-furo/"},
+  {"name": "Built as pydata-sphinx-theme would be configured", "version": "pydata", "url": "/as-pydata/", "preferred": false}
+]

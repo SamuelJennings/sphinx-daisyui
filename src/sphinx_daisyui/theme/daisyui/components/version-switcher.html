@@ -1,0 +1,8 @@
+{%- if daisy.switcher and daisy.switcher.json_url %}
+<div class="daisy-version dropdown dropdown-end" data-json-url="{{ daisy.switcher.json_url }}" data-version-match="{{ daisy.switcher.version_match }}">
+  <div tabindex="0" role="button" class="btn btn-ghost btn-sm gap-1 font-medium" aria-label="Choose a version">
+    {{ daisy.icon("history", "size-4") }}<span data-daisy-version-label>{{ daisy.switcher.version_match }}</span>{{ daisy.icon("chevron-down", "size-3.5 opacity-60") }}
+  </div>
+  <ul tabindex="-1" class="dropdown-content menu z-40 mt-2 w-52 rounded-box border border-base-300 bg-base-100 p-2 shadow-lg" data-daisy-version-list></ul>
+</div>
+{%- endif %}

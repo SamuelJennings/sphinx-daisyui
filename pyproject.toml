@@ -1,0 +1,21 @@
+[project]
+name = "sphinx-daisyui"
+version = "0.1.0.dev0"
+description = "A Sphinx theme drawn with daisyUI 5, configured with the options of Furo and pydata-sphinx-theme."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = ["sphinx>=7.3", "beautifulsoup4>=4.12"]
+
+[project.entry-points."sphinx.html_themes"]
+daisyui = "sphinx_daisyui"
+
+[dependency-groups]
+docs = ["sphinx-design", "myst-parser", "sphinx-copybutton", "sphinx-autobuild"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sphinx_daisyui"]
