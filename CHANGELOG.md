@@ -28,6 +28,10 @@ All notable changes to this project are recorded here. The format follows
   as header links, with a menu for those past `header_links_before_dropdown` named by
   `header_dropdown_text`, the `navbar_align` option, the sections at the head of the drawer, and a
   primary sidebar that lists only the current section when it is in `navbar_center`.
+- The page body's styles: headings, text, lists, quotes, admonitions and version notes with
+  their icons, code, tables, figures, equations, API entries and the sphinx-design and
+  sphinx-copybutton markup, drawn from daisyUI's tokens in every theme and mode, with wide tables
+  and display equations in focusable scroll regions.
 - The `page-toc` component, which lists the headings of the page under On this page and marks
   the one being read, a closed disclosure with the same list above the page on narrow windows,
   and the `show_toc_level` option.
