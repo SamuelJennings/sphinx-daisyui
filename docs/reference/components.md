@@ -62,6 +62,17 @@ The site's themes and its starting mode apply with or without it. A site that le
 out of every list draws no menu, and every page still follows `light_theme`, `dark_theme` and
 `default_mode`, and the reader's system when the mode is `"auto"`.
 
+## `version-switcher`
+
+Shows a button labelled with the version being built, which opens a menu of every version in the
+file named by the `switcher` [option](options.md). The reader's own version is marked, and so is
+the preferred one. The theme puts it in `navbar_end`, and on a narrow window it moves into the
+drawer with the rest of that list.
+
+It draws nothing unless `switcher` gives a `json_url`. The `check_switcher` and
+`show_version_warning_banner` options set whether the build checks the file and whether a banner
+warns on a version that is not the preferred one.
+
 ## `search-button-field`
 
 Shows a button that reads Search the docs, or the text set in `search_bar_text`, with the keys

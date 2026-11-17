@@ -8,6 +8,9 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- A version switcher, drawn by the `version-switcher` component from a `switcher.json` file, the
+  `switcher`, `check_switcher` and `show_version_warning_banner` options, and a build-time
+  warning when the file cannot be used.
 - A search dialog, opened by the `search-button-field` component or by Ctrl+K, ⌘K or `/`,
   that lists pages, sections and API names as the reader types, and the `search_bar_text`,
   `disable_search` and `search_as_you_type` options.

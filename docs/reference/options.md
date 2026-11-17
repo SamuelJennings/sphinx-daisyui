@@ -153,6 +153,47 @@ writes. [Set up search](../developer/set-up-search-and-versions.md) shows the st
 - **Meaning:** Whether results are listed while the reader types. When `False`, nothing is
   listed as they type, and Enter opens Sphinx's full search page with their words.
 
+## Versions
+
+The theme draws a version menu in the header when a site names the file that lists its
+versions. [Set up versions](../developer/set-up-search-and-versions.md) shows the steps.
+
+### `switcher`
+
+- **Type:** dictionary with `json_url` and `version_match`
+- **Default:** `{}`, which draws no menu and no banner
+- **Meaning:** `json_url` is where the file listing every version is. `version_match` is the
+  version this build documents. It labels the menu and picks the entry the reader is on.
+  The menu is drawn on every page only when `json_url` is set.
+
+`json_url` takes three forms:
+
+- A full address, such as `https://example.org/switcher.json`, or one starting with `//`, which
+  is read as `https:`.
+- A path from the server's root, such as `/switcher.json`.
+- Any other path, such as `_static/switcher.json`, which is read from the site's root.
+
+A version's `url` in the file takes the same three forms. A path from the server's root is
+used as given, and any other path is read from the site's root, so one file serves a page at any
+depth. The check described under `check_switcher` reads a path in `json_url` from the build's
+output, where a path from the server's root is read as from the site's root.
+
+### `check_switcher`
+
+- **Type:** boolean
+- **Default:** `True`
+- **Meaning:** Whether the build reads the file at `json_url` once, at the end of the build,
+  and warns when it cannot be read or is not a list of versions each with a `version` and a
+  `url`. The build still succeeds. A path is read from the built site, so a file in a static
+  directory is found after the build copies it. When `False`, the file is never read.
+
+### `show_version_warning_banner`
+
+- **Type:** boolean
+- **Default:** `False`
+- **Meaning:** When `True` and `json_url` is set, every page carries a banner before the header
+  that appears on any version other than the preferred one and links to the preferred one.
+
 ## Site navigation
 
 The navigation in the primary sidebar is the site's table of contents, drawn from its `toctree`
