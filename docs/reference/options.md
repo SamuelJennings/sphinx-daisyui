@@ -17,7 +17,7 @@ html_theme_options = {
 
 Each name is a template. The theme looks for it in its own `components/` directory first, then in
 the site's `templates_path`. A name that no template has draws nothing and raises no warning.
-[Components](components.md) lists the five the theme provides.
+[Components](components.md) lists the ones the theme provides.
 
 ## Layout
 
