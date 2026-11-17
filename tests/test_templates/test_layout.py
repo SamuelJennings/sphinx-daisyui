@@ -10,7 +10,7 @@ TEST_MARKER = "data-test"
 
 def built(app: SphinxTestApp, name: str = "index.html") -> Page:
     app.build()
-    return Page(Path(app.outdir) / name)
+    return Page.read(Path(app.outdir) / name)
 
 
 class TestFrame:

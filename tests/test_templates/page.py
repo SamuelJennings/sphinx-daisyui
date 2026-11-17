@@ -5,13 +5,22 @@ from pathlib import Path
 class Page(HTMLParser):
     """A built page, read into its start tags in the order they were written."""
 
-    VOID = {"input", "img", "meta", "link", "br", "hr"}
-
-    def __init__(self, path: Path) -> None:
+    def __init__(self, text: str) -> None:
         super().__init__()
         self.tags: list[tuple[str, dict[str, str | None]]] = []
-        self.text = path.read_text(encoding="utf-8")
-        self.feed(self.text)
+        self.text = text
+        self.feed(text)
+
+    @classmethod
+    def read(cls, path: Path) -> "Page":
+        """Read a built page from its file."""
+        return cls(path.read_text(encoding="utf-8"))
+
+    def inside(self, tag: str) -> "Page":
+        """Read what the first tag of one kind holds, as a page of its own."""
+        start = self.text.index(f"<{tag}")
+        end = self.text.index(f"</{tag}>", start)
+        return Page(self.text[start:end])
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         self.tags.append((tag, dict(attrs)))
