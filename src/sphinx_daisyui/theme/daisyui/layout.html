@@ -1,0 +1,113 @@
+{%- extends "basic/layout.html" %}
+{%- from 'components/macros.html' import components, icon_button with context %}
+{%- set d = daisy %}
+
+{%- block extrahead %}
+  {{- super() }}
+  <script defer src="{{ pathto('_static/scripts/keys.js', 1)|e }}"></script>
+  <script defer src="{{ pathto('_static/scripts/frame.js', 1)|e }}"></script>
+  <script defer src="{{ pathto('_static/scripts/back-to-top.js', 1)|e }}"></script>
+  <script defer src="{{ pathto('_static/scripts/announcement.js', 1)|e }}"></script>
+{%- endblock %}
+
+{%- block body_tag %}<body class="bg-base-100 text-base-content antialiased" data-daisy-root="{{ pathto('', 1)|e }}" data-daisy-suffix="{{ file_suffix|e }}" data-daisy-link-suffix="{{ link_suffix|e }}" data-daisy-builder="{{ builder|e }}" data-daisy-page="{{ pagename|e }}">{% endblock %}
+
+{%- block header %}
+  <a href="#main-content" class="btn btn-primary btn-sm absolute -top-20 left-4 z-50 focus:top-2">{{ _("Skip to content") }}</a>
+  {%- if not d.sticky_banners %}{% include "components/announcement.html" %}{% endif %}
+{%- endblock %}
+
+{%- block relbar1 %}{% endblock %}
+{%- block relbar2 %}{% endblock %}
+
+{%- block content %}
+  {%- set lay = d.layout %}
+  {#- Single quotes round the style: the grid areas are double-quoted strings. #}
+  <div class="daisy-layout" style='--daisy-areas-lg: {{ lay.areas_medium }}; --daisy-areas-xl: {{ lay.areas_wide }}; --daisy-primary-top: {{ lay.primary_top|e }}; --daisy-secondary-top: {{ lay.secondary_top|e }};' data-layout="{{ lay.code|e }}"{% if lay.header_sticky %} data-header-fixed{% endif %}{% if lay.primary_sticky %} data-primary-fixed{% endif %}{% if lay.secondary_sticky %} data-secondary-fixed{% endif %}{% if lay.footer_sticky %} data-footer-fixed{% endif %}>
+    <input id="daisy-drawer" type="checkbox" class="hidden" aria-hidden="true" tabindex="-1">
+
+    <header class="daisy-area-header daisy-navbar bg-base-100/90 backdrop-blur supports-[backdrop-filter]:bg-base-100/75">
+      {%- if d.sticky_banners %}{% include "components/announcement.html" %}{% endif %}
+      <div class="navbar mx-auto min-h-16 max-w-[96rem] gap-2 px-3 sm:px-4">
+        <label for="daisy-drawer" role="button" tabindex="0" data-daisy-drawer-open class="btn btn-ghost btn-square btn-sm lg:hidden" aria-label="{{ _('Open the navigation')|e }}">{{ d.icon("menu") }}</label>
+        <div class="flex min-w-0 items-center gap-2">
+          {%- for name in d.navbar_start %}
+            {%- if name == "navbar-logo.html" and lay.brand_in_sidebar %}<div class="lg:hidden">{{ components([name]) }}</div>
+            {%- else %}{{ components([name]) }}{% endif %}
+          {%- endfor %}
+        </div>
+        <div class="hidden min-w-0 flex-1 items-center lg:flex justify-start ps-6">{{ components(d.navbar_center) }}</div>
+        <div class="ms-auto flex items-center gap-1">
+          {{ components(d.navbar_persistent) }}
+          <div class="hidden items-center gap-1 sm:flex" data-daisy-navbar-end>{{ components(d.navbar_end) }}</div>
+        </div>
+      </div>
+    </header>
+
+    <aside class="daisy-area-primary" aria-label="{{ _('Site navigation')|e }}">
+      <div class="daisy-primary-inner">
+        <div class="flex items-center gap-2 border-b border-base-300 p-3 {% if lay.brand_in_sidebar %}lg:min-h-16 lg:border-0 lg:px-4 lg:py-0{% else %}lg:hidden{% endif %}">
+          {% include "components/navbar-logo.html" %}
+          <label for="daisy-drawer" role="button" tabindex="0" data-daisy-drawer-close class="btn btn-ghost btn-sm btn-square ms-auto{% if lay.brand_in_sidebar %} lg:hidden{% endif %}" aria-label="{{ _('Close the navigation')|e }}">{{ d.icon("x") }}</label>
+        </div>
+        <div class="flex flex-wrap items-center gap-1 border-b border-base-300 p-3 sm:hidden empty:hidden" data-daisy-navbar-end-slot></div>
+        <div class="daisy-sidebar-scroll px-3 py-4 lg:py-8 lg:ps-4 lg:pe-2">
+          {{ components(sidebars) }}
+          {{ components(d.primary_sidebar_end) }}
+        </div>
+      </div>
+    </aside>
+    <label for="daisy-drawer" class="daisy-drawer-overlay" aria-label="{{ _('Close the navigation')|e }}"></label>
+
+    <main id="main-content" class="daisy-area-main min-w-0 px-4 sm:px-6 lg:px-10" tabindex="-1">
+      <div class="mx-auto max-w-[46rem] pt-6 pb-10">
+        {%- if d.article_header_start or d.article_header_end %}
+          <div class="daisy-article-header flex min-h-8 items-center gap-3">
+            <div class="min-w-0 flex-1">{{ components(d.article_header_start) }}</div>
+            <div class="flex shrink-0 items-center gap-1">{{ components(d.article_header_end) }}</div>
+          </div>
+        {%- endif %}
+        <article class="daisy-sphinx-content">
+          {% block body %}{% endblock %}
+        </article>
+        {{ components(d.article_footer_items) }}
+        {%- if d.show_prev_next and (prev or next) %}
+          <nav class="daisy-prev-next mt-12 grid gap-3 border-t border-base-300 pt-6 sm:grid-cols-2" aria-label="{{ _('Previous and next page')|e }}">
+            {%- if prev %}
+              <a href="{{ prev.link|e }}" rel="prev" class="group flex items-center gap-3 rounded-box border border-base-300 p-4 transition hover:border-primary/50 hover:bg-base-200 focus-visible:bg-base-200">
+                {{ d.icon("arrow-left", "size-4 shrink-0 opacity-60 transition group-hover:-translate-x-0.5") }}
+                <span class="min-w-0"><span class="daisy-prev-next-label block text-xs">{{ _("Previous") }}</span><span class="block font-medium">{{ prev.title }}</span></span>
+              </a>
+            {%- else %}<span class="hidden sm:block"></span>{% endif %}
+            {%- if next %}
+              <a href="{{ next.link|e }}" rel="next" class="group flex items-center justify-end gap-3 rounded-box border border-base-300 p-4 text-end transition hover:border-primary/50 hover:bg-base-200 focus-visible:bg-base-200">
+                <span class="min-w-0"><span class="daisy-prev-next-label block text-xs">{{ _("Next") }}</span><span class="block font-medium">{{ next.title }}</span></span>
+                {{ d.icon("arrow-right", "size-4 shrink-0 opacity-60 transition group-hover:translate-x-0.5") }}
+              </a>
+            {%- endif %}
+          </nav>
+        {%- endif %}
+        {{ components(d.content_footer_items) }}
+      </div>
+    </main>
+
+    {%- if d.secondary and pagename not in ("search", "genindex") %}
+      <aside class="daisy-area-secondary" aria-label="{{ _('Page tools')|e }}">
+        <div class="daisy-secondary daisy-secondary-inner">{{ components(d.secondary) }}</div>
+      </aside>
+    {%- endif %}
+
+    <footer class="daisy-area-footer daisy-footer border-t border-base-300 bg-base-100 px-4 py-8 text-sm sm:px-6 lg:px-10">
+      <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div class="flex flex-col gap-1">{{ components(d.footer_start) }}</div>
+        <div class="flex flex-col gap-1">{{ components(d.footer_center) }}</div>
+        <div class="flex flex-col gap-2 md:items-end">{{ components(d.footer_end) }}</div>
+      </div>
+    </footer>
+  </div>
+  {%- if d.back_to_top %}
+    <button type="button" class="daisy-back-to-top btn btn-sm fixed bottom-6 left-1/2 z-30 -translate-x-1/2 gap-1 rounded-full shadow-lg" hidden>{{ d.icon("arrow-up", "size-4") }}{{ _("Back to top") }}</button>
+  {%- endif %}
+{%- endblock %}
+
+{%- block footer %}{% endblock %}

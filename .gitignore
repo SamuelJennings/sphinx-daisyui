@@ -8,6 +8,7 @@
 *.orig
 *.log
 *.pot
+!src/sphinx_daisyui/locale/sphinx.pot
 **/__pycache__
 .cache/*
 .*.swp

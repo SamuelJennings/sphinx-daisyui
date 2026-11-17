@@ -4,11 +4,14 @@
   "description": "Compiles the theme's stylesheet. Python's build runs it, so users of the theme never need Node.",
   "scripts": {
     "build": "tailwindcss -i assets/theme.css -o src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css --minify",
-    "watch": "tailwindcss -i assets/theme.css -o src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css --watch"
+    "watch": "tailwindcss -i assets/theme.css -o src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css --watch",
+    "icons": "node scripts/icons.mjs"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.3.5",
     "daisyui": "^5.8.1",
+    "lucide-static": "^1.74.0",
+    "simple-icons": "^16.38.0",
     "tailwindcss": "^4.3.5"
   }
 }

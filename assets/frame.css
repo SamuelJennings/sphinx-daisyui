@@ -1,0 +1,134 @@
+/* The frame around a page: the grid, the header, the sidebars and the drawer. */
+
+html { scroll-padding-top: 5rem; }
+[id] { scroll-margin-top: 5rem; }
+
+/* The logo for the other mode stays hidden. Until the theme has modes of its own
+   the system setting picks it; the modes feature moves this rule onto them. */
+@media (prefers-color-scheme: dark) { .daisy-logo-light { display: none; } }
+@media not (prefers-color-scheme: dark) { .daisy-logo-dark { display: none; } }
+.daisy-logo-light[src=""], .daisy-logo-dark[src=""] { display: none; }
+
+/* ------------------------------------------------------------------ */
+/* The page grid                                                        */
+/* ------------------------------------------------------------------ */
+
+/* One grid with five named areas. The layout code, read in Python, sets
+   which area reaches each corner (--daisy-areas-lg and --daisy-areas-xl) and
+   which areas stay in place (the data-*-fixed attributes). On a narrow
+   screen the page is one column and the left sidebar is a drawer. */
+.daisy-layout {
+  --daisy-primary-width: 18rem;
+  --daisy-main-width: 54rem;
+  --daisy-secondary-width: 15rem;
+  --daisy-header-height: 4.0625rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: "header" "main" "footer";
+  min-height: 100dvh;
+}
+.daisy-area-header { grid-area: header; z-index: 30; }
+.daisy-area-primary { grid-area: primary; }
+.daisy-area-main { grid-area: main; }
+.daisy-area-secondary { grid-area: secondary; display: none; }
+.daisy-area-footer { grid-area: footer; }
+
+.daisy-layout[data-header-fixed] > .daisy-area-header { position: sticky; top: 0; }
+
+/* The header has no line of its own until the page scrolls under it, as on
+   daisyUI's own site. The border is always there, transparent, so the page
+   doesn't move when it appears. */
+.daisy-area-header {
+  border-bottom: 1px solid transparent;
+}
+.daisy-layout.daisy-scrolled > .daisy-area-header {
+  border-bottom-color: var(--color-base-300);
+  /* Tailwind's shadow-xs, as daisyUI's own site uses. */
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+.daisy-layout[data-footer-fixed] > .daisy-area-footer { position: sticky; bottom: 0; z-index: 20; }
+
+/* The left sidebar as a drawer, below the breakpoint. */
+@media (width < 64rem) {
+  .daisy-area-primary {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: 0;
+    z-index: 50;
+    width: min(20rem, 85vw);
+    background: var(--color-base-200);
+    box-shadow: 0 10px 30px color-mix(in oklab, black 25%, transparent);
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 200ms ease, visibility 200ms;
+  }
+  .daisy-primary-inner { display: flex; flex-direction: column; height: 100%; }
+  .daisy-primary-inner > .daisy-sidebar-scroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+  #daisy-drawer:checked ~ .daisy-area-primary { transform: none; visibility: visible; }
+  .daisy-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 45;
+    background: color-mix(in oklab, black 40%, transparent);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 200ms;
+  }
+  #daisy-drawer:checked ~ .daisy-drawer-overlay { opacity: 1; pointer-events: auto; }
+  html:has(#daisy-drawer:checked) { overflow: hidden; }
+}
+
+@media (width >= 64rem) {
+  .daisy-layout {
+    grid-template-columns:
+      minmax(var(--daisy-primary-width), 1fr)
+      minmax(0, var(--daisy-main-width))
+      minmax(0, 1fr);
+    grid-template-areas: var(--daisy-areas-lg);
+  }
+  .daisy-drawer-overlay { display: none; }
+  .daisy-area-primary { border-inline-end: 1px solid var(--color-base-300); min-width: 0; }
+  /* The sidebar's content keeps its width and sits against the page, however
+     wide its column grows on a large screen. */
+  .daisy-primary-inner { width: var(--daisy-primary-width); margin-inline-start: auto; }
+  .daisy-layout[data-primary-fixed] .daisy-primary-inner {
+    position: sticky;
+    top: var(--daisy-primary-top);
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100dvh - var(--daisy-primary-top));
+  }
+  .daisy-layout[data-primary-fixed] .daisy-sidebar-scroll { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+}
+
+@media (width >= 80rem) {
+  .daisy-layout {
+    grid-template-columns:
+      minmax(var(--daisy-primary-width), 1fr)
+      minmax(0, var(--daisy-main-width))
+      minmax(var(--daisy-secondary-width), 1fr);
+    grid-template-areas: var(--daisy-areas-xl);
+  }
+  .daisy-area-secondary { display: block; min-width: 0; }
+  .daisy-secondary-inner { width: var(--daisy-secondary-width); padding-block: 2rem; padding-inline-end: 1rem; }
+  .daisy-layout[data-secondary-fixed] .daisy-secondary-inner {
+    position: sticky;
+    top: var(--daisy-secondary-top);
+    max-height: calc(100dvh - var(--daisy-secondary-top));
+    overflow-y: auto;
+  }
+}
+
+/* Tooltips under the last navbar icons never widen the page. */
+.daisy-navbar { overflow-x: clip; }
+
+/* Thin scrollbars on the sidebars, in the theme's colours. */
+.daisy-sidebar-scroll, .daisy-secondary-inner {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--color-base-content) 20%, transparent) transparent;
+}
+
+.daisy-footer { color: var(--daisy-text-muted); }
+
+.daisy-prev-next-label { color: var(--daisy-text-muted); }

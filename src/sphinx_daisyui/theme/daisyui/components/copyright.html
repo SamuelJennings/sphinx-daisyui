@@ -1,0 +1,6 @@
+{%- if show_copyright and copyright %}
+  {%- if hasdoc('copyright') %}
+    {%- set copyright_link %}<a class="link link-hover" href="{{ pathto('copyright')|e }}">{{ copyright|e }}</a>{% endset %}
+    <p>{% trans copyright=copyright_link %}&copy; {{ copyright }}{% endtrans %}</p>
+  {%- else %}<p>{% trans copyright=copyright|e %}&copy; {{ copyright }}{% endtrans %}</p>{% endif %}
+{%- endif %}

@@ -18,6 +18,8 @@ Changelog <https://github.com/SamuelJennings/sphinx-daisyui/blob/main/CHANGELOG.
 
 - [The `daisyui` theme](developer/installation.md), with its stylesheet compiled into the package,
   so using it never needs Node.
+- [The page frame](developer/arrange-the-page.md): a header, two sidebars and a footer, arranged
+  by one layout code and filled from lists of components.
 
 ## Requirements
 

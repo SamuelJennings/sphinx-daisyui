@@ -1286,6 +1286,7 @@ name = "sphinx-daisyui"
 version = "0.0.1"
 source = { editable = "." }
 dependencies = [
+    { name = "markupsafe" },
     { name = "sphinx", version = "9.0.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "sphinx", version = "9.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.12.*'" },
     { name = "sphinx", version = "9.2.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.13'" },
@@ -1307,7 +1308,10 @@ docs = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "sphinx", specifier = ">=7.4" }]
+requires-dist = [
+    { name = "markupsafe", specifier = ">=2.1" },
+    { name = "sphinx", specifier = ">=7.4" },
+]
 
 [package.metadata.requires-dev]
 dev = [

@@ -21,7 +21,7 @@ classifiers = [
     "Topic :: Documentation :: Sphinx",
     "Topic :: Software Development :: Documentation",
 ]
-dependencies = ["sphinx>=7.4"]
+dependencies = ["markupsafe>=2.1", "sphinx>=7.4"]
 
 [project.entry-points."sphinx.html_themes"]
 daisyui = "sphinx_daisyui"
@@ -79,6 +79,9 @@ include = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = ["--strict-markers", "--strict-config", "-ra"]
+
+[tool.forge.conformance]
+non-mirror-paths = ["tests/test_templates/"]
 
 [tool.coverage.run]
 branch = true
