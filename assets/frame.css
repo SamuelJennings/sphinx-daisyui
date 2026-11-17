@@ -219,3 +219,7 @@ li.daisy-toc-on-path > .daisy-toc-deep { display: flex; }
    puts them there, which depends on the layout code and the window's width. */
 [data-navbar-align="left"] { justify-content: flex-start; }
 [data-navbar-align="right"] { justify-content: flex-end; }
+
+/* A link's visually hidden text is placed against the link itself, so it stays
+   inside the sidebar's scrolling box instead of lengthening the page. */
+a:has(> .sr-only) { position: relative; }
