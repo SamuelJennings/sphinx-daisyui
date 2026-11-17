@@ -432,13 +432,17 @@ class TestPageContents:
     @TOC
     @pytest.mark.parametrize(
         ("level", "deep"),
-        [(1, ["First", "Under first"]), (2, ["Under first"]), (3, [])],
+        [
+            (1, ["Under first", "Under under first"]),
+            (2, ["Under under first"]),
+            (3, []),
+        ],
     )
-    def test_lists_at_or_below_the_level_are_marked_deep(
+    def test_lists_below_the_level_are_marked_deep(
         self, app: SphinxTestApp, level: int, deep: list[str]
     ) -> None:
         # The list of the page's first headings is depth 1, the lists under it 2.
-        reader = ListReader(str(contents(app, "levels").markup(level)))
+        reader = ListReader(str(contents(app, "three").markup(level)))
 
         assert reader.deep() == deep
 

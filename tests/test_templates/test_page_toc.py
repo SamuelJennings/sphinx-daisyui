@@ -66,18 +66,18 @@ class TestPageToc:
         assert page.find("details") == []
 
     @toc(show_toc_level=2)
-    def test_with_two_the_lists_under_the_headings_are_deep(
+    def test_with_two_only_the_third_level_is_deep(self, app: SphinxTestApp) -> None:
+        assert deep(built(app, "three.html")) == 1
+
+    @toc(show_toc_level=2)
+    def test_with_two_a_page_of_two_levels_has_no_deep_list(
         self, app: SphinxTestApp
     ) -> None:
-        assert deep(built(app)) == 1
-
-    @toc(show_toc_level=3)
-    def test_with_three_none_are_deep(self, app: SphinxTestApp) -> None:
         assert deep(built(app)) == 0
 
     @toc(show_toc_level=1)
-    def test_with_one_the_first_lists_are_deep_too(self, app: SphinxTestApp) -> None:
-        assert deep(built(app)) == 2
+    def test_with_one_the_second_level_is_deep_too(self, app: SphinxTestApp) -> None:
+        assert deep(built(app, "three.html")) == 2
 
     @toc(show_toc_level="3")
     def test_a_string_of_digits_is_a_level(self, app: SphinxTestApp) -> None:

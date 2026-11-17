@@ -427,9 +427,10 @@ class PageContents:
         """Draw the headings as nested lists the stylesheet and script mark.
 
         Args:
-            show_toc_level: The depth at which a list is left closed until
-                its section is read, where the page's first headings are in a
-                list of depth one.
+            show_toc_level: How many levels of headings are listed at all times.
+                A list deeper than this is left closed until its section is
+                read, where the page's first headings are in a list of depth
+                one.
 
         Returns:
             The lists' markup, empty when the page has no headings.
@@ -443,7 +444,7 @@ class PageContents:
                 for parent in self.parents(bullets)
             )
             bullets["classes"] = ["daisy-toc-list"]
-            if depth >= show_toc_level:
+            if depth > show_toc_level:
                 bullets["classes"] += ["daisy-toc-deep"]
         for link in headings.findall(nodes.reference):
             link["classes"] += ["daisy-toc-link"]

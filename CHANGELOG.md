@@ -55,3 +55,8 @@ All notable changes to this project are recorded here. The format follows
 - The `pygments_light_style` and `pygments_dark_style` options, which give code a Pygments style for each
   colour mode, and documentation of the `daisy-sphinx-escape` class, which leaves raw HTML to daisyUI's
   own styles, and of the daisyUI components compiled in for it.
+
+### Fixed
+
+- `show_toc_level` set to `2` now keeps the second level of headings listed in On this page at
+  all times. The levels were counted one too low, so `1` and `2` drew the same list.
