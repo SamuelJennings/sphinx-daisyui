@@ -19,6 +19,7 @@ author = "Sam Jennings"
 copyright = "2026, Sam Jennings"
 
 extensions = [
+    "layout_playground",
     "myst_parser",
     "sphinx_design",
     "sphinx_copybutton",
