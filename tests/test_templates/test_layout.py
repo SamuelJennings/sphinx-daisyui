@@ -132,7 +132,10 @@ class TestComponentLists:
         testroot="components",
         freshenv=True,
         confoverrides={
-            "html_theme_options": {"footer_start": ["second", "first"], "footer_end": []}
+            "html_theme_options": {
+                "footer_start": ["second", "first"],
+                "footer_end": [],
+            }
         },
     )
     def test_components_are_drawn_in_the_order_listed(self, app: SphinxTestApp) -> None:

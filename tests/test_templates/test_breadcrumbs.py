@@ -82,13 +82,14 @@ class TestBreadcrumbs:
         assert page.find("nav")[0]["aria-label"] == translate("Breadcrumb")
 
 
-@pytest.mark.sphinx("html", testroot="crumbs", freshenv=True)
-def test_a_parents_title_reaches_the_page_as_sphinx_wrote_it(
-    app: SphinxTestApp,
-) -> None:
-    page = breadcrumbs(app, "child.html")
+class TestParentMarkup:
+    @pytest.mark.sphinx("html", testroot="crumbs", freshenv=True)
+    def test_a_parents_title_reaches_the_page_as_sphinx_wrote_it(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = breadcrumbs(app, "child.html")
 
-    assert page is not None
-    assert [tag for tag, _ in page.tags].count("code") == 1
-    assert "&lt;" not in page.text
-    assert "&amp;amp;" not in page.text
+        assert page is not None
+        assert [tag for tag, _ in page.tags].count("code") == 1
+        assert "&lt;" not in page.text
+        assert "&amp;amp;" not in page.text

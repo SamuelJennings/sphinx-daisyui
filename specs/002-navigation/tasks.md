@@ -42,6 +42,7 @@ live in `tests/test_templates/`.
 - [ ] T006 [US1] Translation: `scripts/messages.ini` extracts the theme's Python, the catalogue
   template is regenerated, and tests in `tests/test_templates/test_translation.py` cover the new
   text. Documentation of the US1 options and components, and CHANGELOG.
+- [ ] T015 [US1] Group the parent-markup breadcrumb test in a class and wrap a long test line.
 
 ## Phase 3: User Story 3 - A reader finds their place on the page (P1)
 
