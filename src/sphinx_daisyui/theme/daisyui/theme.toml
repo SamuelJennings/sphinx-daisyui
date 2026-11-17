@@ -1,6 +1,7 @@
 [theme]
 inherit = "basic"
 stylesheets = ["styles/sphinx-daisyui.css"]
+sidebars = ["sidebar-nav.html"]
 
 [options]
 layout = "hHh LpR lff"

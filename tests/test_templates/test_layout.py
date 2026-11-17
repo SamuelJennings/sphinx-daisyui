@@ -15,6 +15,14 @@ def built(app: SphinxTestApp, name: str = "index.html") -> Page:
 
 class TestFrame:
     @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
+    def test_the_primary_sidebar_holds_none_of_the_basic_themes_sidebars(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = built(app)
+
+        assert [tag for tag in page.having("id") if tag["id"] == "searchbox"] == []
+
+    @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
     def test_the_default_code_arranges_the_page(self, app: SphinxTestApp) -> None:
         page = built(app)
 
