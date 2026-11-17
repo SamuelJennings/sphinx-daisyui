@@ -129,6 +129,25 @@ class ThemeOptions:
                 return {}
         return dict(value) if isinstance(value, dict) else {}
 
+    def names(self, name: str) -> list[str]:
+        """Read an option as a list of names.
+
+        Args:
+            name: The option's name.
+
+        Returns:
+            The values of a list or tuple, or the parts of a comma-separated
+            string, each as trimmed text, with empty ones dropped and each name
+            once in its first place. Anything else gives an empty list.
+        """
+        value = self.values.get(name)
+        if isinstance(value, str):
+            value = value.split(",")
+        if not isinstance(value, list | tuple):
+            return []
+        found = [str(item).strip() for item in value]
+        return list(dict.fromkeys(item for item in found if item))
+
     def static_url(self, path: str, pathto: Callable[..., str]) -> str:
         """Resolve the address of a file the site ships, from the current page.
 

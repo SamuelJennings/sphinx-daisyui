@@ -58,3 +58,9 @@ of their own, so `add_page_context` gives them an empty secondary sidebar and no
 
 `Icons` in `sphinx_daisyui.icons` reads the bundled `icons.json`, and `ICONS` is the one instance
 the templates and the Python share.
+
+## Theme names
+
+`themes.json` lists every theme daisyUI ships, in daisyUI's own order, which is the list a
+site's `theme_picker = true` offers. `scripts/themes.mjs` writes it from daisyUI's
+`themeOrder.js`, and `npm run build` rewrites it, so a daisyUI upgrade needs no edit by hand.

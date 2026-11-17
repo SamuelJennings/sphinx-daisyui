@@ -129,9 +129,7 @@ class TestRecords:
 
         assert options.records("name") == []
 
-    @pytest.mark.parametrize(
-        "value", ["not json", '{"a": 1}', "", None, 5, {"a": 1}]
-    )
+    @pytest.mark.parametrize("value", ["not json", '{"a": 1}', "", None, 5, {"a": 1}])
     def test_records_of_anything_else_is_empty(self, value: Any) -> None:
         assert ThemeOptions({"name": value}).records("name") == []
 
@@ -160,3 +158,30 @@ class TestStaticUrl:
         self, path: str, expected: str
     ) -> None:
         assert ThemeOptions({}).static_url(path, self.pathto) == expected
+
+
+class TestNames:
+    @pytest.mark.parametrize(
+        ("value", "expected"),
+        [
+            (["a", "b"], ["a", "b"]),
+            (("a", "b"), ["a", "b"]),
+            ("a, b ,c", ["a", "b", "c"]),
+            (["a", " ", "", "b"], ["a", "b"]),
+            (["b", "a", "b", "a"], ["b", "a"]),
+            ([1, "x"], ["1", "x"]),
+            ("a,,b", ["a", "b"]),
+            ("", []),
+            (None, []),
+            (True, []),
+            (3, []),
+            ({"a": 1}, []),
+        ],
+    )
+    def test_each_form_reads_as_names_once_in_first_place(
+        self, value: Any, expected: list[str]
+    ) -> None:
+        assert ThemeOptions({"name": value}).names("name") == expected
+
+    def test_an_unset_option_has_no_names(self) -> None:
+        assert ThemeOptions({}).names("name") == []
