@@ -18,3 +18,6 @@ All notable changes to this project are recorded here. The format follows
 - The brand: a logo for each colour mode and an optional name, set with Furo's `light_logo`,
   `dark_logo` and `sidebar_hide_name`, pydata-sphinx-theme's `logo` and `logo_link`, or Sphinx's
   `html_logo`.
+- Previous and next links at the end of each page, the `show_prev_next` option, a back to top
+  button, the `back_to_top_button` option, and the `navigation_with_keys` option, which turns on
+  Sphinx's arrow-key navigation.

@@ -112,3 +112,44 @@ class TestMarkupInTitles:
         href = links(page)["next"]["href"] or ""
         assert "&" not in href.replace("&amp;", "")
         assert (Path(app.outdir) / unquote(href)).exists()
+
+
+def head_links(page: Page, rel: str) -> list[dict[str, str | None]]:
+    return page.inside("head").find("link", rel=rel)
+
+
+def keys_option(app: SphinxTestApp) -> str:
+    script = (Path(app.outdir) / "_static" / "documentation_options.js").read_text()
+    return next(
+        line.split(":", 1)[1].strip(" ,\n")
+        for line in script.splitlines()
+        if "NAVIGATION_WITH_KEYS" in line
+    )
+
+
+class TestArrowKeys:
+    @pytest.mark.sphinx(
+        "html",
+        testroot="pages",
+        freshenv=True,
+        confoverrides=options(navigation_with_keys=True),
+    )
+    def test_the_option_switches_sphinxs_handler_on(self, app: SphinxTestApp) -> None:
+        read(app, "second.html")
+
+        assert keys_option(app) == "true"
+
+    @PAGES
+    def test_the_handler_is_off_by_default(self, app: SphinxTestApp) -> None:
+        read(app, "second.html")
+
+        assert keys_option(app) == "false"
+
+    @PAGES
+    def test_the_middle_page_names_its_neighbours_in_the_head(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = read(app, "second.html")
+
+        assert [tag["href"] for tag in head_links(page, "prev")] == ["first.html"]
+        assert [tag["href"] for tag in head_links(page, "next")] == ["sub/third.html"]

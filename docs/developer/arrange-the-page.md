@@ -100,6 +100,23 @@ describes each option.
 The footer now shows the template. A name that matches no template draws nothing and raises no
 warning, so a misspelt name leaves a gap and no message.
 
+## Moving between pages
+
+Each page ends with links to the previous and the next page in the table of contents. To turn
+them off, set `show_prev_next` to `False`.
+
+To let readers move with the left and right arrow keys, set `navigation_with_keys` to `True`:
+
+```python
+html_theme_options = {
+    "navigation_with_keys": True,
+}
+```
+
+A button that scrolls back to the top appears while the reader scrolls up, far down a page. Set
+`back_to_top_button` to `False` to remove it. All three options are described in
+[Options](../reference/options.md).
+
 ## How the page behaves for a reader
 
 The browser changes the page as the window changes:

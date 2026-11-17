@@ -22,6 +22,7 @@ html_theme_options = {
     "dark_logo": "logo-dark.svg",
     "footer_start": ["copyright", "last-updated"],
     "footer_end": ["sphinx-version", "theme-version"],
+    "navigation_with_keys": True,
 }
 
 if os.environ.get("DAISY_LAYOUT"):

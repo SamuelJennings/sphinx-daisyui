@@ -81,6 +81,30 @@ logo.
 - **Source:** pydata-sphinx-theme's `logo_link`
 - **Meaning:** Where the brand leads, when `logo["link"]` is not set.
 
+## Moving between pages
+
+### `show_prev_next`
+
+- **Type:** boolean
+- **Default:** `True`
+- **Meaning:** Whether each page ends with links to the previous and the next page in the
+  site's table of contents. A page with neither, and the search and index pages, show none.
+
+### `navigation_with_keys`
+
+- **Type:** boolean
+- **Default:** `False`
+- **Meaning:** Whether the left and right arrow keys move to the previous and the next page.
+  Sphinx's own script does the moving, and it ignores the keys while the reader types in a field
+  or holds a modifier key. The meaning is the one Sphinx's `basic` theme gives the option.
+
+### `back_to_top_button`
+
+- **Type:** boolean
+- **Default:** `True`
+- **Meaning:** Whether a button appears while the reader scrolls up, far down a page, that scrolls
+  back to the top.
+
 ## Component lists
 
 ### `navbar_start`
