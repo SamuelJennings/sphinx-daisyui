@@ -2,7 +2,7 @@
 {%- from 'components/macros.html' import components, icon_button with context %}
 {%- set d = daisy %}
 
-{%- block body_tag %}<body class="bg-base-100 text-base-content antialiased">{% endblock %}
+{%- block body_tag %}<body class="bg-base-100 text-base-content antialiased" data-daisy-root="{{ pathto('', 1)|e }}" data-daisy-suffix="{{ file_suffix|e }}" data-daisy-link-suffix="{{ link_suffix|e }}" data-daisy-builder="{{ builder|e }}" data-daisy-page="{{ pagename|e }}">{% endblock %}
 
 {%- block header %}
   <a href="#main-content" class="btn btn-primary btn-sm absolute -top-20 left-4 z-50 focus:top-2">Skip to content</a>
@@ -65,7 +65,7 @@
       </div>
     </main>
 
-    {%- if d.secondary %}
+    {%- if d.secondary and pagename not in ("search", "genindex") %}
       <aside class="daisy-area-secondary" aria-label="Page tools">
         <div class="daisy-secondary daisy-secondary-inner">{{ components(d.secondary) }}</div>
       </aside>

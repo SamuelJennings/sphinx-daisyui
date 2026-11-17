@@ -243,3 +243,90 @@ class TestComponentLists:
         assert len(buttons) == 1
         assert buttons[0]["data-tip"] == 'Tip "this"'
         assert "Do it <now>" not in page.text
+
+
+class TestReaderPage:
+    @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
+    def test_the_first_focusable_element_skips_to_the_main_landmark(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = built(app)
+
+        body = [tag for tag in page.tags if tag[0] == "body"]
+        assert body
+        after_body = page.tags[page.tags.index(body[0]) + 1 :]
+        first = next(attrs for name, attrs in after_body if name in {"a", "label"})
+        assert first["href"] == "#main-content"
+        assert len(page.find("main", id="main-content")) == 1
+
+    @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
+    def test_the_page_has_one_main_landmark_and_no_main_role(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = built(app)
+
+        assert len([name for name, _ in page.tags if name == "main"]) == 1
+        assert not [attrs for _, attrs in page.tags if attrs.get("role") == "main"]
+
+    @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
+    def test_both_sidebars_are_labelled_landmarks(self, app: SphinxTestApp) -> None:
+        page = built(app)
+
+        asides = [attrs for name, attrs in page.tags if name == "aside"]
+        assert len(asides) == 2
+        assert all(attrs.get("aria-label") for attrs in asides)
+        assert len({attrs["aria-label"] for attrs in asides}) == 2
+
+    @pytest.mark.sphinx("html", testroot="pages", freshenv=True)
+    def test_the_body_carries_the_values_sphinx_gives_for_the_index(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = built(app)
+
+        body = page.find("body")[0]
+        assert body["data-daisy-root"] == "./"
+        assert body["data-daisy-suffix"] == ".html"
+        assert body["data-daisy-link-suffix"] == ".html"
+        assert body["data-daisy-builder"] == "html"
+        assert body["data-daisy-page"] == "index"
+
+    @pytest.mark.sphinx("html", testroot="pages", freshenv=True)
+    def test_the_body_carries_the_root_of_a_page_in_a_subdirectory(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = built(app, "sub/third.html")
+
+        body = page.find("body")[0]
+        assert body["data-daisy-root"] == "../"
+        assert body["data-daisy-page"] == "sub/third"
+
+    @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
+    @pytest.mark.parametrize("name", ["search.html", "genindex.html"])
+    def test_the_secondary_sidebar_is_left_out_of_search_and_the_index(
+        self, app: SphinxTestApp, name: str
+    ) -> None:
+        page = built(app, name)
+
+        assert page.find("aside", **{"aria-label": "Page tools"}) == []
+        assert page.find("main", id="main-content")
+
+    @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
+    def test_the_secondary_sidebar_is_drawn_on_a_normal_page(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = built(app)
+
+        assert len([name for name, _ in page.tags if name == "aside"]) == 2
+
+    @pytest.mark.sphinx(
+        "html",
+        testroot="basic",
+        freshenv=True,
+        confoverrides={"html_theme_options": {"secondary_sidebar_items": ""}},
+    )
+    def test_an_empty_secondary_list_leaves_one_sidebar(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = built(app)
+
+        assert len([name for name, _ in page.tags if name == "aside"]) == 1
