@@ -71,7 +71,7 @@
           {% block body %}{% endblock %}
         </article>
         {{ components(d.article_footer_items) }}
-        {%- if d.show_prev_next and (prev or next) and pagename not in ("search", "genindex") %}
+        {%- if d.show_prev_next and (prev or next) %}
           <nav class="daisy-prev-next mt-12 grid gap-3 border-t border-base-300 pt-6 sm:grid-cols-2" aria-label="{{ _('Previous and next page')|e }}">
             {%- if prev %}
               <a href="{{ prev.link|e }}" rel="prev" class="group flex items-center gap-3 rounded-box border border-base-300 p-4 transition hover:border-primary/50 hover:bg-base-200 focus-visible:bg-base-200">

@@ -83,18 +83,6 @@ class TestPrevNext:
 
         assert links(page) == {}
 
-    @PAGES
-    def test_the_search_page_has_none(self, app: SphinxTestApp) -> None:
-        page = read(app, "search.html")
-
-        assert links(page) == {}
-
-    @PAGES
-    def test_the_index_page_has_none(self, app: SphinxTestApp) -> None:
-        page = read(app, "genindex.html")
-
-        assert links(page) == {}
-
 
 class TestMarkupInTitles:
     @MARKUP
