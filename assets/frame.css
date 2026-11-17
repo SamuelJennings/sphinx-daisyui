@@ -47,7 +47,6 @@ html[data-mode-choice="theme"] [data-daisy-mode-icon="theme"] { display: inline-
    doesn't move when it appears. */
 .daisy-area-header {
   border-bottom: 1px solid transparent;
-  transition: border-color 150ms ease, box-shadow 150ms ease;
 }
 .daisy-layout.daisy-scrolled > .daisy-area-header {
   border-bottom-color: var(--color-base-300);
