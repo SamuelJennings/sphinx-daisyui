@@ -42,7 +42,7 @@
     const place = () => {
       const from = narrow.matches ? end : slot;
       const to = narrow.matches ? slot : end;
-      while (from.firstChild) to.appendChild(from.firstChild);
+      while (from.firstElementChild) to.appendChild(from.firstElementChild);
     };
     narrow.addEventListener("change", place);
     place();
