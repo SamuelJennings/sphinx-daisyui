@@ -55,7 +55,8 @@
   if (!scroller || !current) return;
   const box = scroller.getBoundingClientRect();
   const entry = current.getBoundingClientRect();
-  if (entry.top < box.top || entry.bottom > box.bottom) {
+  /* An entry within a few lines of the edge counts as out of view, as in the prototype. */
+  if (entry.top < box.top || entry.bottom > box.bottom - 40) {
     scroller.scrollTop += entry.top - box.top - box.height / 3;
   }
 })();

@@ -76,3 +76,6 @@ live in `tests/test_templates/`.
   and a page in `docs/developer/`, CHANGELOG. Check scenarios 3 and 7 in headless Chrome.
 - [ ] T016 [US2] Header links mark the current section with `aria-current="true"`, since the
   link leads to the section, not the page being read. Wrap a long line in `docs/conf.py`.
+- [ ] T017 [US2] Fixes from the side-by-side check against the prototype: the section menu counts
+  `show_nav_level` from the sidebar's own first level, the drawer scrolls an entry near its edge
+  into view, and On this page marks again once the page has loaded.

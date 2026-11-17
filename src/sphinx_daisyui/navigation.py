@@ -233,7 +233,7 @@ class SiteNavigation:
             if bullets is None:
                 return Markup()
             bullets = copy.deepcopy(bullets)
-            self.decorate_list(bullets, 1, show_nav_level)
+            self.decorate_list(bullets, 0, show_nav_level)
             # Sphinx wrote the titles and Docutils escaped them when rendering.
             return Markup(self.builder.render_partial(bullets)["fragment"])  # type: ignore[attr-defined]  # noqa: S704
         return Markup()

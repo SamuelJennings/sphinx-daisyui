@@ -48,5 +48,8 @@
   };
 
   window.addEventListener("scroll", () => window.requestAnimationFrame(mark), { passive: true });
+  /* The page settles its height once styles and fonts load, which can bring its foot into view. */
+  window.addEventListener("load", mark);
+  window.addEventListener("resize", mark);
   mark();
 })();

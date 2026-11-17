@@ -288,3 +288,24 @@ class TestAlignment:
     @header(navbar_align="bogus")
     def test_an_unknown_alignment_is_the_default(self, app: SphinxTestApp) -> None:
         assert built(app).order("data-navbar-align") == ["content"]
+
+
+class TestSectionMenuLevels:
+    @pytest.mark.sphinx(
+        "html",
+        testroot="nav",
+        freshenv=True,
+        confoverrides={
+            "html_theme_options": {"navbar_center": ["navbar-nav"], "show_nav_level": 2}
+        },
+    )
+    def test_the_section_menus_first_level_counts_as_the_sidebars_first(
+        self, app: SphinxTestApp
+    ) -> None:
+        aside = built(app, "guide/other.html").inside("aside")
+
+        toggles = aside.find("button", type="button")
+        assert [t["aria-expanded"] for t in toggles if t.get("aria-label")] == [
+            "true",
+            "false",
+        ]
