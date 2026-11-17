@@ -8,6 +8,9 @@ from markupsafe import escape
 from sphinx.testing.util import SphinxTestApp
 from test_templates.page import Page
 
+from sphinx_daisyui.body import ADMONITION_ICONS, ICON_CLASSES
+from sphinx_daisyui.icons import ICONS
+
 REGION = "daisy-sphinx-scroll"
 TABLE_REGION = re.compile(rf'<div[^>]*class="{REGION}"[^>]*>\s*<table')
 OUTER_TABLES = 4
@@ -209,6 +212,21 @@ class TestAdmonitionIcons:
         iconed = re.findall(r'class="admonition-title[^"]*"[^>]*><svg', text)
         assert len(titles) == ADMONITIONS
         assert len(iconed) == ADMONITIONS
+
+    @pytest.mark.sphinx("html", testroot="body")
+    @pytest.mark.parametrize("kind", ["note", "warning", "tip", "danger", "seealso"])
+    def test_each_admonition_kind_carries_its_own_icon(
+        self, app: SphinxTestApp, kind: str
+    ) -> None:
+        text, _ = built(app)
+
+        found = re.search(
+            rf'<div class="admonition {kind}">\s*<p class="admonition-title">(<svg.*?</svg>)',
+            text,
+            re.DOTALL,
+        )
+        assert found is not None
+        assert found.group(1) == str(ICONS.svg(ADMONITION_ICONS[kind], ICON_CLASSES))
 
     @pytest.mark.sphinx("html", testroot="body")
     def test_every_version_note_starts_with_an_icon(self, app: SphinxTestApp) -> None:

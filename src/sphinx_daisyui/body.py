@@ -203,7 +203,10 @@ class PageBodyTranslator(HTML5Translator):
         super().visit_title(node)
         parent = node.parent
         if isinstance(parent, nodes.Admonition) and isinstance(parent, nodes.Element):
-            kind = next((c for c in parent["classes"] if c in ADMONITION_ICONS), "note")
+            # Docutils and Sphinx name the kind by the node's class; an extension
+            # such as sphinx.ext.todo marks its own kind with a class instead.
+            kinds = [type(parent).__name__, *parent["classes"]]
+            kind = next((k for k in kinds if k in ADMONITION_ICONS), "note")
             self.body.append(ICONS.svg(ADMONITION_ICONS[kind], ICON_CLASSES))
 
     def visit_versionmodified(self, node: nodes.Element) -> None:
