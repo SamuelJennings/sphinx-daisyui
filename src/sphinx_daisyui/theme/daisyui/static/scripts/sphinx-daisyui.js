@@ -54,6 +54,17 @@
   }
 
   /* ---------------------------------------------------------------- */
+  /* The header draws its line and shadow once the page has scrolled.  */
+  /* ---------------------------------------------------------------- */
+
+  const shell = $(".daisy-layout");
+  if (shell) {
+    const markScrolled = () => shell.classList.toggle("daisy-scrolled", scrollY > 0);
+    addEventListener("scroll", markScrolled, { passive: true });
+    markScrolled();
+  }
+
+  /* ---------------------------------------------------------------- */
   /* Sidebar navigation                                                */
   /* ---------------------------------------------------------------- */
 

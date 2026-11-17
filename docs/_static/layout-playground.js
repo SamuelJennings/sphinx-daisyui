@@ -104,6 +104,12 @@
   function update() {
     const p = parse(input.value);
     if (!p) {
+      // An unfinished code is fine while it's being typed: the mock-up keeps the last one.
+      if (input.value.replace(/\s+/g, "").length < 9) {
+        input.classList.remove("input-error");
+        if (!message.classList.contains("is-refusal")) message.textContent = "";
+        return;
+      }
       input.classList.add("input-error");
       input.setAttribute("aria-invalid", "true");
       message.textContent =
@@ -112,14 +118,59 @@
     }
     input.classList.remove("input-error");
     input.removeAttribute("aria-invalid");
-    message.textContent = "";
+    if (!message.classList.contains("is-refusal")) message.textContent = "";
     current = p;
     render(p);
   }
 
-  input.addEventListener("input", update);
+  /* Only what a layout code can hold gets into the field. Each position takes
+     only its own letters, a space is added after each group of three, and
+     anything else is refused with a sentence saying what that position takes. */
+  const SLOTS = ["hl", "h", "hr", " ", "l", "p", "r", " ", "fl", "f", "fr"];
+  const ROWS = ["top", "middle", "bottom"];
+  const ORDINAL = ["first", "second", "third"];
+  const NAMED = { h: "h (header)", l: "l (left sidebar)", p: "p (page)", r: "r (right sidebar)", f: "f (footer)" };
+
+  function tidy(value) {
+    const letters = value.replace(/\s+/g, "");
+    const groups = letters.match(/.{1,3}/g) || [];
+    let out = groups.join(" ");
+    if (/\s$/.test(value) && letters.length % 3 === 0 && letters.length && letters.length < 9) out += " ";
+    return out;
+  }
+
+  function firstWrong(value) {
+    for (let i = 0; i < value.length; i++) {
+      if (i >= SLOTS.length || !SLOTS[i].includes(value[i].toLowerCase())) return i;
+    }
+    return -1;
+  }
+
+  function refusal(index, ch) {
+    if (index >= SLOTS.length) return "A layout code is nine letters, in three groups of three.";
+    const slot = index - Math.floor(index / 4);
+    const row = ROWS[Math.floor(slot / 3)];
+    const allowed = [...SLOTS[index]].map((c) => NAMED[c]).join(" or ");
+    return `"${ch}" can't go there. The ${ORDINAL[slot % 3]} letter of the ${row} row is ${allowed}, in either case.`;
+  }
+
+  let accepted = input.value;
+  input.addEventListener("input", () => {
+    const tidied = tidy(input.value);
+    const wrong = firstWrong(tidied);
+    if (wrong !== -1) {
+      input.value = accepted;
+      message.textContent = refusal(wrong, tidied[wrong]);
+      message.classList.add("is-refusal");
+      return;
+    }
+    message.classList.remove("is-refusal");
+    if (tidied !== input.value) input.value = tidied;
+    accepted = input.value;
+    update();
+  });
   box.querySelectorAll("[data-code]").forEach((b) =>
-    b.addEventListener("click", () => { input.value = b.dataset.code; update(); })
+    b.addEventListener("click", () => { input.value = accepted = b.dataset.code; message.classList.remove("is-refusal"); update(); })
   );
   box.querySelectorAll("[data-screen-choice]").forEach((b) =>
     b.addEventListener("click", () => {

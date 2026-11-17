@@ -10,7 +10,7 @@
 .lp-msg:empty { display: none; }
 
 /* The code, one chip per letter in its area's colour. */
-.lp-chips { display: flex; gap: 0.25rem; font-family: var(--font-mono, ui-monospace, monospace); }
+.lp-chips { display: flex; justify-content: center; gap: 0.25rem; font-family: var(--font-mono, ui-monospace, monospace); }
 .lp-chips .lp-gap { width: 0.5rem; }
 .lp-chip {
   display: inline-grid; place-items: center; width: 1.75rem; height: 1.75rem;
@@ -53,7 +53,14 @@
   position: relative;
   min-width: 0;
   padding: 0.625rem 0.75rem;
-  border: 1px dashed color-mix(in oklab, var(--lp-c) 70%, transparent);
+}
+.lp-primary, .lp-secondary { padding: 0; }
+.lp-inner { padding: 0.625rem 0.75rem;
+}
+.lp-area {
+  /* An outline, not a border, so a sidebar's inner box sticks at its first pixel. */
+  outline: 1px dashed color-mix(in oklab, var(--lp-c) 70%, transparent);
+  outline-offset: -1px;
   background: color-mix(in oklab, var(--lp-c) 12%, var(--color-base-100));
   color: color-mix(in oklab, var(--lp-c) 55%, var(--color-base-content));
 }
@@ -87,6 +94,7 @@
 }
 
 @media (width < 40rem) {
-  .lp-area { padding: 0.5rem; }
+  .lp-area, .lp-inner { padding: 0.5rem; }
+  .lp-primary, .lp-secondary { padding: 0; }
   .lp-title { font-size: 0.75rem; }
 }

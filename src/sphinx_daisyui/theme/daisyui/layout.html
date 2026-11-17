@@ -52,7 +52,7 @@
   <div class="daisy-layout" style='--daisy-areas-lg: {{ lay.areas_lg }}; --daisy-areas-xl: {{ lay.areas_xl }}; --daisy-primary-top: {{ lay.primary_top }}; --daisy-secondary-top: {{ lay.secondary_top }};' data-layout="{{ lay.code }}"{% if lay.header_fixed %} data-header-fixed{% endif %}{% if lay.primary_fixed %} data-primary-fixed{% endif %}{% if lay.secondary_fixed %} data-secondary-fixed{% endif %}{% if lay.footer_fixed %} data-footer-fixed{% endif %}>
     <input id="daisy-drawer" type="checkbox" class="hidden" aria-hidden="true" tabindex="-1">
 
-    <header class="daisy-area-header daisy-navbar border-b border-base-300 bg-base-100/90 backdrop-blur supports-[backdrop-filter]:bg-base-100/75">
+    <header class="daisy-area-header daisy-navbar bg-base-100/90 backdrop-blur supports-[backdrop-filter]:bg-base-100/75">
       <div class="navbar mx-auto min-h-16 max-w-[96rem] gap-2 px-3 sm:px-4">
         <label for="daisy-drawer" class="btn btn-ghost btn-square btn-sm lg:hidden" aria-label="Open the navigation">{{ d.icon("menu") }}</label>
         <div class="flex min-w-0 items-center gap-2">
@@ -76,7 +76,7 @@
           <label for="daisy-drawer" class="btn btn-ghost btn-sm btn-square ms-auto" aria-label="Close the navigation">{{ d.icon("x") }}</label>
         </div>
         {%- if d.brand_in_sidebar %}
-          <div class="hidden min-h-16 items-center border-b border-base-300 px-4 lg:flex">{% include "components/navbar-logo.html" %}</div>
+          <div class="hidden min-h-16 items-center px-4 lg:flex">{% include "components/navbar-logo.html" %}</div>
         {%- endif %}
         <div class="flex flex-wrap items-center gap-1 border-b border-base-300 p-3 sm:hidden">{{ components(d.navbar_end) }}</div>
         {%- if d.sectioned and d.header_links %}

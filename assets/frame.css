@@ -41,6 +41,19 @@ html[data-mode-choice="theme"] [data-daisy-mode-icon="theme"] { display: inline-
 .daisy-area-footer { grid-area: footer; }
 
 .daisy-layout[data-header-fixed] > .daisy-area-header { position: sticky; top: 0; }
+
+/* The header has no line of its own until the page scrolls under it, as on
+   daisyUI's own site. The border is always there, transparent, so the page
+   doesn't move when it appears. */
+.daisy-area-header {
+  border-bottom: 1px solid transparent;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+.daisy-layout.daisy-scrolled > .daisy-area-header {
+  border-bottom-color: var(--color-base-300);
+  box-shadow: 0 1px 3px color-mix(in oklab, var(--color-base-content) 8%, transparent),
+    0 4px 12px -6px color-mix(in oklab, var(--color-base-content) 10%, transparent);
+}
 .daisy-layout[data-footer-fixed] > .daisy-area-footer { position: sticky; bottom: 0; z-index: 20; }
 
 /* The left sidebar as a drawer, below the breakpoint. */

@@ -39,7 +39,7 @@ Type a code or pick a recipe. Scroll inside the window to see which areas stay i
   <form class="lp-form" aria-label="Layout code">
     <label class="lp-field">
       <span class="lp-label">Layout code</span>
-      <input class="input input-sm lp-code" value="hHh LpR lff" spellcheck="false" autocomplete="off" aria-describedby="lp-msg">
+      <input class="input input-sm validator lp-code" value="hHh LpR lff" spellcheck="false" autocomplete="off" autocapitalize="off" maxlength="11" required pattern="[hHlL][hH][hHrR] [lL][pP][rR] [fFlL][fF][fFrR]" title="Three groups of three letters, such as hHh LpR lff" aria-describedby="lp-msg">
     </label>
     <div class="lp-group">
       <span class="lp-label">Recipes</span>

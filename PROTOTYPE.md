@@ -122,3 +122,9 @@ file is the record that would otherwise be its issue.
 - 2026-11-17 Sam: show the layout system as a live mock-up driven by a form, in daisyUI's
   browser mock-up. Decided on my own: recipes and a screen-size switch beside the code field,
   colour-coded letter chips, and a plain-language reading of the code under the mock-up.
+- 2026-11-17 Sam: centre the letter chips. The code field refuses what a layout code can't hold.
+  A sticky sidebar in the mock-up sticks at once. No line under the logo when the sidebar
+  reaches the top. The header gets its line and a small shadow only once the page scrolls, as
+  on daisyUI's site. Decided on my own: the field refuses a letter as it's typed, with a
+  sentence naming what that position takes, adds the spaces itself, and also carries the same
+  rule as an HTML `pattern`.
