@@ -105,7 +105,7 @@ class PageBodyTranslator(HTML5Translator):
             math_env: The math environment, for the renderers that take one.
 
         Raises:
-            SkipNode: Always, as the renderers do, once the equation is written.
+            nodes.SkipNode: Always, as the renderers do, once the equation is written.
         """
         if node.get("no-wrap", node.get("nowrap", False)):
             super().visit_math_block(node, math_env)
