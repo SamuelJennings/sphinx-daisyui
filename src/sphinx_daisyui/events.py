@@ -3,6 +3,7 @@
 from importlib.metadata import metadata, version
 from typing import Any
 
+from markupsafe import Markup
 from sphinx.application import Sphinx
 from sphinx.builders.html import StandaloneHTMLBuilder
 from sphinx.util import logging
@@ -95,6 +96,8 @@ def add_page_context(
     if app.config.html_theme != "daisyui":
         return
     options = ThemeOptions.from_context(context)
+    announcement = options.text("announcement").strip()
+    is_url = announcement.startswith(("http://", "https://"))
     context["daisy"] = {
         "layout": options.layout(),
         "brand": Brand.from_options(options, context),
@@ -105,4 +108,6 @@ def add_page_context(
         "secondary": options.components("secondary_sidebar_items"),
         "show_prev_next": options.flag("show_prev_next", True),
         "back_to_top": options.flag("back_to_top_button", True),
+        "announcement": "" if is_url else Markup(announcement),  # noqa: S704
+        "announcement_url": announcement if is_url else "",
     }
