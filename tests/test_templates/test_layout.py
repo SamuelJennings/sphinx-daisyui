@@ -330,3 +330,48 @@ class TestReaderPage:
         page = built(app)
 
         assert len([name for name, _ in page.tags if name == "aside"]) == 1
+
+
+class TestPageScripts:
+    @pytest.mark.sphinx("html", testroot="pages", freshenv=True)
+    @pytest.mark.parametrize(
+        ("name", "prefix"),
+        [("index.html", "_static/"), ("sub/third.html", "../_static/")],
+    )
+    def test_each_page_links_the_key_script_before_the_frame_script(
+        self, app: SphinxTestApp, name: str, prefix: str
+    ) -> None:
+        page = built(app, name)
+
+        sources = [
+            attrs["src"]
+            for tag, attrs in page.tags
+            if tag == "script" and "src" in attrs
+        ]
+        wanted = [f"{prefix}scripts/keys.js", f"{prefix}scripts/frame.js"]
+        assert [source for source in sources if source in wanted] == wanted
+        assert all(
+            "defer" in attrs
+            for tag, attrs in page.tags
+            if tag == "script" and attrs.get("src") in wanted
+        )
+
+    @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
+    def test_both_scripts_are_in_the_output(self, app: SphinxTestApp) -> None:
+        app.build()
+
+        scripts = Path(app.outdir) / "_static" / "scripts"
+        assert (scripts / "keys.js").is_file()
+        assert (scripts / "frame.js").is_file()
+
+    @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
+    def test_the_hooks_the_frame_script_reads_exist(self, app: SphinxTestApp) -> None:
+        page = built(app)
+
+        assert page.find("div", **{"data-layout": "hHh LpR lff"})
+        assert len(page.find("input", id="daisy-drawer")) == 1
+        assert len(page.having("data-daisy-navbar-end")) == 1
+        assert len(page.having("data-daisy-navbar-end-slot")) == 1
+        classes = [(attrs.get("class") or "").split() for _, attrs in page.tags]
+        for name in ("daisy-layout", "daisy-area-header", "daisy-area-primary"):
+            assert any(name in found for found in classes)

@@ -2,6 +2,12 @@
 {%- from 'components/macros.html' import components, icon_button with context %}
 {%- set d = daisy %}
 
+{%- block extrahead %}
+  {{- super() }}
+  <script defer src="{{ pathto('_static/scripts/keys.js', 1)|e }}"></script>
+  <script defer src="{{ pathto('_static/scripts/frame.js', 1)|e }}"></script>
+{%- endblock %}
+
 {%- block body_tag %}<body class="bg-base-100 text-base-content antialiased" data-daisy-root="{{ pathto('', 1)|e }}" data-daisy-suffix="{{ file_suffix|e }}" data-daisy-link-suffix="{{ link_suffix|e }}" data-daisy-builder="{{ builder|e }}" data-daisy-page="{{ pagename|e }}">{% endblock %}
 
 {%- block header %}
