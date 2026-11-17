@@ -21,7 +21,7 @@ classifiers = [
     "Topic :: Documentation :: Sphinx",
     "Topic :: Software Development :: Documentation",
 ]
-dependencies = ["docutils>=0.20", "markupsafe>=2.1", "sphinx>=7.4"]
+dependencies = ["docutils>=0.20", "markupsafe>=2.1", "pygments>=2.17", "sphinx>=7.4"]
 
 [project.entry-points."sphinx.html_themes"]
 daisyui = "sphinx_daisyui"
@@ -42,6 +42,7 @@ dev = [
     "pytest-cov>=7.1.0",
     "ruff>=0.15.22",
     "types-docutils>=0.20",
+    "types-pygments>=2.17",
 ]
 docs = [
     "myst-parser>=4.0",
