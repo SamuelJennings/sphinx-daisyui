@@ -7,7 +7,7 @@
     {%- if part == "trigger" %}
       {{ d.icon("history", "size-4") }}<span data-daisy-version-label>{{ d.switcher.version_match|e }}</span>{{ d.icon("chevron-down", "size-3.5 opacity-60") }}
     {%- else %}
-      <ul class="menu menu-sm w-full p-0" data-daisy-version-list></ul>
+      <ul class="menu w-full p-0" data-daisy-version-list></ul>
     {%- endif %}
   {%- endcall %}
 {%- endif %}
