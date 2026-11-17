@@ -1,8 +1,8 @@
 # sphinx-daisyui
 
-sphinx-daisyui is a Sphinx theme drawn with daisyUI 5 and Tailwind CSS 4. It reads the theme
-options of Furo and pydata-sphinx-theme, so a site configured for either can switch to it by
-changing one line, and every daisyUI colour theme works with it in light and dark.
+sphinx-daisyui is a Sphinx theme drawn with daisyUI 5 and Tailwind CSS 4. It has its own
+theme options, many named after pydata-sphinx-theme's, and every daisyUI colour theme works with
+it in light and dark.
 
 ```{toctree}
 :hidden:

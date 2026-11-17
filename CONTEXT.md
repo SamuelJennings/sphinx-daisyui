@@ -26,13 +26,13 @@ A daisyUI colour variable, such as `base-100`, `primary` or `base-content`, and 
 utilities built on it. Every colour the theme draws is a token. _Avoid_: colour variable, CSS var.
 
 **Theme option**
-A key of `html_theme_options`. A **borrowed option** is one Furo or pydata-sphinx-theme defines
-and the theme accepts under the same name. An **own option** is one only this theme defines, such
-as `layout`. _Avoid_: setting (Sphinx's word for a `conf.py` value), config key.
+A key of `html_theme_options`. Each is this theme's own, with one name and one shape, and many
+are named after pydata-sphinx-theme's. _Avoid_: setting (Sphinx's word for a `conf.py` value),
+config key, borrowed option.
 
 **Component**
 A template under `components/` that a site places by name in a component list such as
-`navbar_end` or `footer_start`, as pydata-sphinx-theme does. Furo's sidebar templates named in
+`navbar_end` or `footer_start`, as in pydata-sphinx-theme. The templates named in
 `html_sidebars` are components too. _Avoid_: partial, widget, snippet.
 
 **Area**
@@ -69,7 +69,7 @@ The headings of the page being read, in the secondary sidebar, or above the page
 screen. _Avoid_: local TOC, page TOC, outline.
 
 **Header links**
-Top-level sections of the site shown across the navbar, as pydata-sphinx-theme does when a site
+Top-level sections of the site shown across the navbar, as in pydata-sphinx-theme, when a site
 places `navbar-nav`. _Avoid_: tabs, top nav.
 
 **Page body**
@@ -91,7 +91,7 @@ banner on its own, notice.
 
 **Version switcher**
 The navbar menu that lists the site's published versions from a `switcher.json` file, as
-pydata-sphinx-theme defines it. _Avoid_: version picker, version dropdown.
+pydata-sphinx-theme names it. _Avoid_: version picker, version dropdown.
 
 **Icon link**
 A link shown as an icon in the navbar or footer, such as the site's repository or its chat.

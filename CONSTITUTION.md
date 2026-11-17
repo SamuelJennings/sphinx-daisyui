@@ -32,8 +32,8 @@ Sphinx's template environment does not autoescape, so escaping is written out.
   context with `|e`. The exception is markup Sphinx itself produced, such as `body` or `toc`.
 - Python that builds markup from option text escapes it with `markupsafe.escape`, never an
   f-string.
-- An announcement is the site author's own HTML, as in Furo and pydata-sphinx-theme, and is
-  printed as markup. That includes one fetched from a URL the site author names.
+- An announcement is the site author's own HTML and is printed as markup. That includes one
+  fetched from a URL the site author names.
 - The page script inserts page and search-index text with `textContent`, never by assigning
   HTML built from it.
 - Secrets live in runtime configuration, never in code, test sites or version control.
@@ -80,20 +80,19 @@ utilities that genuinely share no subject.
 
 ## Project articles
 
-### Article X — Another theme's configuration builds unchanged
-A theme option, `html_sidebars` template name or component name that Furo or
-pydata-sphinx-theme defines is accepted under the same name, with the same type and meaning.
-An option the theme can't honour yet is accepted and ignored, never an error. When an option of
-this theme's own and a borrowed option would set the same thing, the borrowed option keeps its
-meaning. A change that makes a configuration which built before warn or fail is a breaking
-change.
+### Article X — The theme has its own options
+The options are this theme's own. Where pydata-sphinx-theme has an option for the same setting,
+the theme uses its name and shape, and takes another theme's only where pydata-sphinx-theme has
+nothing as good. Each setting has one name and one shape. No option, template name, component
+name or variable exists only to accept another theme's configuration, and none is accepted and
+ignored. A site coming from another theme reconfigures.
 
 ### Article XI — Every colour is a daisyUI token
 Stylesheets and templates name colours only through daisyUI's tokens (`base-100`, `primary`,
 `base-content` and the rest) and Tailwind utilities built on them. No hard-coded colour value,
 so every daisyUI theme works, in light and dark. This includes code highlighting and the
 variables of extensions the theme styles, such as sphinx-design's. A site may choose colours of
-its own, such as a Pygments style or Furo's CSS variables, and the theme applies them as given.
+its own, such as a Pygments style, and the theme applies them as given.
 
 ### Article XII — No Node for users
 The compiled stylesheet ships in the wheel and the sdist. Installing or using the theme never
@@ -143,4 +142,4 @@ Read at plan and review. Applies to every change.
 
 ---
 
-**Version**: 1.1.0 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-17
+**Version**: 1.2.0 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-17

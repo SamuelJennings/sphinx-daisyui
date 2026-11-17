@@ -11,9 +11,10 @@
 [![Licence](https://img.shields.io/github/license/SamuelJennings/sphinx-daisyui)](https://github.com/SamuelJennings/sphinx-daisyui/blob/main/LICENSE)
 
 A [Sphinx](https://www.sphinx-doc.org/) theme drawn with [daisyUI](https://daisyui.com/) 5 and
-Tailwind CSS 4. It reads the `html_theme_options` of
-[Furo](https://pradyunsg.me/furo/) and [pydata-sphinx-theme](https://pydata-sphinx-theme.readthedocs.io/),
-so a site using either can switch by changing one line.
+Tailwind CSS 4. It has its own `html_theme_options`, named and shaped after those of
+[pydata-sphinx-theme](https://pydata-sphinx-theme.readthedocs.io/) where it has the same setting.
+A site coming from [Furo](https://pradyunsg.me/furo/) or pydata-sphinx-theme reconfigures, and
+the layout option can give it a page arranged like either.
 
 ## Why
 
@@ -21,9 +22,6 @@ Most Sphinx themes are drawn with Bootstrap or with a stylesheet of their own. d
 component library and 35 ready-made colour themes on Tailwind's tokens, each with a light and a
 dark variant. A theme built on it gets every one of those themes for free, and a site that
 already uses daisyUI elsewhere gets documentation that looks like the rest of it.
-
-Switching theme usually means rewriting `conf.py`. This theme accepts the options the two most
-used modern themes already define, so the configuration a site has keeps working.
 
 ## Status
 
@@ -46,8 +44,8 @@ html_theme = "daisyui"
 **What it is**
 
 - A Sphinx HTML theme drawn with daisyUI 5.
-- A drop-in for a site configured for Furo or pydata-sphinx-theme: their options are read as
-  they are written.
+- A theme with its own options, which follow pydata-sphinx-theme's names and shapes where it has
+  the same setting. A site coming from Furo or pydata-sphinx-theme reconfigures.
 - Every colour comes from a daisyUI token, so any daisyUI theme works, in light and dark.
 - The page layout can be rearranged with one option.
 
@@ -59,20 +57,20 @@ html_theme = "daisyui"
 - Something that needs Node to use. The compiled stylesheet ships in the package. A site
   changes the look with daisyUI's CSS variables in its own static files.
 
-**When two goals conflict**, a configuration that already builds with Furo or
-pydata-sphinx-theme keeping on building wins over a new option of this theme's own.
+**When two goals conflict**, one name and one shape for each option wins over resemblance to
+another theme.
 
 ### Prior art
 
 - [Furo](https://github.com/pradyunsg/furo) and
   [pydata-sphinx-theme](https://github.com/pydata/pydata-sphinx-theme) are the themes most
   modern Sphinx sites use. pydata-sphinx-theme is drawn with Bootstrap 5. Furo has a stylesheet of
-  its own. This theme follows their layout and reads their options rather than competing with
-  them on new ones.
+  its own. This theme borrows their page layout and the names of
+  pydata-sphinx-theme's options, and has options of its own.
 - [Shibuya](https://github.com/lepture/shibuya) and
   [sphinxawesome-theme](https://github.com/kai687/sphinxawesome-theme) are modern themes with their
   own options. sphinxawesome-theme is built on Tailwind.
-- None of them uses daisyUI, and none reads another theme's options.
+- None of them uses daisyUI.
 
 ## Contributing
 

@@ -32,7 +32,7 @@ repeating:
 
 - An **admonition** is named after its directive. Never call it a notice or a callout.
 - A **daisyUI theme** is one of daisyUI's colour sets. "Theme" on its own is this package.
-- A **borrowed option** keeps the name and meaning Furo or pydata-sphinx-theme gave it.
+- A **theme option** has one name and one shape. Never add a second spelling of an existing one.
 
 ## The prototype is the look
 

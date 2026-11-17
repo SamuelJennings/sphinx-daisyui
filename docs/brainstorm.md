@@ -16,9 +16,9 @@ Working notes from setting the project up. Nothing here is a ratified decision: 
 
 - **daisyUI.** None of the above uses it. With it come daisyUI's 35 colour themes in light and
   dark from one stylesheet, and documentation that looks like a site already built with daisyUI.
-- **Reading another theme's options.** No theme accepts Furo's or pydata-sphinx-theme's options,
-  so changing theme means rewriting `conf.py`. Accepting both lowers the cost of trying this one
-  to a single line.
+- **Options modelled on pydata-sphinx-theme's.** One name and one shape for each setting, with
+  no layer that accepts another theme's configuration. A site coming from Furo or
+  pydata-sphinx-theme reconfigures.
 - **A layout code.** The five areas of the page can be rearranged with one option, in Quasar's
   notation, which no Sphinx theme offers.
 
@@ -31,7 +31,6 @@ from the start.
 
 ## Viability
 
-The prototype on the branch `prototype-theme` builds the documentation three times: with the
-theme's own options, with a Furo configuration and with a pydata-sphinx-theme configuration. It
-answers the open question, whether one theme can honour both sets of options, for the options
-those two configurations use.
+The prototype on the branch `prototype-theme` builds the documentation with the theme's own
+options and shows the page layouts of Furo and of pydata-sphinx-theme, which the layout option
+reproduces.
