@@ -70,11 +70,9 @@ class VersionSwitcher:
             outdir: The build's output directory, where a path is read from.
 
         Returns:
-            The file's parsed JSON.
-
-        Raises:
-            OSError: When the file cannot be read or the address not reached.
-            ValueError: When the file is not JSON.
+            The file's parsed JSON. An unreadable file, an address that cannot
+            be reached or text that is not JSON raises ``OSError`` or
+            ``ValueError``, which the caller handles.
         """
         if self.remote:
             url = "https:" + self.json_url if self.json_url[0] == "/" else self.json_url
