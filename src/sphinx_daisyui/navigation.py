@@ -1,0 +1,228 @@
+"""The site navigation: the toctrees drawn as one menu, read from the doctree."""
+
+import copy
+import inspect
+from functools import cached_property
+from typing import Any
+
+from docutils import nodes
+from markupsafe import Markup
+from sphinx.builders import Builder
+from sphinx.environment import BuildEnvironment
+from sphinx.environment.adapters.toctree import global_toctree_for_doc
+from sphinx.locale import get_translation
+from sphinx.writers.html5 import HTML5Translator
+
+from .icons import ICONS
+
+translate = get_translation("sphinx")
+
+# Sphinx 7.4 takes no ``tags``; later versions warn when they are left out.
+TAGS_ACCEPTED = "tags" in inspect.signature(global_toctree_for_doc).parameters
+EXTERNAL_SCHEMES = ("http://", "https://")
+TOGGLE_HTML = (
+    '<button type="button" class="daisy-nav-toggle btn btn-ghost btn-xs btn-square" '
+    'aria-expanded="{expanded}" aria-label="{label}">{icon}</button>'
+)
+
+
+class CurrentLink(nodes.reference):
+    """The link to the page being read, which carries ``aria-current="page"``."""
+
+
+def visit_current_link(translator: HTML5Translator, node: CurrentLink) -> None:
+    """Write the opening tag of the current page's link.
+
+    Args:
+        translator: The HTML translator writing the page.
+        node: The link to the current page.
+    """
+    attributes: dict[str, Any] = {
+        "href": node.get("refuri") or "#",
+        "CLASS": "reference internal",
+        "aria-current": "page",
+    }
+    translator.body.append(translator.starttag(node, "a", "", **attributes))
+
+
+def depart_current_link(translator: HTML5Translator, node: CurrentLink) -> None:
+    """Write the closing tag of the current page's link.
+
+    Args:
+        translator: The HTML translator writing the page.
+        node: The link to the current page.
+    """
+    translator.body.append("</a>")
+
+
+class SiteNavigation:
+    """The site's toctrees, read once for a page and drawn as a menu.
+
+    Args:
+        env: The build environment holding the toctrees.
+        docname: The page being built.
+        builder: The HTML builder, which renders the nodes.
+        maxdepth: How many levels of entries to keep; zero keeps them all.
+        collapse: Whether to leave out the children of entries off the
+            current page's path.
+        includehidden: Whether to include the toctrees marked ``:hidden:``.
+    """
+
+    def __init__(
+        self,
+        env: BuildEnvironment,
+        docname: str,
+        builder: Builder,
+        maxdepth: int,
+        collapse: bool,
+        includehidden: bool,
+    ) -> None:
+        self.env = env
+        self.docname = docname
+        self.builder = builder
+        self.maxdepth = maxdepth
+        self.collapse = collapse
+        self.includehidden = includehidden
+
+    @cached_property
+    def tree(self) -> nodes.Element | None:
+        """The site's toctrees as Sphinx builds them for the page.
+
+        Returns:
+            The nodes, or ``None`` when the site has no toctree or the builder
+            gives the page no menu.
+        """
+        if self.builder.name == "singlehtml":
+            return None
+        extra = {"tags": self.builder.tags} if TAGS_ACCEPTED else {}
+        return global_toctree_for_doc(
+            self.env,
+            self.docname,
+            self.builder,
+            **extra,
+            collapse=self.collapse,
+            includehidden=self.includehidden,
+            maxdepth=self.maxdepth,
+            titles_only=True,
+        )
+
+    def menu(self, show_nav_level: int) -> Markup:
+        """Draw the site's toctrees as the menu of the primary sidebar.
+
+        Args:
+            show_nav_level: How many levels of entries are open on a page off
+                the current path.
+
+        Returns:
+            The menu's markup, empty when there is nothing to draw.
+        """
+        if self.tree is None:
+            return Markup()
+        tree = copy.deepcopy(self.tree)
+        for bullets in tree.children:
+            if isinstance(bullets, nodes.bullet_list):
+                self.decorate_list(bullets, 0, show_nav_level)
+        captions: list[nodes.Element] = [
+            *tree.findall(nodes.title),
+            *tree.findall(nodes.caption),
+        ]
+        for caption in captions:
+            caption["classes"] += ["daisy-section-label", "daisy-nav-caption"]
+        # Sphinx wrote the titles and Docutils escaped them when rendering.
+        return Markup(self.builder.render_partial(tree)["fragment"])  # type: ignore[attr-defined]  # noqa: S704
+
+    def decorate_list(
+        self, bullets: nodes.bullet_list, depth: int, show_nav_level: int
+    ) -> None:
+        """Mark a list of entries, and the lists under them, for the stylesheet.
+
+        Args:
+            bullets: The list to mark, changed in place.
+            depth: How many lists enclose it; zero for a top-level list.
+            show_nav_level: How many levels of entries are open off the path.
+        """
+        bullets["classes"] = ["daisy-nav-list"]
+        for item in bullets.children:
+            if isinstance(item, nodes.list_item):
+                self.decorate_item(item, depth, show_nav_level)
+
+    def decorate_item(
+        self, item: nodes.list_item, depth: int, show_nav_level: int
+    ) -> None:
+        """Mark one entry: its link, its place on the path and its toggle.
+
+        Args:
+            item: The entry to mark, changed in place.
+            depth: How many lists enclose it, less one.
+            show_nav_level: How many levels of entries are open off the path.
+        """
+        on_path = "current" in item["classes"]
+        children = [c for c in item.children if isinstance(c, nodes.bullet_list)]
+        item["classes"] = ["daisy-nav-item"]
+        link = next(item[0].findall(nodes.reference), None) if item.children else None
+        if link is not None:
+            link["classes"] += ["daisy-nav-link"]
+            if on_path and not any(
+                "current" in n["classes"]
+                for n in item.findall(nodes.list_item)
+                if n is not item
+            ):
+                self.replace_with_current_link(link)
+            elif on_path:
+                link["classes"] += ["daisy-on-path"]
+            if str(link.get("refuri", "")).startswith(EXTERNAL_SCHEMES):
+                self.mark_external(link)
+        for bullets in children:
+            self.decorate_list(bullets, depth + 1, show_nav_level)
+        if children:
+            item["classes"] += ["daisy-nav-branch"]
+            title = link.astext() if link is not None else ""
+            self.add_toggle(item, title, on_path or depth < show_nav_level - 1)
+
+    @staticmethod
+    def replace_with_current_link(link: nodes.reference) -> None:
+        """Swap a link for the one that marks the current page.
+
+        Args:
+            link: The link to the current page, replaced in its entry.
+        """
+        current = CurrentLink("", "", *link.children, **link.attributes)
+        current["classes"] += ["menu-active"]
+        link.replace_self(current)
+
+    @staticmethod
+    def mark_external(link: nodes.reference) -> None:
+        """Mark a link that leads outside the site, for sight and for readers.
+
+        Args:
+            link: The external link, changed in place.
+        """
+        link["classes"] += ["daisy-external"]
+        link += nodes.raw(
+            "",
+            str(ICONS.svg("external-link", "size-3.5 opacity-60 shrink-0")),
+            format="html",
+        )
+        link += nodes.inline(
+            "", translate("(leads outside the site)"), classes=["sr-only"]
+        )
+
+    @staticmethod
+    def add_toggle(item: nodes.list_item, title: str, is_open: bool) -> None:
+        """Put the button that opens and closes an entry beside its link.
+
+        Args:
+            item: The entry, whose first child is the paragraph holding its
+                link, changed in place.
+            title: The entry's title, which names the button.
+            is_open: Whether the entry's pages are shown to begin with.
+        """
+        # The template is this module's own; format() escapes every value given.
+        html = Markup(TOGGLE_HTML).format(  # noqa: S704
+            expanded="true" if is_open else "false",
+            label=translate("Show the pages in %(title)s") % {"title": title},
+            icon=ICONS.svg("chevron-right", "size-4"),
+        )
+        paragraph = item.children[0]
+        if isinstance(paragraph, nodes.Element):
+            paragraph += nodes.raw("", str(html), format="html")

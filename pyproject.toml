@@ -41,6 +41,7 @@ dev = [
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "ruff>=0.15.22",
+    "types-docutils>=0.20",
 ]
 docs = ["myst-parser>=4.0", "sphinx-autobuild>=2024.10.3"]
 

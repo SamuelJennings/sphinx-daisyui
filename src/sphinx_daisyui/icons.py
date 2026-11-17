@@ -37,3 +37,6 @@ class Icons:
         attributes = f'class="{escape(classes)}" aria-hidden="true" focusable="false" '
         # The source is the bundled file and the classes are escaped above.
         return Markup(source.replace("<svg ", f"<svg {attributes}", 1))  # noqa: S704
+
+
+ICONS = Icons()

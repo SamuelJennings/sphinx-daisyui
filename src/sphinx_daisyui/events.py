@@ -9,12 +9,11 @@ from sphinx.builders.html import StandaloneHTMLBuilder
 from sphinx.util import logging
 
 from .brand import Brand
-from .icons import Icons
+from .icons import ICONS
 from .layout import LayoutCodeError
 from .options import ThemeOptions
 
 LOGGER = logging.getLogger(__name__)
-ICONS = Icons()
 VERSION = version("sphinx-daisyui")
 COMPONENT_OPTIONS = (
     "navbar_start",
