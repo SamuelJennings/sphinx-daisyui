@@ -6,6 +6,10 @@ All notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
+### Changed
+
+- The package is marked beta on PyPI, and its project links point at the documentation site.
+
 ## [v0.1.0] - 2026-11-17
 
 ### Added

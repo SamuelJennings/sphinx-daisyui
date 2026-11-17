@@ -28,7 +28,7 @@ already uses daisyUI elsewhere gets documentation that looks like the rest of it
 
 ## Status
 
-Pre-alpha. v0.1.0 is the first release, and options may still change before 1.0. It has:
+Beta. v0.1.0 is the first release, and options may still change before 1.0. It has:
 
 - the page layout, rearranged with the `layout` option and filled from component lists
 - site navigation, breadcrumbs, header links and the On this page list
