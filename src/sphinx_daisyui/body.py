@@ -12,11 +12,13 @@ from sphinx.util.math import get_node_equation_number
 from sphinx.writers.html5 import HTML5Translator
 
 from .icons import ICONS
+from .navigation import NavigationMenu
 
 translate = get_translation("sphinx")
 
 REGION_CLASS = "daisy-sphinx-scroll"
 ATTRIBUTION_SPACE = "\N{THIN SPACE}"
+TOCTREE_OPEN_LEVELS = 2
 ICON_CLASSES = "size-4.5 shrink-0"
 ADMONITION_ICONS = {
     "note": "info",
@@ -69,6 +71,23 @@ class PageBodyTranslator(HTML5Translator):
             tabindex="0",
             **{"aria-label": name},  # type: ignore[arg-type]
         )
+
+    def visit_compact_paragraph(self, node: nodes.Element) -> None:
+        """Draw a toctree written in a page as the sidebar's menu is drawn.
+
+        The sidebar's own menu is rendered through this translator too, already
+        decorated, so lists that carry the menu's class are left as they are.
+
+        Args:
+            node: The paragraph; only one holding a resolved toctree is changed.
+        """
+        menu = NavigationMenu(TOCTREE_OPEN_LEVELS)
+        lists = [c for c in node.children if isinstance(c, nodes.bullet_list)]
+        if node.get("toctree") and not any(menu.decorated(b) for b in lists):
+            for bullets in lists:
+                menu.decorate(bullets)
+            menu.mark_captions(node)
+        super().visit_compact_paragraph(node)
 
     def visit_table(self, node: nodes.table) -> None:
         """Put an outermost table in a scroll region named by its caption.

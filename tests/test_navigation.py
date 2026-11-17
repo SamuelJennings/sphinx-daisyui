@@ -12,6 +12,7 @@ from test_templates.page import Page
 from sphinx_daisyui.navigation import (
     HeaderLink,
     HeaderLinks,
+    NavigationMenu,
     PageContents,
     SiteNavigation,
     translate,
@@ -223,7 +224,7 @@ class TestToggles:
         item = nodes.list_item()
         item += addnodes.compact_paragraph()
 
-        SiteNavigation.add_toggle(item, '<b>"x" & y', is_open=False)
+        NavigationMenu.add_toggle(item, '<b>"x" & y', is_open=False)
 
         html = item[0][0]
         assert isinstance(html, nodes.raw)
@@ -235,7 +236,7 @@ class TestToggles:
         item = nodes.list_item()
         item += addnodes.compact_paragraph()
 
-        SiteNavigation.add_toggle(item, "Title", is_open=True)
+        NavigationMenu.add_toggle(item, "Title", is_open=True)
 
         assert 'aria-expanded="true"' in item[0][0].astext()
 

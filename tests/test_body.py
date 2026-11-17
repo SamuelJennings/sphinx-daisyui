@@ -2,6 +2,9 @@ import re
 from pathlib import Path
 
 import pytest
+from babel.messages import Catalog
+from babel.messages.mofile import write_mo
+from markupsafe import escape
 from sphinx.testing.util import SphinxTestApp
 from test_templates.page import Page
 
@@ -246,3 +249,111 @@ class TestPygmentsStylesheet:
 
         hrefs = [str(link["href"]) for link in page.find("link", rel="stylesheet")]
         assert any(href.split("?")[0].endswith("pygments.css") for href in hrefs)
+
+
+TOGGLE = "Show the pages in %(title)s"
+TOC_TITLE = "Fish & <chips>"
+EXTERNAL = "https://example.com/"
+BRANCHES = 3
+TOCTREES = 2
+SECTION_LABEL = "daisy-section-label"
+
+
+@pytest.fixture
+def toggle_catalogue(app_params: object) -> Catalog:
+    """Compile a German catalogue into the test site before Sphinx loads it."""
+    catalogue = Catalog(locale="de")
+    catalogue.add(TOGGLE, "Seiten in %(title)s anzeigen")
+    srcdir = Path(app_params.kwargs["srcdir"])  # type: ignore[attr-defined]
+    folder = srcdir / "locale" / "de" / "LC_MESSAGES"
+    folder.mkdir(parents=True, exist_ok=True)
+    with (folder / "sphinx.mo").open("wb") as stream:
+        write_mo(stream, catalogue)
+    return catalogue
+
+
+def article(app: SphinxTestApp) -> tuple[str, Page]:
+    """Build the site and read the article of its home page."""
+    app.build()
+    page = Page.read(Path(app.outdir) / "index.html")
+    return page.text, page.inside("article")
+
+
+class TestTocTreeInPage:
+    @pytest.mark.sphinx("html", testroot="page-toctree", freshenv=True)
+    def test_toggles_sit_only_on_entries_with_pages_below(
+        self, app: SphinxTestApp
+    ) -> None:
+        _, body = article(app)
+
+        assert len(body.classed("button", "daisy-nav-toggle")) == BRANCHES
+        assert len(body.classed("li", "daisy-nav-branch")) == BRANCHES
+
+    @pytest.mark.sphinx("html", testroot="page-toctree", freshenv=True)
+    def test_entries_stay_links(self, app: SphinxTestApp) -> None:
+        _, body = article(app)
+
+        hrefs = [link["href"] for link in body.classed("a", "daisy-nav-link")]
+        for href in ["a/index.html", "a/b/index.html", "leaf.html", EXTERNAL]:
+            assert href in hrefs
+
+    @pytest.mark.sphinx("html", testroot="page-toctree", freshenv=True)
+    def test_the_first_two_levels_are_open_and_deeper_ones_closed(
+        self, app: SphinxTestApp
+    ) -> None:
+        _, body = article(app)
+
+        toggles = body.classed("button", "daisy-nav-toggle")
+        assert [t["aria-expanded"] for t in toggles] == ["true", "false", "true"]
+
+    @pytest.mark.sphinx("html", testroot="page-toctree", freshenv=True)
+    def test_each_toggle_is_named_by_its_entry_and_the_title_is_escaped(
+        self, app: SphinxTestApp
+    ) -> None:
+        text, body = article(app)
+
+        toggles = body.classed("button", "daisy-nav-toggle")
+        names = [t["aria-label"] or "" for t in toggles]
+        assert TOC_TITLE in names[0]
+        assert "Level two" in names[1]
+        assert "Second" in names[2]
+        assert escape(TOC_TITLE) in text
+        assert TOC_TITLE not in text
+
+    @pytest.mark.sphinx("html", testroot="page-toctree", freshenv=True)
+    def test_a_toggles_name_is_translated(
+        self, toggle_catalogue: Catalog, app: SphinxTestApp
+    ) -> None:
+        _, body = article(app)
+
+        message = toggle_catalogue.get(TOGGLE)
+        assert message is not None
+        toggles = body.classed("button", "daisy-nav-toggle")
+        names = [t["aria-label"] for t in toggles]
+        assert str(message.string) % {"title": "Level two"} in names
+
+    @pytest.mark.sphinx("html", testroot="page-toctree", freshenv=True)
+    def test_captions_carry_the_sidebars_section_label(
+        self, app: SphinxTestApp
+    ) -> None:
+        _, body = article(app)
+
+        assert len(body.classed("p", SECTION_LABEL)) == TOCTREES
+
+    @pytest.mark.sphinx("html", testroot="page-toctree", freshenv=True)
+    def test_a_hidden_toctree_draws_nothing(self, app: SphinxTestApp) -> None:
+        _, body = article(app)
+
+        hrefs = [link.get("href") for link in body.classed("a", "reference")]
+        assert "secret.html" not in hrefs
+        assert len(body.classed("p", SECTION_LABEL)) == TOCTREES
+
+    @pytest.mark.sphinx("html", testroot="page-toctree", freshenv=True)
+    def test_the_external_entry_has_the_mark_and_no_toggle(
+        self, app: SphinxTestApp
+    ) -> None:
+        _, body = article(app)
+
+        external = body.classed("a", "daisy-external")
+        assert [link["href"] for link in external] == [EXTERNAL]
+        assert len(body.classed("button", "daisy-nav-toggle")) == BRANCHES

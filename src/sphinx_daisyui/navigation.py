@@ -119,6 +119,142 @@ def depart_current_link(translator: HTML5Translator, node: CurrentLink) -> None:
     translator.body.append("</a>")
 
 
+class NavigationMenu:
+    """Marks lists of toctree entries for the stylesheet and the script.
+
+    The sidebar and a toctree written in a page are drawn by the same code.
+
+    Args:
+        show_nav_level: How many levels of entries are open on a page off the
+            current path.
+    """
+
+    def __init__(self, show_nav_level: int) -> None:
+        self.show_nav_level = show_nav_level
+
+    def decorate(self, bullets: nodes.bullet_list) -> None:
+        """Mark a top-level list of entries, and the lists under it.
+
+        Args:
+            bullets: The list to mark, changed in place.
+        """
+        self.decorate_list(bullets, 0)
+
+    @staticmethod
+    def decorated(bullets: nodes.bullet_list) -> bool:
+        """Tell whether a list of entries has been marked already.
+
+        Args:
+            bullets: The list to look at.
+
+        Returns:
+            Whether ``decorate`` has been run on it.
+        """
+        return "daisy-nav-list" in bullets["classes"]
+
+    @staticmethod
+    def mark_captions(tree: nodes.Element) -> None:
+        """Mark the captions of toctrees as section labels.
+
+        Args:
+            tree: The nodes holding the captions, changed in place.
+        """
+        captions: list[nodes.Element] = [
+            *tree.findall(nodes.title),
+            *tree.findall(nodes.caption),
+        ]
+        for caption in captions:
+            caption["classes"] += ["daisy-section-label", "daisy-nav-caption"]
+
+    def decorate_list(self, bullets: nodes.bullet_list, depth: int) -> None:
+        """Mark a list of entries, and the lists under them, for the stylesheet.
+
+        Args:
+            bullets: The list to mark, changed in place.
+            depth: How many lists enclose it; zero for a top-level list.
+        """
+        bullets["classes"] = ["daisy-nav-list"]
+        for item in bullets.children:
+            if isinstance(item, nodes.list_item):
+                self.decorate_item(item, depth)
+
+    def decorate_item(self, item: nodes.list_item, depth: int) -> None:
+        """Mark one entry: its link, its place on the path and its toggle.
+
+        Args:
+            item: The entry to mark, changed in place.
+            depth: How many lists enclose it, less one.
+        """
+        on_path = "current" in item["classes"]
+        children = [c for c in item.children if isinstance(c, nodes.bullet_list)]
+        item["classes"] = ["daisy-nav-item"]
+        link = next(item[0].findall(nodes.reference), None) if item.children else None
+        if link is not None:
+            link["classes"] += ["daisy-nav-link"]
+            # Sphinx marks the current page's own link; an entry whose pages lie
+            # below the depth limit is only on the path.
+            if "current" in link["classes"]:
+                self.replace_with_current_link(link)
+            elif on_path:
+                link["classes"] += ["daisy-on-path"]
+            if str(link.get("refuri", "")).startswith(EXTERNAL_SCHEMES):
+                self.mark_external(link)
+        for bullets in children:
+            self.decorate_list(bullets, depth + 1)
+        if children:
+            item["classes"] += ["daisy-nav-branch"]
+            title = link.astext() if link is not None else ""
+            self.add_toggle(item, title, on_path or depth < self.show_nav_level - 1)
+
+    @staticmethod
+    def replace_with_current_link(link: nodes.reference) -> None:
+        """Swap a link for the one that marks the current page.
+
+        Args:
+            link: The link to the current page, replaced in its entry.
+        """
+        current = CurrentLink("", "", *link.children, **link.attributes)
+        current["classes"] += ["menu-active"]
+        link.replace_self(current)
+
+    @staticmethod
+    def mark_external(link: nodes.reference) -> None:
+        """Mark a link that leads outside the site, for sight and for readers.
+
+        Args:
+            link: The external link, changed in place.
+        """
+        link["classes"] += ["daisy-external"]
+        link += nodes.raw(
+            "",
+            str(ICONS.svg("external-link", "size-3.5 opacity-60 shrink-0")),
+            format="html",
+        )
+        link += nodes.inline(
+            "", translate("(leads outside the site)"), classes=["sr-only"]
+        )
+
+    @staticmethod
+    def add_toggle(item: nodes.list_item, title: str, is_open: bool) -> None:
+        """Put the button that opens and closes an entry beside its link.
+
+        Args:
+            item: The entry, whose first child is the paragraph holding its
+                link, changed in place.
+            title: The entry's title, which names the button.
+            is_open: Whether the entry's pages are shown to begin with.
+        """
+        # The template is this module's own; format() escapes every value given.
+        html = Markup(TOGGLE_HTML).format(  # noqa: S704
+            expanded="true" if is_open else "false",
+            label=translate("Show the pages in %(title)s") % {"title": title},
+            icon=ICONS.svg("chevron-right", "size-4"),
+        )
+        paragraph = item.children[0]
+        if isinstance(paragraph, nodes.Element):
+            paragraph += nodes.raw("", str(html), format="html")
+
+
 class SiteNavigation:
     """The site's toctrees, read once for a page and drawn as a menu.
 
@@ -182,16 +318,12 @@ class SiteNavigation:
         """
         if self.tree is None:
             return Markup()
+        menu = NavigationMenu(show_nav_level)
         tree = copy.deepcopy(self.tree)
         for bullets in tree.children:
             if isinstance(bullets, nodes.bullet_list):
-                self.decorate_list(bullets, 0, show_nav_level)
-        captions: list[nodes.Element] = [
-            *tree.findall(nodes.title),
-            *tree.findall(nodes.caption),
-        ]
-        for caption in captions:
-            caption["classes"] += ["daisy-section-label", "daisy-nav-caption"]
+                menu.decorate(bullets)
+        menu.mark_captions(tree)
         # Sphinx wrote the titles and Docutils escaped them when rendering.
         return Markup(self.builder.render_partial(tree)["fragment"])  # type: ignore[attr-defined]  # noqa: S704
 
@@ -233,7 +365,7 @@ class SiteNavigation:
             if bullets is None:
                 return Markup()
             bullets = copy.deepcopy(bullets)
-            self.decorate_list(bullets, 0, show_nav_level)
+            NavigationMenu(show_nav_level).decorate(bullets)
             # Sphinx wrote the titles and Docutils escaped them when rendering.
             return Markup(self.builder.render_partial(bullets)["fragment"])  # type: ignore[attr-defined]  # noqa: S704
         return Markup()
@@ -253,100 +385,6 @@ class SiteNavigation:
             for item in bullets.children
             if isinstance(item, nodes.list_item)
         ]
-
-    def decorate_list(
-        self, bullets: nodes.bullet_list, depth: int, show_nav_level: int
-    ) -> None:
-        """Mark a list of entries, and the lists under them, for the stylesheet.
-
-        Args:
-            bullets: The list to mark, changed in place.
-            depth: How many lists enclose it; zero for a top-level list.
-            show_nav_level: How many levels of entries are open off the path.
-        """
-        bullets["classes"] = ["daisy-nav-list"]
-        for item in bullets.children:
-            if isinstance(item, nodes.list_item):
-                self.decorate_item(item, depth, show_nav_level)
-
-    def decorate_item(
-        self, item: nodes.list_item, depth: int, show_nav_level: int
-    ) -> None:
-        """Mark one entry: its link, its place on the path and its toggle.
-
-        Args:
-            item: The entry to mark, changed in place.
-            depth: How many lists enclose it, less one.
-            show_nav_level: How many levels of entries are open off the path.
-        """
-        on_path = "current" in item["classes"]
-        children = [c for c in item.children if isinstance(c, nodes.bullet_list)]
-        item["classes"] = ["daisy-nav-item"]
-        link = next(item[0].findall(nodes.reference), None) if item.children else None
-        if link is not None:
-            link["classes"] += ["daisy-nav-link"]
-            # Sphinx marks the current page's own link; an entry whose pages lie
-            # below the depth limit is only on the path.
-            if "current" in link["classes"]:
-                self.replace_with_current_link(link)
-            elif on_path:
-                link["classes"] += ["daisy-on-path"]
-            if str(link.get("refuri", "")).startswith(EXTERNAL_SCHEMES):
-                self.mark_external(link)
-        for bullets in children:
-            self.decorate_list(bullets, depth + 1, show_nav_level)
-        if children:
-            item["classes"] += ["daisy-nav-branch"]
-            title = link.astext() if link is not None else ""
-            self.add_toggle(item, title, on_path or depth < show_nav_level - 1)
-
-    @staticmethod
-    def replace_with_current_link(link: nodes.reference) -> None:
-        """Swap a link for the one that marks the current page.
-
-        Args:
-            link: The link to the current page, replaced in its entry.
-        """
-        current = CurrentLink("", "", *link.children, **link.attributes)
-        current["classes"] += ["menu-active"]
-        link.replace_self(current)
-
-    @staticmethod
-    def mark_external(link: nodes.reference) -> None:
-        """Mark a link that leads outside the site, for sight and for readers.
-
-        Args:
-            link: The external link, changed in place.
-        """
-        link["classes"] += ["daisy-external"]
-        link += nodes.raw(
-            "",
-            str(ICONS.svg("external-link", "size-3.5 opacity-60 shrink-0")),
-            format="html",
-        )
-        link += nodes.inline(
-            "", translate("(leads outside the site)"), classes=["sr-only"]
-        )
-
-    @staticmethod
-    def add_toggle(item: nodes.list_item, title: str, is_open: bool) -> None:
-        """Put the button that opens and closes an entry beside its link.
-
-        Args:
-            item: The entry, whose first child is the paragraph holding its
-                link, changed in place.
-            title: The entry's title, which names the button.
-            is_open: Whether the entry's pages are shown to begin with.
-        """
-        # The template is this module's own; format() escapes every value given.
-        html = Markup(TOGGLE_HTML).format(  # noqa: S704
-            expanded="true" if is_open else "false",
-            label=translate("Show the pages in %(title)s") % {"title": title},
-            icon=ICONS.svg("chevron-right", "size-4"),
-        )
-        paragraph = item.children[0]
-        if isinstance(paragraph, nodes.Element):
-            paragraph += nodes.raw("", str(html), format="html")
 
 
 class PageContents:
