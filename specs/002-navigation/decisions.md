@@ -112,3 +112,16 @@ A domain index such as `py-modindex` is a list of entries with no headings of it
 `genindex`, so the secondary sidebar and the On this page disclosure are left out there too. The
 pages are told apart by the template Sphinx renders them with (`genindex*.html`,
 `domainindex.html`, `search.html`), which holds for every split and every domain.
+
+## D17. Header links aligned to the article are placed by a measuring script
+
+`navbar_align = "content"` must start the first header link at the article's left edge for every
+layout code and window width. The edge depends on the primary column's width, the page column's
+width, the centring of the article inside it and where the header starts in the grid, which differ
+between layout codes. A stylesheet-only rule would repeat the grid's arithmetic for each layout
+code. `navigation.js` measures the article's and the first link's positions and sets the margin
+on wide screens, and `left` and `right` are stylesheet rules. Without the script the links start
+at the start of the navbar's free space.
+
+Revisit if the layout code gives the header a fixed column, which would let the stylesheet place
+the links on the same grid columns.
