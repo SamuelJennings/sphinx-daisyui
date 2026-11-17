@@ -64,7 +64,7 @@ the built page's areas, the stay-in-place markers and the order of the component
    without a traceback.
 5. **Given** a layout code written with extra spaces or in mixed case within its rules, **When**
    the site builds, **Then** it is read as the same code.
-6. **Given** a component list written as a list or as a comma-separated string, with or without
+6. **Given** a component list written as a Python list of names, with or without
    the `.html` ending on each name, **When** the site builds, **Then** the components appear in
    that area in the order given.
 7. **Given** a component list that names a template the site provides in its own
@@ -269,8 +269,7 @@ button's presence. Check the scroll and key behaviour in a browser.
   `article_footer_items`, `content_footer_items`, `primary_sidebar_end`,
   `secondary_sidebar_items`, `footer_start`, `footer_center` and `footer_end`, with
   pydata-sphinx-theme's names and types and the prototype's defaults (`navbar_center` empty,
-  with no header links), each as a list or a
-  comma-separated string of names with or without `.html`.
+  with no header links), each as a Python list of names with or without `.html`.
 - **FR-007**: Each component list MUST draw its components in its area in the order given,
   looking first in the theme's components and then in the site's templates, and MUST skip a name
   that resolves to no template without failing the build.

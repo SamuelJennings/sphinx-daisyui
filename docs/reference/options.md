@@ -3,15 +3,15 @@
 The theme options a site sets in `html_theme_options` in `conf.py`. Each is described the same
 way: its type, its default and what it does.
 
-A component list may be a Python list or a comma-separated string, and a name may be written with
-or without `.html`. These are the same:
+A component list is a Python list of names, and a name may be written with or without `.html`.
+These are the same:
 
 ```python
 html_theme_options = {
     "footer_start": ["copyright", "sphinx-version"],
 }
 html_theme_options = {
-    "footer_start": "copyright.html, sphinx-version.html",
+    "footer_start": ["copyright.html", "sphinx-version.html"],
 }
 ```
 

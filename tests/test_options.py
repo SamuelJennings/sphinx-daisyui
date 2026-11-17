@@ -66,14 +66,9 @@ class TestThemeOptions:
             "b.html",
         ]
 
-    def test_components_reads_a_comma_separated_string(self) -> None:
-        options = ThemeOptions({"name": "navbar-logo, search.html ,,theme-switcher"})
-
-        assert options.components("name") == [
-            "navbar-logo.html",
-            "search.html",
-            "theme-switcher.html",
-        ]
+    @pytest.mark.parametrize("value", ["navbar-logo, search.html", "navbar-logo"])
+    def test_components_of_a_string_is_empty(self, value: str) -> None:
+        assert ThemeOptions({"name": value}).components("name") == []
 
     @pytest.mark.parametrize("value", ["", [], None, "  , "])
     def test_components_of_nothing_is_empty(self, value: Any) -> None:
@@ -129,10 +124,10 @@ class TestRecords:
 
         assert options.records("name") == [{"a": 1}, {"b": 2}]
 
-    def test_records_reads_a_json_string(self) -> None:
-        options = ThemeOptions({"name": '[{"name": "a"}, 5, {"name": "b"}]'})
+    def test_records_of_a_json_string_is_empty(self) -> None:
+        options = ThemeOptions({"name": '[{"name": "a"}, {"name": "b"}]'})
 
-        assert options.records("name") == [{"name": "a"}, {"name": "b"}]
+        assert options.records("name") == []
 
     @pytest.mark.parametrize(
         "value", ["not json", '{"a": 1}', "", None, 5, {"a": 1}]

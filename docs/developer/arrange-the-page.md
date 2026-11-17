@@ -84,7 +84,7 @@ describes each option.
 
    ```python
    html_theme_options = {
-       "footer_center": "status",
+       "footer_center": ["status"],
    }
    ```
 

@@ -13,9 +13,9 @@ FALSE_WORDS = {"false", "0", "no", "off"}
 class ThemeOptions:
     """The values of a theme's options, with a reader for each form they take.
 
-    Sphinx hands every option over as given in ``conf.py`` or as the string in
-    ``theme.toml``, so a list may be a comma-separated string and a flag may be
-    the word ``"true"``.
+    Sphinx hands every option over as given in ``conf.py`` or as the value in
+    ``theme.toml``, so a flag may be the word ``"true"``. A component list and
+    ``external_links`` are Python lists only.
 
     Args:
         values: The option values by name, without the ``theme_`` prefix.
@@ -105,15 +105,9 @@ class ThemeOptions:
             name: The option's name.
 
         Returns:
-            The dicts of the option's list or tuple, or of the list a JSON
-            string holds, otherwise empty.
+            The dicts of the option's list or tuple, otherwise empty.
         """
         value = self.values.get(name)
-        if isinstance(value, str):
-            try:
-                value = json.loads(value)
-            except ValueError:
-                return []
         if not isinstance(value, list | tuple):
             return []
         return [dict(item) for item in value if isinstance(item, dict)]
@@ -161,12 +155,13 @@ class ThemeOptions:
             name: The option's name.
 
         Returns:
-            The template file for each name in a list or comma-separated string.
+            The template file for each name in a list or tuple. A string, or
+            anything else that is not a list or tuple, gives an empty list.
         """
         value = self.values.get(name)
-        if isinstance(value, str):
-            value = value.split(",")
-        names = [str(item).strip() for item in value or []]
+        if not isinstance(value, list | tuple):
+            return []
+        names = [str(item).strip() for item in value]
         return [
             item if item.endswith(".html") else f"{item}.html" for item in names if item
         ]

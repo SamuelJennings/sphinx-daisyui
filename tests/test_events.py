@@ -126,12 +126,12 @@ class TestPageContext:
         freshenv=True,
         confoverrides={
             "html_theme_options": {
-                "navbar_end": "search-button-field, theme-switcher.html",
+                "navbar_end": ["search-button-field", "theme-switcher.html"],
                 "footer_center": ["copyright", "sphinx-version.html"],
             }
         },
     )
-    def test_a_site_sets_components_as_a_string_or_a_list(
+    def test_a_site_sets_components_as_a_list(
         self, app: SphinxTestApp, contexts: dict[str, dict[str, Any]]
     ) -> None:
         app.build()

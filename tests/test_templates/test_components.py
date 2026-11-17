@@ -19,9 +19,9 @@ def footer(app: SphinxTestApp) -> Page:
 def only(name: str) -> dict[str, object]:
     return {
         "html_theme_options": {
-            "footer_start": name,
-            "footer_center": "",
-            "footer_end": "",
+            "footer_start": [name],
+            "footer_center": [],
+            "footer_end": [],
         }
     }
 
