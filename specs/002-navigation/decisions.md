@@ -21,28 +21,24 @@ does, and the maintainer handed the work over. The interpretation below was trea
 > A reader finds their way around the site and the page. The primary sidebar holds the whole
 > site as a menu with open and close toggles, the current page marked and scrolled into view,
 > captions labelling sections, and breadcrumbs above the page. A site author sets how deep it
-> goes and how much starts open with pydata-sphinx-theme's options. Placing `navbar-nav` in
+> goes and how much starts open. Placing `navbar-nav` in
 > `navbar_center` moves the top-level sections into the navbar, with a menu for the rest and
 > external links, the primary sidebar then showing only the current section and the drawer
 > listing the sections at its head. The secondary sidebar lists the page's headings and marks
 > the one being read, or a disclosure above the page does on a narrower screen. Out of scope: the
 > page frame (#4), a toctree in a page body (#6), the shared navbar menu (#7), edit and source
-> links and the Furo and pydata-sphinx-theme template names (#8).
+> links (#8).
 
 ## D3. `show_toc_level` defaults to 2
 
-pydata-sphinx-theme defaults it to 1. The accepted prototype defaults it to 2, and its screens,
-which are agreed, show two levels. A pydata-sphinx-theme configuration that sets the option keeps
-its meaning, and one that leaves it unset gets one more level listed, which builds and warns about
-nothing (Article X asks for the same name, type and meaning, not the same default). The maintainer
-may prefer pydata-sphinx-theme's default: it is one value in `theme.toml`.
+The accepted prototype defaults it to 2, and its screens, which are agreed, show two levels. The
+option is the theme's own, so its default is the theme's choice. It is one value in `theme.toml`.
 
-## D4. `show_toc_level` takes pydata-sphinx-theme's full meaning
+## D4. `show_toc_level` lists levels at all times and shows deeper ones in their section
 
-The prototype only tells level 1 from the rest. pydata-sphinx-theme lists headings down to the
-level at all times and shows deeper ones while the reader is in their section. Article X asks for
-the borrowed meaning, so the spec asks for it (FR-016), and research confirms the detail before
-it is built.
+The prototype only tells level 1 from the rest, which leaves every value above 1 meaning the same.
+The spec gives each value a meaning: headings down to the level are listed at all times, and
+deeper ones are shown while the reader is in their section (FR-016).
 
 ## D5. Only `navbar_center` switches the primary sidebar to the current section
 
@@ -53,7 +49,7 @@ navigation whole, so a site that wants both can have them.
 ## D6. A page in no section shows no site navigation with header links on
 
 With header links in the navbar, the home page belongs to no section, and the prototype draws no
-menu there. pydata-sphinx-theme does the same. Whether the frame then leaves the empty primary
+menu there. Whether the frame then leaves the empty primary
 sidebar out is #4's behaviour, not this feature's.
 
 ## D7. The current entry and the heading being read are marked for assistive technology
@@ -77,3 +73,11 @@ site author sets is theirs and is never translated.
 
 The repository has no `GOALS.md` yet, so the spec cites no goal and the issue carries no goal
 footer.
+
+## D11. The theme's own configuration, with no compatibility layer
+
+The maintainer ruled on 2026-11-17 that the theme has its own configuration: nothing accepts,
+maps or aliases another theme's options or template names, and a site coming from another theme
+reconfigures. The options this feature uses keep pydata-sphinx-theme's names and shapes, because
+they are good names for the same settings, but they are the theme's own. The site navigation is
+the `sidebar-nav` component under that one name.

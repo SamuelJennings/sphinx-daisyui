@@ -22,13 +22,12 @@ A reader finds their way around the site and around the page. The primary sideba
 navigation: the whole site as a menu whose branches open and close, the current page marked and
 scrolled into view, captions labelling each section, with breadcrumbs above the page showing
 where it sits. A site author who places `navbar-nav` in the header moves the site's top-level
-sections into the navbar, as pydata-sphinx-theme does, and the primary sidebar then shows only
-the current section. The secondary sidebar lists the page's own headings and marks the one being
+sections into the navbar, and the primary sidebar then shows only the current section. The secondary sidebar lists the page's own headings and marks the one being
 read, or offers them in a disclosure above the page on a narrower screen.
 
-Every option here is borrowed from pydata-sphinx-theme and keeps its name, type and meaning
-(Article X). By default the site navigation follows Furo, with the whole tree in the primary
-sidebar and no header links.
+The options are the theme's own, named and shaped after pydata-sphinx-theme's options for the
+same settings, one name and one shape each. By default the primary sidebar holds the whole tree
+and there are no header links.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -91,16 +90,15 @@ Check the toggles and the scrolling into view in a browser.
 
 ### User Story 2 - A site author puts the site's sections in the header (Priority: P2)
 
-A site author places `navbar-nav` in `navbar_center`, as a pydata-sphinx-theme configuration
-does, and the site's top-level sections move into the navbar as header links, with the current
+A site author places `navbar-nav` in `navbar_center`, and the site's top-level sections move into the navbar as header links, with the current
 section marked. They add links to other sites with `external_links`, decide with
 `header_links_before_dropdown` how many links show before the rest go into a menu, name that menu
 with `header_dropdown_text`, and line the links up with `navbar_align`. The primary sidebar then
 shows only the pages of the current section. On a phone, where the navbar has no room for them,
 the sections are listed at the head of the drawer.
 
-**Why this priority**: the shape of every pydata-sphinx-theme site, which a site switching from
-that theme expects to keep. The default layout, following Furo, does without it.
+**Why this priority**: the shape a large site wants, with its sections a click away in the
+header. The default layout does without it.
 
 **Independent Test**: build a test site with six top-level sections and an external link, with
 `navbar-nav` in `navbar_center`, and check the built navbar's links, their order, the menu and its
@@ -128,8 +126,7 @@ section and on the home page, and the sections at the head of the drawer.
    empty menu.
 7. **Given** `navbar_align` left at `content`, set to `left` or set to `right`, **When** a page is
    built on a wide screen, **Then** the header links line up with the start of the page column,
-   sit at the start of the navbar's free space, or sit at its end, as pydata-sphinx-theme places
-   them.
+   sit at the start of the navbar's free space, or sit at its end.
 8. **Given** `navbar-nav` in `navbar_center` and a narrow screen, **When** the reader opens the
    drawer, **Then** every header link, those in the menu included, is listed at the head of the
    drawer, above the site navigation, with the current section marked.
@@ -174,7 +171,7 @@ closing, in a browser.
 5. **Given** `show_toc_level` left at its default, **When** the page is built, **Then** headings
    down to the second level are listed at all times. **Given** `show_toc_level` set to another
    number, **Then** headings down to that level are listed at all times, and deeper headings are
-   shown while the reader is in the section that holds them, as pydata-sphinx-theme shows them.
+   shown while the reader is in the section that holds them.
 6. **Given** a screen too narrow for the secondary sidebar, **When** a reader opens a page with
    headings, **Then** a closed disclosure above the page body holds the same headings, and
    following one of them closes it.
@@ -209,8 +206,8 @@ closing, in a browser.
 
 **Site navigation and breadcrumbs (US1)**
 
-- **FR-001**: The theme MUST ship the `sidebar-nav.html` sidebar template, named in the theme's
-  default `html_sidebars`, that draws the site's toctrees in the primary sidebar as one menu, in
+- **FR-001**: The theme MUST ship the `sidebar-nav` component, under that one name and named in
+  the theme's default `html_sidebars`, that draws the site's toctrees in the primary sidebar as one menu, in
   toctree order, with each toctree's caption labelling its group.
 - **FR-002**: Every menu entry with pages under it MUST carry a toggle beside its link that shows
   and hides those pages, is reachable and operable from the keyboard, exposes its state to
@@ -220,8 +217,8 @@ closing, in a browser.
 - **FR-004**: When a page loads, the current page's entry MUST be scrolled into view inside the
   primary sidebar if it is outside it, without scrolling the page.
 - **FR-005**: The theme MUST accept `navigation_depth` (default 4), `show_nav_level` (default 1),
-  `collapse_navigation` (default off) and `sidebar_includehidden` (default on), with
-  pydata-sphinx-theme's types and meanings.
+  `collapse_navigation` (default off) and `sidebar_includehidden` (default on), each acting as
+  US1 scenarios 6 to 9 describe.
 - **FR-006**: A menu entry or header link that leads outside the site MUST be marked as such,
   including for assistive technology.
 - **FR-007**: The theme MUST ship the `breadcrumbs` component, which leads from the home page
@@ -235,8 +232,7 @@ closing, in a browser.
   holding the current page.
 - **FR-009**: The theme MUST accept `external_links` (a list of links, each with a `name` and a
   `url`), `header_links_before_dropdown` (default 5), `header_dropdown_text` (default "More") and
-  `navbar_align` (`content` by default, `left` or `right`), with pydata-sphinx-theme's types and
-  meanings.
+  `navbar_align` (`content` by default, `left` or `right`).
 - **FR-010**: Header links past `header_links_before_dropdown` MUST be in a menu named by
   `header_dropdown_text`, which opens, moves and closes from the keyboard and is marked as current
   when it holds the current section.
@@ -256,7 +252,7 @@ closing, in a browser.
   on a page with no such headings.
 - **FR-015**: As the reader scrolls, the entry of the heading being read MUST be marked, including
   for assistive technology, and at the foot of the page the last heading's entry MUST be marked.
-- **FR-016**: The theme MUST accept `show_toc_level` with pydata-sphinx-theme's type and meaning:
+- **FR-016**: The theme MUST accept `show_toc_level`, a number of heading levels:
   headings down to that level are listed at all times and deeper ones are shown while the reader
   is in the section that holds them. Its default MUST be 2.
 - **FR-017**: When `page-toc` is in `secondary_sidebar_items`, a page with headings MUST also
@@ -296,9 +292,9 @@ closing, in a browser.
 
 ### Measurable Outcomes
 
-- **SC-001**: A configuration's navigation, header link and On this page options written for
-  pydata-sphinx-theme build unchanged and act with the meaning they have there, and a Furo
-  configuration, which sets none of them, gets the whole site in the primary sidebar.
+- **SC-001**: A site that sets none of this feature's options gets the whole site in the primary
+  sidebar, breadcrumbs above the page and On this page in the secondary sidebar, and builds with
+  no warnings.
 - **SC-002**: Every page passes a keyboard walk with no pointer: each branch of the menu opened and
   closed, the header links' menu opened and an entry followed, and the On this page disclosure
   opened and a heading followed, with every control focused visibly.
@@ -307,8 +303,9 @@ closing, in a browser.
 - **SC-004**: Each page shown at 390, 1100 and 1440 pixels wide matches the prototype's
   corresponding page side by side, for the rows of "Pages to compare side by side" that name
   features 2, 4 or 13: the home page with the drawer open, Typography scrolled to the middle, a
-  toctree in a page, a deep page, the tall secondary sidebar, and the pydata-sphinx-theme
-  configuration's pages with the drawer open at 390.
+  toctree in a page, a deep page, the tall secondary sidebar, and a site
+  with `navbar-nav` in `navbar_center` against the prototype's header-links pages
+  (http://localhost:8062/as-pydata/), with the drawer open at 390.
 - **SC-005**: No value from a site's configuration reaches a built page unescaped, and every piece
   of fixed text this feature writes is in the message catalogue's template.
 
@@ -322,8 +319,7 @@ closing, in a browser.
   (US1 scenarios 6 to 9). Header links are the site author's story, because placing `navbar-nav`
   is something a site author sets out to do.
 - Q: What does `show_toc_level` default to? → A: 2, as in the accepted prototype, whose screens
-  show two levels. pydata-sphinx-theme defaults to 1. A pydata-sphinx-theme configuration that sets
-  it keeps its meaning (FR-016).
+  show two levels (FR-016).
 - Q: Does placing `navbar-nav` anywhere switch the primary sidebar to the current section? → A:
   Only in `navbar_center`, as the prototype's recorded decision says. Placed elsewhere it draws the
   header links and the sidebar keeps the whole site (FR-012).
@@ -332,7 +328,7 @@ closing, in a browser.
   frame then leaves the empty area out is the page frame's behaviour (#4).
 - Q: Is `header_dropdown_text` translated? → A: Its default is the theme's own text and is
   translated. A value the site author sets is theirs and is printed as written (FR-019).
-- Q: What does `collapse_navigation` do? → A: pydata-sphinx-theme's meaning: only the branches on
+- Q: What does `collapse_navigation` do? → A: Only the branches on
   the current page's path carry their pages, and other entries carry no toggle (US1 scenario 8).
 
 ## Assumptions
@@ -342,11 +338,9 @@ closing, in a browser.
   takes this feature's text.
 - `secondary_sidebar_items` defaults to `page-toc` and `article_header_start` to `breadcrumbs`, as
   #4 sets them. `navbar_center` defaults to empty, as in the accepted prototype, so a site that
-  sets nothing gets Furo's shape, with no header links. pydata-sphinx-theme defaults it to
-  `navbar-nav`, and a configuration copied from it names it anyway.
+  sets nothing gets no header links.
 - The theme's own fixed text is in English.
 - Out of scope, owned by sibling features: the page frame, the logo and the drawer itself (#4); a
   toctree drawn in a page body, which reuses this feature's open-and-close branch (#6); the shared
   navbar menu for the theme and version menus (#7); the edit and source links beside the
-  breadcrumbs and in the secondary sidebar (#8); and the Furo and pydata-sphinx-theme names for the
-  site navigation template, `sidebar/navigation.html` and `sidebar-nav-bs.html` (#8).
+  breadcrumbs and in the secondary sidebar (#8).

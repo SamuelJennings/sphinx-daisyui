@@ -8,8 +8,8 @@ This feature is built from the accepted prototype on the `prototype-theme` branc
 `PROTOTYPE.md` on that branch whole, then its features 2 (site navigation), 13 (header links) and
 4 (on this page). The prototype is served at http://localhost:8062/ while it is being compared.
 Its screens and the maintainer's decisions in its "Decisions" section are agreed. "Which decisions
-bind which feature" binds this feature twice: the default follows Furo, with the whole tree in
-the primary sidebar (2), and putting `navbar-nav` in `navbar_center` switches to the sectioned
+bind which feature" binds this feature twice: by default the whole tree is in the primary
+sidebar (2), and putting `navbar-nav` in `navbar_center` switches to the sectioned
 layout (13).
 
 ## No design review at the plan stage
@@ -34,8 +34,9 @@ feature:
 
 Each merge is checked side by side against the prototype on the pages in "Pages to compare side
 by side" whose rows name features 2, 4 or 13, at 390, 1100 and 1440 pixels wide: Home with the
-drawer open, Typography, A toctree in a page, A deep page, Tall secondary sidebar, and As
-pydata-sphinx-theme.
+drawer open, Typography, A toctree in a page, A deep page, Tall secondary sidebar, and the
+prototype's header-links pages at http://localhost:8062/as-pydata/, compared against a site with
+`navbar-nav` in `navbar_center`.
 
 ## The shared pieces this feature builds
 
@@ -54,10 +55,10 @@ named.
   The prototype parses with BeautifulSoup at `__init__.py:168`, `226`, `245` and `271`, and renders
   the site toctree twice per page at `:485-486`. Check first: Sphinx's `toctree()` arguments, and
   docutils' doctree in place of re-parsing HTML where it is reachable (see `research.md`).
-- **The site-navigation component under three names.** One component. The other names include it.
-  Built here as `sidebar-nav.html`. Reused by the Furo configurations (`sidebar/navigation.html`)
-  and the pydata-sphinx-theme configurations (`sidebar-nav-bs.html`), both #8. Check first:
-  nothing.
+- **The site-navigation component, one name.** The prototype has it under three identical names
+  (`sidebar-nav.html`, `sidebar-nav-bs.html`, `sidebar/navigation.html`). `main` has
+  `sidebar-nav` only, with no other names (maintainer's ruling of 2026-11-17: no compatibility
+  layer).
 - **Section label.** One CSS class, for the site navigation's captions (prototype
   `frame.css:134-142`) and On this page's label (`page-toc.html:3`). Reused by the page-body
   styles for a toctree's caption in a page (#6, `content.css:648-654`), and by the layout
@@ -79,7 +80,7 @@ From "Faked or skipped" in `PROTOTYPE.md`:
 
 - **`navbar_align` only partly honoured.** The prototype approximates `content` with a fixed
   inset (`layout.html:64`) and reads `theme_navbar_align` directly. Line the header links up with
-  the page column's start, as pydata-sphinx-theme does (FR-011), and read the option through the
+  the page column's start (FR-011), and read the option through the
   page context (FR-023).
 - **`beautifulsoup4` as a runtime dependency with no stated reason.** This is the first feature
   that needs it. Either justify it, with the reason recorded where Article VII asks, or replace it
@@ -100,9 +101,8 @@ From "Faked or skipped" in `PROTOTYPE.md`:
 ## What the prototype does that the spec settles
 
 - **`show_toc_level`.** The prototype only tells level 1 from the rest (`frame.css:185`). The spec
-  takes pydata-sphinx-theme's meaning, deeper headings shown while the reader is in their section
-  (FR-016). Research confirms how pydata-sphinx-theme shows them before it is built. The default
-  stays 2, as on the prototype's screens.
+  gives every value a meaning, deeper headings shown while the reader is in their section
+  (FR-016). The default stays 2, as on the prototype's screens.
 - **The heading being read, for a screen reader.** The prototype marks it with a class only. The
   spec asks for a mark assistive technology reads too (FR-015, Article XIV). The same holds for
   external entries (FR-006).
