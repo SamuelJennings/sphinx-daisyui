@@ -24,8 +24,9 @@ component lists. They show the site's logo, and put an announcement across the t
 page. A reader gets the three-column page documentation readers expect, which works on a phone
 and from the keyboard, and moves between pages from the foot of each page.
 
-Everything a site author writes here is a theme option in `html_theme_options`. The options that
-Furo or pydata-sphinx-theme already define keep their names, types and meaning (Article X).
+Everything a site author writes here is a theme option in `html_theme_options`. The options are
+the theme's own, named and shaped after pydata-sphinx-theme's where it has the same setting, with
+one name and one shape for each (Article X).
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -131,37 +132,34 @@ phone, medium and wide widths against the prototype.
 ### User Story 3 - A site author shows the site's logo (Priority: P2)
 
 A site author shows a logo for light mode and one for dark mode, with or without the site's name
-beside it, linked to the page they choose. They write it in Furo's shape (`light_logo`,
-`dark_logo`, `sidebar_hide_name`) or in pydata-sphinx-theme's (`logo` with `text`,
-`image_light`, `image_dark`, `alt_text`, `link`, and `logo_link`), and Sphinx's own `html_logo`
-works when neither is set. When the layout code runs the primary sidebar to the top of the page,
+beside it, linked to the page they choose. They write it with `logo` (`text`, `image_light`,
+`image_dark`, `alt_text`, `link`), and Sphinx's own `html_logo` works when `logo` gives no
+image. When the layout code runs the primary sidebar to the top of the page,
 the logo moves to the head of that sidebar.
 
-**Why this priority**: a site's identity on every page, and the first option most sites copied
-from another theme will carry.
+**Why this priority**: a site's identity on every page.
 
-**Independent Test**: build test sites with each shape of option and with `html_logo` only, and
+**Independent Test**: build test sites with each part of `logo` and with `html_logo` only, and
 check the built brand's images, their addresses, the name, the alternative text and the link.
 
 **Acceptance Scenarios**:
 
-1. **Given** no logo options and no `html_logo`, **When** the site builds, **Then** the brand is
+1. **Given** no `logo` and no `html_logo`, **When** the site builds, **Then** the brand is
    the site's title, linked to the home page.
 2. **Given** `html_logo` only, **When** the site builds, **Then** that image is the logo in both
    modes.
-3. **Given** a logo for each mode in either shape, **When** the site builds, **Then** the brand
+3. **Given** an image for each mode in `logo`, **When** the site builds, **Then** the brand
    carries both images, and the one for the reader's current mode is the one shown.
-4. **Given** only a light logo, **When** the site builds, **Then** the same image serves dark mode.
+4. **Given** only `logo.image_light`, **When** the site builds, **Then** the same image serves dark mode.
 5. **Given** a logo path relative to `_static`, a path starting `_static/`, or a full address,
    **When** the site builds, **Then** every page, at any depth, points at the right file or
    address.
-6. **Given** `sidebar_hide_name` switched on, or a pydata-style `logo` with images and no
-   `text`, **When** the site builds, **Then** the brand shows the logo without the site's name,
+6. **Given** a `logo` with images and no `text`, **When** the site builds, **Then** the brand shows the logo without the site's name,
    and the logo's alternative text names the site.
-7. **Given** a pydata-style `logo.text`, **When** the site builds, **Then** that text is shown
+7. **Given** `logo.text`, **When** the site builds, **Then** that text is shown
    beside the logo, and the logo's alternative text is empty so the name is not read twice.
-8. **Given** `logo.link` or `logo_link`, **When** a reader follows the brand, **Then** they reach
-   that address. Without either, they reach the home page.
+8. **Given** `logo.link`, **When** a reader follows the brand, **Then** they reach that address.
+   Without it, they reach the home page.
 9. **Given** a layout code whose top-left corner belongs to the primary sidebar, such as
    `lHh LpR lff`, **When** a page is built, **Then** on a wide screen the brand appears once, at
    the head of the primary sidebar, and on a narrow screen it stays in the navbar.
@@ -175,8 +173,7 @@ check the built brand's images, their addresses, the name, the alternative text 
 A site author sets `announcement` to text, which may hold HTML of their own, or to a URL that
 returns HTML, and a banner runs across the top of every page.
 
-**Why this priority**: an occasional need (a release, a deprecation, a survey), and one both
-Furo and pydata-sphinx-theme offer, so configurations copied from them expect it.
+**Why this priority**: an occasional need (a release, a deprecation, a survey).
 
 **Independent Test**: build test sites with a text announcement, an HTML announcement and a URL
 announcement, and check the built banner and the address the page script reads.
@@ -271,8 +268,8 @@ button's presence. Check the scroll and key behaviour in a browser.
   `navbar_end`, `navbar_persistent`, `article_header_start`, `article_header_end`,
   `article_footer_items`, `content_footer_items`, `primary_sidebar_end`,
   `secondary_sidebar_items`, `footer_start`, `footer_center` and `footer_end`, with
-  pydata-sphinx-theme's names, types and defaults, each as a list or a comma-separated string of
-  names with or without `.html`.
+  pydata-sphinx-theme's names and types and the prototype's defaults, each as a list or a
+  comma-separated string of names with or without `.html`.
 - **FR-007**: Each component list MUST draw its components in its area in the order given,
   looking first in the theme's components and then in the site's templates, and MUST skip a name
   that resolves to no template without failing the build.
@@ -315,33 +312,31 @@ button's presence. Check the scroll and key behaviour in a browser.
 
 **Brand and logo (US3)**
 
-- **FR-021**: The theme MUST accept Furo's `light_logo`, `dark_logo` and `sidebar_hide_name`, and
-  pydata-sphinx-theme's `logo` (`text`, `image_light`, `image_dark`, `alt_text`, `link`) and
-  `logo_link`, each with its source theme's meaning, and MUST fall back to Sphinx's `html_logo`.
+- **FR-021**: The theme MUST accept `logo` (`text`, `image_light`, `image_dark`, `alt_text`,
+  `link`), shaped as pydata-sphinx-theme's, and MUST fall back to Sphinx's `html_logo`.
 - **FR-022**: A logo given as a path relative to `_static`, a path starting `_static/`, or a full
   address MUST resolve correctly from every page.
 - **FR-023**: The brand MUST show the logo for the reader's current mode, and the dark logo MUST
   fall back to the light one.
-- **FR-024**: The brand MUST link to `logo.link` or `logo_link` when set, and to the site's home
-  page otherwise.
+- **FR-024**: The brand MUST link to `logo.link` when set, and to the site's home page
+  otherwise.
 - **FR-025**: When the layout code gives the top-left corner to the primary sidebar, the brand
   MUST appear at the head of the primary sidebar on wide screens and in the navbar on narrow
   ones, and once only on each.
 
 **Announcement (US4)**
 
-- **FR-026**: The theme MUST accept `announcement`, shared by Furo and pydata-sphinx-theme, as
-  text or HTML printed as the site author's own markup, or as a URL whose returned HTML the page
+- **FR-026**: The theme MUST accept `announcement`, as text or HTML printed as the site author's own markup, or as a URL whose returned HTML the page
   shows.
 - **FR-027**: An announcement URL that fails or returns nothing MUST leave no banner on the page.
-- **FR-028**: The theme MUST accept `sticky_banners` and honour it with the meaning its source
-  theme gives it.
+- **FR-028**: The theme MUST accept `sticky_banners`, keeping the banner with the header as
+  pydata-sphinx-theme's option of that name does.
 - **FR-029**: The banner MUST be a named region placed before the header.
 
 **Previous, next and back to top (US5)**
 
 - **FR-030**: The theme MUST accept `show_prev_next` (default on), `navigation_with_keys` (default
-  off) and `back_to_top_button` (default on), with their source themes' meanings.
+  off) and `back_to_top_button` (default on), with pydata-sphinx-theme's meanings.
 - **FR-031**: Previous and next links MUST name and lead to the pages Sphinx relates, and be left
   out on Sphinx's search and index pages.
 - **FR-032**: With `navigation_with_keys` on, the left and right arrow keys MUST move to the
@@ -372,9 +367,8 @@ button's presence. Check the scroll and key behaviour in a browser.
   five areas of the default layout code.
 - **SC-002**: Every valid layout code builds, and every code of the wrong shape stops the build
   with one message and no traceback.
-- **SC-003**: A configuration's logo, announcement, component lists and previous and next options
-  written for Furo or pydata-sphinx-theme build unchanged and act with the meaning they have
-  there.
+- **SC-003**: Every option this feature adds has one name and one shape, and no option exists
+  only to accept another theme's configuration.
 - **SC-004**: Every page passes a keyboard walk: the skip link first, the drawer opened and closed
   without a pointer, and every control the frame adds focused visibly.
 - **SC-005**: Each page shown at 390, 1100 and 1440 pixels wide matches the prototype's
@@ -400,7 +394,15 @@ button's presence. Check the scroll and key behaviour in a browser.
 - Q: Where does the `theme-version` component get the repository's address? → A: From the
   package's metadata, never written into the template (FR-009).
 - Q: Is the announcement escaped like every other option? → A: No. It is the site author's own
-  HTML, as in Furo and pydata-sphinx-theme, and the amended Article V says so (FR-011, FR-026).
+  HTML, and the amended Article V says so (FR-011, FR-026).
+
+### Session 2026-11-17, later
+
+- Q: Does the theme accept Furo's logo options or pydata-sphinx-theme's `logo_link` beside
+  `logo`? → A: No. The maintainer ruled that the theme has its own options, modelled on
+  pydata-sphinx-theme's, with one name and one shape per setting, and a site coming from another
+  theme reconfigures (Article X as rewritten). The logo is `logo`, with `html_logo` as the
+  fallback.
 
 ## Assumptions
 
@@ -413,6 +415,6 @@ button's presence. Check the scroll and key behaviour in a browser.
   small, for the arrow keys and the drawer's Escape key, and that feature grows it.
 - Out of scope, owned by sibling features: site navigation and breadcrumbs (#5), On this page
   (#5), page-body styles (#6), modes and the theme picker (#7), the search dialog (#7), the
-  version switcher (#7), icon links and edit and view links (#8), header links (#5), and the Furo
-  and pydata-sphinx-theme configuration presets (#8). The layout playground and the rest of the
+  version switcher (#7), icon links and edit and view links (#8), and header links (#5). The
+  layout playground and the rest of the
   documentation site are documentation work.

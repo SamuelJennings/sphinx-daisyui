@@ -117,3 +117,12 @@ components, back to top and the fetched announcement are driven in headless Chro
 building, and the CI suite is left to a change that can edit the workflows.
 
 **ADR:** none — a testing arrangement for this feature.
+
+## D15. The logo is `logo` only
+
+The maintainer ruled that the theme has its own options, modelled on pydata-sphinx-theme's, with
+one name and one shape per setting, and Article X was rewritten to say so. Furo's `light_logo`,
+`dark_logo` and `sidebar_hide_name` and pydata-sphinx-theme's `logo_link` are dropped. The
+specification is amended to match (FR-021, FR-024, SC-003 and User Story 3).
+
+**ADR:** none — the rule is the constitution's Article X; this records how this feature follows it.

@@ -37,7 +37,8 @@ behind them is rebuilt test-first, grouped in classes.
 - **VIII**: the theme's fixed text is marked with `_()` and the catalogue template ships.
 - **IX**: `LayoutCode`, `ThemeOptions`, `Icons`, `Brand`. The handlers stay functions connected
   in `setup()`, as Sphinx owns that grouping.
-- **X**: every option keeps its source theme's name, type and meaning.
+- **X**: every option is the theme's own, named and shaped after pydata-sphinx-theme's where it
+  has the same setting, with one name and one shape.
 - **XI**: every colour is a daisyUI token or a `color-mix` of tokens.
 - **XII**: the icons are inline SVG from the package.
 - **XIV**: skip link, named landmarks, keyboard-reachable drawer controls, AA contrast on the
@@ -63,8 +64,8 @@ behind them is rebuilt test-first, grouped in classes.
 - **`icons.py`: `Icons`**, reading `icons.json` once. `Icons.svg(name, classes)` returns the
   SVG as markup with its classes, `aria-hidden` and `focusable="false"`. Exposed as `daisy.icon`.
 - **`brand.py`: `Brand`**, a frozen dataclass from `Brand.from_options(options, context)`: the
-  light and dark image addresses, the text, the alternative text and the link, reading Furo's
-  and pydata-sphinx-theme's options and falling back to `logo_url`.
+  light and dark image addresses, the text, the alternative text and the link, read from `logo`
+  and falling back to `logo_url`.
 - **`__init__.py`**: `setup()` registers the theme, the message catalogue and two handlers.
   `check_layout` (`builder-inited`) reads the layout code for an HTML builder using the theme,
   and on a `LayoutCodeError` logs the message and raises `SystemExit(2)` (`research.md`).
@@ -119,7 +120,7 @@ Plain deferred scripts, one per feature, loaded from `layout.html` in this order
 - `docs/conf.py`: the prototype's own-options build, reduced to this feature's options, the two
   logos, `DAISY_LAYOUT`.
 - `scripts/serve.sh`, `prebuild.sh`, `variants.sh`: ported, with the four layout builds under
-  `/layouts/` and no Furo or pydata-sphinx-theme builds yet. The port comes from the
+  `/layouts/`. The port comes from the
   environment (`PORT`).
 
 ## What the plan cannot deliver on screen

@@ -83,10 +83,9 @@ declared as a non-mirror path.
 ### Group 4
 
 - [ ] T015 [US3] `ThemeOptions.static_url` and `Brand` in `src/sphinx_daisyui/brand.py`, with
-  `tests/test_brand.py` and `tests/test_options.py`: each shape of option, `html_logo` only,
-  a light logo only, `_static` relative, `_static/` prefixed and full addresses, the hidden name
-  and its alternative text, `logo.text` with empty alternative text, `logo.link` and
-  `logo_link`.
+  `tests/test_brand.py` and `tests/test_options.py`: each part of `logo`, `html_logo` only,
+  a light image only, `_static` relative, `_static/` prefixed and full addresses, the hidden name
+  and its alternative text, `logo.text` with empty alternative text, `logo.link`.
 - [ ] T016 [US3] `navbar-logo` with the logos (port), the brand at the head of the primary
   sidebar when the code gives it the top-left corner, the frame's logo-per-mode rules with the
   `prefers-color-scheme` fallback, and `docs/_static/logo-light.svg` and `logo-dark.svg` used by
@@ -117,3 +116,9 @@ declared as a non-mirror path.
 - [ ] T022 [US4] `sticky_banners`: the banner inside the header area when on. Tests on and off.
   Fetch behaviour (success, failure, empty) checked in headless Chrome.
 - [ ] T023 [US4] Documentation and CHANGELOG.
+
+## Phase 7: Own options
+
+- [ ] T030 [US3] Drop `light_logo`, `dark_logo`, `sidebar_hide_name` and `logo_link` from the
+  theme, its tests, its documentation and the docs site's own configuration, so the logo is
+  `logo` only, with `html_logo` as the fallback (Article X as rewritten, decisions D15).
