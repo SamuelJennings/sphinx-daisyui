@@ -78,6 +78,21 @@ def check_layout(app: Sphinx) -> None:
         raise SystemExit(2) from None
 
 
+def is_index_page(templatename: str) -> bool:
+    """Tell whether Sphinx renders a page with one of its index templates.
+
+    Args:
+        templatename: The template rendering the page.
+
+    Returns:
+        Whether the page is the search page, a domain index or a general index,
+        whole or split.
+    """
+    return templatename in ("search.html", "domainindex.html") or (
+        templatename.startswith("genindex")
+    )
+
+
 def add_page_context(
     app: Sphinx,
     pagename: str,
@@ -99,6 +114,7 @@ def add_page_context(
     options = ThemeOptions.from_context(context)
     announcement = options.text("announcement").strip()
     is_url = announcement.startswith(("http://", "https://"))
+    index_page = is_index_page(templatename)
     site = SiteNavigation(
         app.env,
         pagename,
@@ -121,3 +137,5 @@ def add_page_context(
         "announcement_url": announcement if is_url else "",
         "navigation": site.menu(options.number("show_nav_level", 1)),
     }
+    if index_page:
+        context["daisy"]["secondary_sidebar_items"] = []

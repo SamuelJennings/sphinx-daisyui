@@ -402,3 +402,28 @@ class TestPageScripts:
         classes = [(attrs.get("class") or "").split() for _, attrs in page.tags]
         for name in ("daisy-layout", "daisy-area-header", "daisy-area-primary"):
             assert any(name in found for found in classes)
+
+
+class TestIndexPages:
+    @pytest.mark.sphinx("html", testroot="indexes", freshenv=True)
+    def test_no_index_page_has_a_secondary_sidebar(self, app: SphinxTestApp) -> None:
+        app.build()
+        index_pages = [
+            "genindex.html",
+            "genindex-all.html",
+            "py-modindex.html",
+            "search.html",
+            *sorted(p.name for p in Path(app.outdir).glob("genindex-?.html")),
+        ]
+
+        assert "genindex-F.html" in index_pages
+        for name in index_pages:
+            page = Page.read(Path(app.outdir) / name)
+            assert page.find("aside", **{"aria-label": "Page tools"}) == [], name
+            assert page.find("main", id="main-content"), name
+
+    @pytest.mark.sphinx("html", testroot="indexes", freshenv=True)
+    def test_an_ordinary_page_has_it(self, app: SphinxTestApp) -> None:
+        page = built(app)
+
+        assert len(page.find("aside", **{"aria-label": "Page tools"})) == 1
