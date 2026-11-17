@@ -20,7 +20,7 @@ IMAGE_TYPES = ("url", "local")
 class IconLink:
     """One link drawn as an icon.
 
-    Args:
+    Attributes:
         name: The link's accessible name and tooltip.
         url: Where the link leads.
         image: The markup drawn inside the link, safe to print unescaped.
