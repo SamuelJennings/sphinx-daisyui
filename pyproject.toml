@@ -47,7 +47,7 @@ daisyui = "sphinx_daisyui"
 [project.urls]
 Homepage = "https://samueljennings.github.io/sphinx-daisyui/"
 Documentation = "https://samueljennings.github.io/sphinx-daisyui/"
-Source = "https://github.com/SamuelJennings/sphinx-daisyui"
+Repository = "https://github.com/SamuelJennings/sphinx-daisyui"
 Issues = "https://github.com/SamuelJennings/sphinx-daisyui/issues"
 Changelog = "https://github.com/SamuelJennings/sphinx-daisyui/blob/main/CHANGELOG.md"
 
