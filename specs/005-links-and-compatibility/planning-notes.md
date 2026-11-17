@@ -37,6 +37,21 @@ Each merge is checked side by side against the prototype on the pages in "Pages 
 by side" whose rows name features 10, 11, 14 or 15: Home, Typography, As Furo and As
 pydata-sphinx-theme, at 390, 1100 and 1440 pixels wide, in light and dark where the row says so.
 
+## The component-list defaults
+
+The page frame (FS-001) sets the component lists' defaults to the prototype's `theme.toml`
+values, not pydata-sphinx-theme's. `navbar_center` is empty there, where pydata-sphinx-theme
+puts `navbar-nav`, and `secondary_sidebar_items` is `page-toc` alone, without `edit-this-page`
+and `sourcelink`. The pydata-sphinx-theme guide says so, and the `/as-pydata/` preset sets both
+lists explicitly, as the prototype's does. `use_edit_page_button` adds `edit-this-page` to the
+secondary sidebar for that reason (`decisions.md`, D4).
+
+## The constitution amendment
+
+This feature's pull request amends Article V to name the footer icons' own markup beside the
+announcement, and raises the constitution to 1.2.0 (FR-027, `decisions.md` D3). The amendment
+goes in the first story that prints the footer icons.
+
 ## The shared pieces
 
 From "The shared pieces" in `PROTOTYPE.md`.
@@ -90,7 +105,7 @@ From "Faked or skipped" in `PROTOTYPE.md`:
 - **Values printed without escaping.** Every value this feature prints is escaped per amended
   Article V, including `icon_links_label`, which the prototype reads directly as
   `theme_icon_links_label` (`navbar-icon-links.html:2`). The footer icons' own markup is the one
-  exception, and needs Article V to name it (`decisions.md` D3).
+  exception, which this feature writes into Article V (`decisions.md` D3, FR-027).
 - **Fixed text not translatable.** "Edit this page", "Show source" and the buttons' labels are
   marked for translation in the message catalogue the page frame sets up (FR-023).
 - **A CSS variable value written straight into a `<style>` element.** The prototype writes the

@@ -23,9 +23,12 @@ stories are never merged, so that feature is two stories and the spec has five.
 Furo's `footer_icons` entries carry their icon as raw SVG in `html`. Escaping it would print the
 SVG as text, so every Furo configuration that sets it would lose its icons, against Article X.
 It is printed as markup, on the same reasoning Article V already gives the announcement: it is
-the site author's own HTML, and both themes treat it that way. Article V names only the
-announcement, so the article needs the same exception added before the build. Every other value
-in this feature is escaped.
+the site author's own HTML, and both themes treat it that way. Every other value in this feature
+is escaped.
+
+Article V names only the announcement. Ruled at the specification's approval: no separate issue.
+This feature's own pull request amends Article V to name a `footer_icons` entry's `html` beside
+the announcement as the site author's own markup, and raises the constitution to 1.2.0 (FR-027).
 
 ## D4. `edit-this-page` keeps pydata-sphinx-theme's meaning
 

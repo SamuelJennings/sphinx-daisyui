@@ -17,7 +17,7 @@ goal id.
 the message catalogue and resolving a path under `_static`), #5 (the site navigation component
 and the breadcrumbs), #6 (the page-body styles that Furo's link colour reaches) and #7 (the modes
 that Furo's CSS variables follow, and the search button). It is written against Article V as
-amended in constitution 1.1.0.
+amended in constitution 1.1.0, and amends it again (FR-027).
 
 ## Summary
 
@@ -283,7 +283,7 @@ and places every component name it ships, with warnings as errors.
 - **FR-006**: Every name, address, label, attribute and image path from these options MUST reach
   the page escaped, and markup built from them in Python MUST be built with `markupsafe`, never
   by joining strings (Article V). A `footer_icons` entry's `html` is the site author's own markup,
-  as Furo defines it, and MUST be printed as markup (see Clarifications).
+  as Furo defines it, and MUST be printed as markup (FR-027).
 - **FR-007**: Each icon link MUST be reachable by keyboard, show a visible focus state and carry
   an accessible name (Article XIV).
 
@@ -342,6 +342,9 @@ and places every component name it ships, with warnings as errors.
   with a Furo configuration and with a pydata-sphinx-theme configuration.
 - **FR-026**: The theme's templates MUST read every value through the one context the theme sets
   for each page, never `theme_*` values directly.
+- **FR-027**: This feature's pull request MUST amend Article V of `CONSTITUTION.md` to name a
+  `footer_icons` entry's `html` beside the announcement as the site author's own markup, printed
+  as markup, and MUST raise the constitution's version to 1.2.0.
 
 ### Key Entities
 
@@ -382,8 +385,8 @@ and places every component name it ships, with warnings as errors.
 - Q: Furo's `footer_icons` carries the site author's own SVG in `html`; is it escaped like every
   other option? → A: No. Escaping it would break every Furo configuration that sets it, against
   Article X. It is the site author's own markup, as Furo defines it, and is printed as markup like
-  the announcement. Article V names only the announcement today, so it needs the same exception
-  written into it before this feature is built.
+  the announcement. Article V names only the announcement today, so this feature's own pull
+  request amends it to name the footer icons too, and raises the constitution to 1.2.0 (FR-027).
 - Q: Does `edit-this-page` draw whenever an edit address exists, as in the prototype, or only
   with `use_edit_page_button` on, as in pydata-sphinx-theme? → A: Only with it on. A borrowed
   component keeps its meaning (Article X), and a pydata-sphinx-theme site that lists the component
