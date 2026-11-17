@@ -278,7 +278,7 @@ with each Pygments option set alone, both set and with an unknown style name, an
   notation.
 - **Escape class**: `daisy-sphinx-escape`, the class that leaves its contents out of the
   page-body styles.
-- **Pygments style option**: one of the four options that set a Pygments style for a mode.
+- **Pygments style option**: one of the two options that set a Pygments style for a mode.
 
 ## Success Criteria *(mandatory)*
 

@@ -55,3 +55,42 @@ its own dependency group for the kitchen sink pages.
 The prototype names a table's region "Table" and an equation's "Equation", and a toggle
 "Show the pages in …". The specification requires a fixed name and its translation (FR-019), not
 the words, so tests check that a name is present and comes from the catalogue, not its text.
+
+## D8. The body is changed by a translator mixin
+
+The heading links, admonition titles and a toctree in a page exist only while Sphinx writes the
+page, and parsing the written HTML would bring back the parser ADR 0001 kept out. A mixin over
+each HTML builder's translator, built at `builder-inited` as pydata-sphinx-theme builds its own,
+changes them at write time and keeps another extension's translator as its base.
+
+**ADR:** pending S5
+
+## D9. Sphinx's Pygments stylesheet is dropped on every page
+
+With a style set for only one mode, Sphinx's `pygments.css` would still colour the other mode's
+code, mixing Sphinx's default style into the token highlighting that FR-014 keeps. The theme's own
+stylesheet carries every Pygments style a site sets.
+
+**ADR:** pending S5
+
+## D10. The Pygments styles follow the system until the page has a mode
+
+`main` writes no mode attribute yet. Each style is keyed on `data-mode` on `<html>`, which the
+modes feature adds, and on `prefers-color-scheme` while that attribute is absent, as the logo is.
+
+**ADR:** pending S5
+
+## D11. The admonition icons are inline SVG
+
+FR-021 wants the icons from the icon set with no second copy in the stylesheet. The mixin writes
+them into each title from `ICONS`, as the frame draws its icons. A task list's tick is drawn with
+CSS, since it is not the icon of a kind.
+
+**ADR:** pending S5
+
+## D12. The supported browsers are those with `@scope`
+
+The page-body styles are scoped with `@scope`, in Chrome 118, Safari 17.4 and Firefox 146. That
+becomes the theme's documented support target.
+
+**ADR:** pending S5
