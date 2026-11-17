@@ -116,6 +116,15 @@ class TestExternalLinks:
         assert "Example &amp; &lt;Co&gt;" in page.text
         assert "?a=1&amp;b=2" in page.text
 
+    @header(header_links_before_dropdown=10)
+    def test_they_reach_the_navbar_escaped_when_shown_there(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = built(app).inside("header")
+
+        assert "<Co>" not in page.text
+        assert "Example &amp; &lt;Co&gt;" in page.text
+
 
 class TestMenu:
     @header()

@@ -79,3 +79,5 @@ live in `tests/test_templates/`.
 - [ ] T017 [US2] Fixes from the side-by-side check against the prototype: the section menu counts
   `show_nav_level` from the sidebar's own first level, the drawer scrolls an entry near its edge
   into view, and On this page marks again once the page has loaded.
+- [ ] T018 [US2] A test that an external link's name reaches the navbar escaped when it is shown
+  there, not only in the menu.
