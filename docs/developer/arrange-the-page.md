@@ -40,6 +40,41 @@ describes each letter.
 The footer now shows the components in that order. A component whose Sphinx setting is off draws
 nothing. [Components](../reference/components.md) names the setting for each one.
 
+## Show a logo
+
+1. Put the logo files in a directory listed in `html_static_path` in `conf.py`.
+2. Name them in `html_theme_options`, in the shape of the theme you are coming from. Furo's:
+
+   ```python
+   html_theme_options = {
+       "light_logo": "logo-light.svg",
+       "dark_logo": "logo-dark.svg",
+   }
+   ```
+
+   pydata-sphinx-theme's:
+
+   ```python
+   html_theme_options = {
+       "logo": {
+           "image_light": "logo-light.svg",
+           "image_dark": "logo-dark.svg",
+           "alt_text": "Project name",
+           "link": "https://example.org/",
+       },
+   }
+   ```
+
+   A site with one logo for both modes sets Sphinx's `html_logo` instead:
+
+   ```python
+   html_logo = "_static/logo.svg"
+   ```
+
+The brand now shows the logo for the reader's colour mode, and the dark logo falls back to the
+light one. Add `"text"` to `logo` to print a name beside the images. [Options](../reference/options.md)
+describes each option.
+
 ## Add your own component
 
 1. Add a directory for your templates to `templates_path` in `conf.py`, if the site has none:

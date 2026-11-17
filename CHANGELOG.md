@@ -15,3 +15,6 @@ All notable changes to this project are recorded here. The format follows
   `theme-version`, `last-updated` and `navbar-logo` components.
 - The reader's page: a drawer for the navigation on narrow windows, a sticky header, a skip link,
   and text that translates with Sphinx's `language` setting.
+- The brand: a logo for each colour mode and an optional name, set with Furo's `light_logo`,
+  `dark_logo` and `sidebar_hide_name`, pydata-sphinx-theme's `logo` and `logo_link`, or Sphinx's
+  `html_logo`.
