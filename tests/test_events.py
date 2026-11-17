@@ -117,7 +117,8 @@ class TestPageContext:
         assert daisy["navbar_start"] == ["navbar-logo.html"]
         assert daisy["footer_start"] == ["copyright.html", "sphinx-version.html"]
         assert daisy["footer_end"] == ["theme-version.html"]
-        assert daisy["secondary"] == ["page-toc.html"]
+        assert daisy["secondary_sidebar_items"] == ["page-toc.html"]
+        assert "secondary" not in daisy
         assert daisy["navbar_center"] == []
 
     @pytest.mark.sphinx(

@@ -92,9 +92,9 @@
       </div>
     </main>
 
-    {%- if d.secondary and pagename not in ("search", "genindex") %}
+    {%- if d.secondary_sidebar_items and pagename not in ("search", "genindex") %}
       <aside class="daisy-area-secondary" aria-label="{{ _('Page tools')|e }}">
-        <div class="daisy-secondary daisy-secondary-inner">{{ components(d.secondary) }}</div>
+        <div class="daisy-secondary daisy-secondary-inner">{{ components(d.secondary_sidebar_items) }}</div>
       </aside>
     {%- endif %}
 
