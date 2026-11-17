@@ -30,9 +30,58 @@ right.
 The middle row is always `l`, `p`, `r`, and the centre of the top and bottom rows is always `h`
 and `f`. A code of any other shape stops the build with a message saying what it needs.
 
+## Try it
+
+Type a code or pick a recipe. Scroll inside the window to see which areas stay in place.
+
+```{raw} html
+<div class="daisy-sphinx-escape lp" data-layout-playground data-screen="xl">
+  <form class="lp-form" aria-label="Layout code">
+    <label class="lp-field">
+      <span class="lp-label">Layout code</span>
+      <input class="input input-sm lp-code" value="hHh LpR lff" spellcheck="false" autocomplete="off" aria-describedby="lp-msg">
+    </label>
+    <div class="lp-group">
+      <span class="lp-label">Recipes</span>
+      <div class="join">
+        <button type="button" class="btn btn-sm join-item" data-code="hHh LpR lff">Default</button>
+        <button type="button" class="btn btn-sm join-item" data-code="lHh LpR lff">Furo</button>
+        <button type="button" class="btn btn-sm join-item" data-code="hHh LpR fff">pydata</button>
+        <button type="button" class="btn btn-sm join-item" data-code="hhh lpr fff">Static</button>
+        <button type="button" class="btn btn-sm join-item" data-code="hHr LpR lfr">Tall right</button>
+      </div>
+    </div>
+    <div class="lp-group">
+      <span class="lp-label">Screen</span>
+      <div class="join">
+        <button type="button" class="btn btn-sm join-item btn-primary" data-screen-choice="xl" aria-pressed="true">Wide</button>
+        <button type="button" class="btn btn-sm join-item" data-screen-choice="lg" aria-pressed="false">Medium</button>
+        <button type="button" class="btn btn-sm join-item" data-screen-choice="sm" aria-pressed="false">Phone</button>
+      </div>
+    </div>
+  </form>
+  <p id="lp-msg" class="lp-msg" aria-live="polite"></p>
+  <div class="lp-chips" aria-hidden="true"></div>
+  <div class="mockup-browser">
+    <div class="mockup-browser-toolbar"><div class="input lp-address">docs.example.org</div></div>
+    <div class="lp-viewport" tabindex="0" aria-label="A page drawn with this layout. Scroll it to see which areas stay in place.">
+      <div class="lp-grid">
+        <div class="lp-area lp-header" data-area="header"><span class="lp-title"><span class="lp-menu" aria-hidden="true">&#9776;</span>Header <span class="lp-pin" data-pin="header">stays</span></span></div>
+        <div class="lp-area lp-primary" data-area="primary"><div class="lp-inner"><span class="lp-title">Left sidebar <span class="lp-pin" data-pin="primary">stays</span></span><div class="lp-lines"><span></span><span></span><span></span><span></span><span></span><span></span></div></div></div>
+        <div class="lp-area lp-main" data-area="main"><span class="lp-title">Page</span><div class="lp-lines"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+        <div class="lp-area lp-secondary" data-area="secondary"><div class="lp-inner"><span class="lp-title">Right sidebar <span class="lp-pin" data-pin="secondary">stays</span></span><div class="lp-lines"><span></span><span></span><span></span><span></span></div></div></div>
+        <div class="lp-area lp-footer" data-area="footer"><span class="lp-title">Footer <span class="lp-pin" data-pin="footer">stays</span></span></div>
+      </div>
+    </div>
+  </div>
+  <ul class="lp-explain"></ul>
+  <pre class="lp-snippet"><code></code></pre>
+</div>
+```
+
 ## Compare them
 
-Each of these is this documentation built with one code. The banner at the top of each says
+Each of these is this documentation built with one code, to see a layout on real pages. The banner at the top of each says
 which.
 
 | Code | What it gives | See it |

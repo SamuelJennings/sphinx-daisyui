@@ -7,8 +7,9 @@
    (admonitions, code, tables, cards) by a little more; a heading has far more
    space above it than below, so it reads as the start of what follows. */
 
-/* Everything is scoped to the page body, so the theme's frame keeps daisyUI's own styles. */
-@scope (.daisy-sphinx-content) {
+/* Everything is scoped to the page body, so the theme's frame keeps daisyUI's own styles.
+   Raw HTML inside an element with the class daisy-sphinx-escape is left alone. */
+@scope (.daisy-sphinx-content) to (.daisy-sphinx-escape) {
   /* ------------------------------------------------------------------ */
   /* Tokens                                                              */
   /* ------------------------------------------------------------------ */

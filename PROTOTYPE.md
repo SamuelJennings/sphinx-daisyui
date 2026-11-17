@@ -63,6 +63,15 @@ file is the record that would otherwise be its issue.
   room for the right sidebar, and marks which areas stay in place. Below `lg` the page is one
   column and the sidebar is a drawer. When the sidebar reaches the top, the logo moves to its
   head. Compared at `/layouts/<code>/` for four codes besides the default.
+- **Layout playground** on the Layout page: a daisyUI browser mock-up whose page is the same
+  five-area grid, redrawn as you type a code or pick a recipe, at wide, medium and phone width.
+  It scrolls inside the window, so the areas that stay in place stay. Each letter is shown as a
+  chip in its area's colour, with a sentence per area saying what the code does, and the
+  `html_theme_options` line to copy. Docs-only files: `docs/_static/layout-playground.*`. Its
+  parser repeats `parse_layout` in JavaScript.
+- **`daisy-sphinx-escape`**: raw HTML inside an element with this class is left out of the
+  page-body styles, so embedded components keep daisyUI's own look. `mockup-browser`, `input`,
+  `join` and a few others are compiled into the stylesheet for raw HTML to use.
 - **Serving**: `scripts/serve.sh` (sphinx-autobuild, rebuilding the stylesheet and all three
   sites on change), on port 8062.
 
@@ -110,3 +119,6 @@ file is the record that would otherwise be its issue.
   column stays centred on wide screens, with the two sidebar columns taking the spare width.
   The logo moves into the sidebar when the sidebar reaches the top, rather than relying on
   Furo's `sidebar/brand.html`.
+- 2026-11-17 Sam: show the layout system as a live mock-up driven by a form, in daisyUI's
+  browser mock-up. Decided on my own: recipes and a screen-size switch beside the code field,
+  colour-coded letter chips, and a plain-language reading of the code under the mock-up.

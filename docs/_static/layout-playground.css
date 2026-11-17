@@ -1,0 +1,92 @@
+/* The layout playground on the Layout page: a browser mock-up whose page is the
+   same five-area grid the theme draws, driven by a layout code. */
+
+.lp { --lp-header: 2.75rem; margin-top: 1.75rem; display: flex; flex-direction: column; gap: 1rem; font-size: 0.875rem; }
+.lp-form { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 1rem 1.5rem; }
+.lp-field, .lp-group { display: flex; flex-direction: column; gap: 0.375rem; }
+.lp-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: color-mix(in oklab, var(--color-base-content) 65%, transparent); }
+.lp-code { width: 11rem; font-family: var(--font-mono, ui-monospace, monospace); font-size: 1rem; letter-spacing: 0.08em; }
+.lp-msg { min-height: 1.25rem; margin: 0; color: var(--color-error); }
+.lp-msg:empty { display: none; }
+
+/* The code, one chip per letter in its area's colour. */
+.lp-chips { display: flex; gap: 0.25rem; font-family: var(--font-mono, ui-monospace, monospace); }
+.lp-chips .lp-gap { width: 0.5rem; }
+.lp-chip {
+  display: inline-grid; place-items: center; width: 1.75rem; height: 1.75rem;
+  border: 1px solid var(--lp-c); border-radius: var(--radius-field);
+  background: color-mix(in oklab, var(--lp-c) 16%, var(--color-base-100));
+  color: color-mix(in oklab, var(--lp-c) 60%, var(--color-base-content));
+  font-weight: 700;
+}
+.lp-chip.is-fixed { background: var(--lp-c); color: var(--color-base-100); }
+
+.lp-explain { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.375rem; }
+.lp-explain li { display: flex; gap: 0.5rem; align-items: baseline; }
+.lp-explain .lp-dot { flex: none; width: 0.625rem; height: 0.625rem; border-radius: 999px; background: var(--lp-c); transform: translateY(0.05rem); }
+
+/* Area colours. */
+.lp [data-area="header"], .lp-chip[data-area="header"], .lp-explain [data-area="header"] { --lp-c: var(--color-primary); }
+.lp [data-area="primary"], .lp-chip[data-area="primary"], .lp-explain [data-area="primary"] { --lp-c: var(--color-secondary); }
+.lp [data-area="main"], .lp-chip[data-area="main"], .lp-explain [data-area="main"] { --lp-c: color-mix(in oklab, var(--color-base-content) 45%, var(--color-base-100)); }
+.lp [data-area="secondary"], .lp-chip[data-area="secondary"], .lp-explain [data-area="secondary"] { --lp-c: var(--color-accent); }
+.lp [data-area="footer"], .lp-chip[data-area="footer"], .lp-explain [data-area="footer"] { --lp-c: var(--color-info); }
+
+/* The mock-up. */
+.lp .mockup-browser { border: 1px solid var(--color-base-300); background: var(--color-base-200); transition: max-width 250ms ease; margin-inline: auto; width: 100%; }
+.lp[data-screen="lg"] .mockup-browser { max-width: 40rem; }
+.lp[data-screen="sm"] .mockup-browser { max-width: 22rem; }
+.lp-viewport { height: 24rem; overflow-y: auto; overflow-x: hidden; background: var(--color-base-100); overscroll-behavior: contain; scrollbar-width: thin; }
+
+.lp-grid {
+  display: grid;
+  min-height: 100%;
+  grid-template-columns: minmax(4rem, 1fr) minmax(0, 2.6fr) minmax(4rem, 1fr);
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas: var(--lp-areas);
+}
+.lp[data-screen="sm"] .lp-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "header" "main" "footer"; }
+.lp[data-screen="sm"] :is(.lp-primary, .lp-secondary) { display: none; }
+.lp[data-screen="lg"] .lp-secondary { display: none; }
+
+.lp-area {
+  position: relative;
+  min-width: 0;
+  padding: 0.625rem 0.75rem;
+  border: 1px dashed color-mix(in oklab, var(--lp-c) 70%, transparent);
+  background: color-mix(in oklab, var(--lp-c) 12%, var(--color-base-100));
+  color: color-mix(in oklab, var(--lp-c) 55%, var(--color-base-content));
+}
+.lp-title { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.375rem; line-height: 1.3; overflow-wrap: anywhere; font-weight: 700; font-size: 0.8125rem; }
+.lp-pin { font-weight: 600; font-size: 0.6875rem; padding: 0 0.375rem; border-radius: 999px; background: var(--lp-c); color: var(--color-base-100); }
+.lp-pin[hidden] { display: none; }
+.lp-menu { display: none; }
+.lp[data-screen="sm"] .lp-menu { display: inline; }
+
+.lp-header { grid-area: header; z-index: 3; min-height: var(--lp-header); display: flex; align-items: center; }
+.lp-primary { grid-area: primary; }
+.lp-main { grid-area: main; }
+.lp-secondary { grid-area: secondary; }
+.lp-footer { grid-area: footer; z-index: 3; }
+
+.lp-grid[data-header-fixed] .lp-header { position: sticky; top: 0; background: color-mix(in oklab, var(--lp-c) 18%, var(--color-base-100)); }
+.lp-grid[data-footer-fixed] .lp-footer { position: sticky; bottom: 0; background: color-mix(in oklab, var(--lp-c) 18%, var(--color-base-100)); }
+.lp-grid[data-primary-fixed] .lp-primary .lp-inner { position: sticky; top: var(--lp-primary-top); }
+.lp-grid[data-secondary-fixed] .lp-secondary .lp-inner { position: sticky; top: var(--lp-secondary-top); }
+
+.lp-lines { display: grid; gap: 0.5rem; margin-top: 0.625rem; }
+.lp-lines span { display: block; height: 0.5rem; border-radius: 999px; background: color-mix(in oklab, var(--lp-c) 30%, transparent); }
+.lp-lines span:nth-child(3n) { width: 70%; }
+.lp-lines span:nth-child(4n) { width: 85%; }
+.lp-hint { margin: 0; color: color-mix(in oklab, var(--color-base-content) 65%, transparent); }
+
+.lp-snippet {
+  margin: 0; padding: 0.875rem 1rem; border-radius: var(--radius-box);
+  background: var(--color-neutral); color: var(--color-neutral-content);
+  font-family: var(--font-mono, ui-monospace, monospace); font-size: 0.875rem; overflow-x: auto;
+}
+
+@media (width < 40rem) {
+  .lp-area { padding: 0.5rem; }
+  .lp-title { font-size: 0.75rem; }
+}
