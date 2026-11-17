@@ -227,3 +227,22 @@ class TestAdmonitionIcons:
             text,
             re.DOTALL,
         )
+
+
+class TestPygmentsStylesheet:
+    @pytest.mark.sphinx("html", testroot="body")
+    def test_no_page_links_the_sphinx_pygments_stylesheet(
+        self, app: SphinxTestApp
+    ) -> None:
+        _, page = built(app)
+
+        hrefs = [str(link["href"]) for link in page.find("link", rel="stylesheet")]
+        assert not any(href.split("?")[0].endswith("pygments.css") for href in hrefs)
+        assert any("sphinx-daisyui.css" in href for href in hrefs)
+
+    @pytest.mark.sphinx("html", testroot="body", confoverrides={"html_theme": "basic"})
+    def test_a_site_on_another_theme_keeps_it(self, app: SphinxTestApp) -> None:
+        _, page = built(app)
+
+        hrefs = [str(link["href"]) for link in page.find("link", rel="stylesheet")]
+        assert any(href.split("?")[0].endswith("pygments.css") for href in hrefs)

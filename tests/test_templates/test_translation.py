@@ -15,6 +15,8 @@ from .page import Page
 SKIP_LINK = "Skip to content"
 BREADCRUMB = "Breadcrumb"
 TOGGLE = "Show the pages in %(title)s"
+TABLE = "Table"
+EQUATION = "Equation"
 THEME = Path(sphinx_daisyui.__file__).parent
 SHIPPED = THEME / "locale" / "sphinx.pot"
 
@@ -26,6 +28,8 @@ def catalogue(app_params: object) -> Catalog:
     catalogue.add(SKIP_LINK, "Zum Inhalt springen")
     catalogue.add(BREADCRUMB, "Brotkrumen")
     catalogue.add(TOGGLE, "Seiten in %(title)s anzeigen")
+    catalogue.add(TABLE, "Tabelle")
+    catalogue.add(EQUATION, "Gleichung")
     srcdir = Path(app_params.kwargs["srcdir"])  # type: ignore[attr-defined]
     folder = srcdir / "locale" / "de" / "LC_MESSAGES"
     folder.mkdir(parents=True, exist_ok=True)
@@ -63,6 +67,22 @@ class TestTranslation:
         labels = [t.get("aria-label") for t in home.find("button", type="button")]
         assert toggle.string % {"title": "Section"} in labels
         assert landmark.string in [nav.get("aria-label") for nav in section.find("nav")]
+
+    @pytest.mark.sphinx("html", testroot="locale", freshenv=True)
+    def test_the_names_of_an_uncaptioned_table_and_equation_are_translated(
+        self, catalogue: Catalog, app: SphinxTestApp
+    ) -> None:
+        app.build()
+
+        table = catalogue.get(TABLE)
+        equation = catalogue.get(EQUATION)
+        assert table is not None
+        assert equation is not None
+        page = Page.read(Path(app.outdir) / "index.html")
+        names = [
+            r.get("aria-label") for r in page.classed("div", "daisy-sphinx-scroll")
+        ]
+        assert names == [table.string, equation.string]
 
     def test_every_message_the_templates_mark_is_in_the_shipped_template(self) -> None:
         marked = {

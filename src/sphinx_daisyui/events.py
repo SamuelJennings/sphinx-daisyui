@@ -95,6 +95,19 @@ def is_index_page(templatename: str) -> bool:
     )
 
 
+def without_pygments_stylesheet(context: dict[str, Any]) -> None:
+    """Take Sphinx's Pygments stylesheet out of a page's stylesheets.
+
+    Args:
+        context: The page's template context, changed in place.
+    """
+    context["css_files"] = [
+        sheet
+        for sheet in context.get("css_files", [])
+        if not str(getattr(sheet, "filename", sheet)).endswith("pygments.css")
+    ]
+
+
 def add_page_context(
     app: Sphinx,
     pagename: str,
@@ -113,6 +126,7 @@ def add_page_context(
     """
     if app.config.html_theme != "daisyui":
         return
+    without_pygments_stylesheet(context)
     options = ThemeOptions.from_context(context)
     announcement = options.text("announcement").strip()
     is_url = announcement.startswith(("http://", "https://"))
