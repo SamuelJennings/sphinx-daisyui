@@ -22,6 +22,8 @@ footer_end = ["theme-version"]
 show_prev_next = "true"
 back_to_top_button = "true"
 navigation_with_keys = "false"
+# The search dialog owns "/", so Sphinx's own listener for it stays off.
+enable_search_shortcuts = "false"
 announcement = ""
 sticky_banners = "false"
 navigation_depth = "4"
