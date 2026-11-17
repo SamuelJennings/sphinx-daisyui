@@ -21,3 +21,5 @@ All notable changes to this project are recorded here. The format follows
 - Previous and next links at the end of each page, the `show_prev_next` option, a back to top
   button, the `back_to_top_button` option, and the `navigation_with_keys` option, which turns on
   Sphinx's arrow-key navigation.
+- An announcement banner across every page, set with the `announcement` option as text, HTML or
+  an address to fetch, and the `sticky_banners` option, which keeps it with the header.

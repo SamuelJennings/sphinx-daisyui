@@ -27,6 +27,10 @@ html_theme_options = {
 
 if os.environ.get("DAISY_LAYOUT"):
     html_theme_options["layout"] = os.environ["DAISY_LAYOUT"]
+    html_theme_options["announcement"] = (
+        f'This build uses <code>layout = "{os.environ["DAISY_LAYOUT"]}"</code>. '
+        '<a class="link" href="/reference/layout-code.html">Compare the layouts</a>'
+    )
 
 # docs/agents/ and the brainstorm are notes for maintainers, not part of the site.
 exclude_patterns = ["_build", "agents", "brainstorm.md"]

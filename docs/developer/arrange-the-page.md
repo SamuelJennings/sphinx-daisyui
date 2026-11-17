@@ -117,6 +117,31 @@ A button that scrolls back to the top appears while the reader scrolls up, far d
 `back_to_top_button` to `False` to remove it. All three options are described in
 [Options](../reference/options.md).
 
+## Put an announcement across every page
+
+Set `announcement` to the text of a banner that appears at the top of every page:
+
+```python
+html_theme_options = {
+    "announcement": "Version 2 is out. <a href='/changes.html'>See what changed</a>",
+}
+```
+
+The text may hold HTML of your own, and the theme prints it as written. To keep the banner in
+one file, set `announcement` to an address that starts with `http://` or `https://`. The page
+script fetches that address when a reader opens a page and puts the HTML it returns in the banner.
+The banner is removed when the address fails, cannot be reached or returns nothing.
+
+To keep the banner in view with the header, set `sticky_banners` to `True`:
+
+```python
+html_theme_options = {
+    "sticky_banners": True,
+}
+```
+
+Both options are described in [Options](../reference/options.md).
+
 ## How the page behaves for a reader
 
 The browser changes the page as the window changes:

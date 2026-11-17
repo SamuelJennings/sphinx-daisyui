@@ -105,6 +105,24 @@ logo.
 - **Meaning:** Whether a button appears while the reader scrolls up, far down a page, that scrolls
   back to the top.
 
+### `announcement`
+
+- **Type:** text
+- **Default:** empty
+- **Meaning:** A banner across the top of every page. Text, including HTML of your own, is
+  printed as written and is not escaped. Text that starts with `http://` or `https://` is an
+  address instead: the page script fetches it and puts the HTML it returns in the banner. The
+  banner is removed when the address cannot be fetched, answers with an error or returns nothing,
+  which includes a site opened from the file system. An empty value shows no banner.
+
+### `sticky_banners`
+
+- **Type:** boolean
+- **Default:** `False`
+- **Meaning:** Whether the banner sits inside the header, so that it stays with the header when
+  the layout code keeps the header in place. When off, the banner is the first thing on the page
+  and scrolls away.
+
 ## Component lists
 
 ### `navbar_start`
