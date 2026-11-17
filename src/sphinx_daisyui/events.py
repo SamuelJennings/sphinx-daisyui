@@ -11,6 +11,7 @@ from sphinx.util import logging
 from .brand import Brand
 from .icons import ICONS
 from .layout import LayoutCodeError
+from .navigation import SiteNavigation
 from .options import ThemeOptions
 
 LOGGER = logging.getLogger(__name__)
@@ -97,6 +98,14 @@ def add_page_context(
     options = ThemeOptions.from_context(context)
     announcement = options.text("announcement").strip()
     is_url = announcement.startswith(("http://", "https://"))
+    site = SiteNavigation(
+        app.env,
+        pagename,
+        app.builder,
+        maxdepth=options.number("navigation_depth", 4),
+        collapse=options.flag("collapse_navigation"),
+        includehidden=options.flag("sidebar_includehidden", True),
+    )
     context["daisy"] = {
         "layout": options.layout(),
         "brand": Brand.from_options(options, context),
@@ -110,4 +119,5 @@ def add_page_context(
         "sticky_banners": options.flag("sticky_banners"),
         "announcement": "" if is_url else Markup(announcement),  # noqa: S704
         "announcement_url": announcement if is_url else "",
+        "navigation": site.menu(options.number("show_nav_level", 1)),
     }
