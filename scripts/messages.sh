@@ -10,3 +10,6 @@ uv run pybabel extract \
   --sort-output \
   --output-file src/sphinx_daisyui/locale/sphinx.pot \
   src/sphinx_daisyui/theme
+
+# Babel ends the file with a blank line, which the repo's end-of-file check removes.
+sed -i -e :a -e '/^\n*$/{$d;N;ba' -e '}' src/sphinx_daisyui/locale/sphinx.pot
