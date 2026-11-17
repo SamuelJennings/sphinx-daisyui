@@ -17,6 +17,8 @@ BREADCRUMB = "Breadcrumb"
 TOGGLE = "Show the pages in %(title)s"
 TABLE = "Table"
 EQUATION = "Equation"
+CHOOSE_THEME = "Choose the colour theme"
+SYSTEM_MODE = "Match the system"
 THEME = Path(sphinx_daisyui.__file__).parent
 SHIPPED = THEME / "locale" / "sphinx.pot"
 
@@ -30,6 +32,8 @@ def catalogue(app_params: object) -> Catalog:
     catalogue.add(TOGGLE, "Seiten in %(title)s anzeigen")
     catalogue.add(TABLE, "Tabelle")
     catalogue.add(EQUATION, "Gleichung")
+    catalogue.add(CHOOSE_THEME, "Farbschema wählen")
+    catalogue.add(SYSTEM_MODE, "Wie das System")
     srcdir = Path(app_params.kwargs["srcdir"])  # type: ignore[attr-defined]
     folder = srcdir / "locale" / "de" / "LC_MESSAGES"
     folder.mkdir(parents=True, exist_ok=True)
@@ -83,6 +87,23 @@ class TestTranslation:
             r.get("aria-label") for r in page.classed("div", "daisy-sphinx-scroll")
         ]
         assert names == [table.string, equation.string]
+
+    @pytest.mark.sphinx("html", testroot="locale", freshenv=True)
+    def test_the_theme_menus_name_and_a_mode_button_are_translated(
+        self, catalogue: Catalog, app: SphinxTestApp
+    ) -> None:
+        app.build()
+
+        name = catalogue.get(CHOOSE_THEME)
+        system = catalogue.get(SYSTEM_MODE)
+        assert name is not None
+        assert system is not None
+        text = (Path(app.outdir) / "index.html").read_text(encoding="utf-8")
+        page = Page(text)
+        assert name.string in [b.get("aria-label") for b in page.find("div")]
+        assert re.search(
+            r'data-daisy-set-mode="auto"[^>]*>.*?' + re.escape(system.string), text
+        )
 
     def test_every_message_the_templates_mark_is_in_the_shipped_template(self) -> None:
         marked = {

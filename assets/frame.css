@@ -3,11 +3,24 @@
 html { scroll-padding-top: 5rem; }
 [id] { scroll-margin-top: 5rem; }
 
-/* The logo for the other mode stays hidden. Until the theme has modes of its own
-   the system setting picks it; the modes feature moves this rule onto them. */
-@media (prefers-color-scheme: dark) { .daisy-logo-light { display: none; } }
-@media not (prefers-color-scheme: dark) { .daisy-logo-dark { display: none; } }
+/* The logo for the other mode stays hidden. The mode attributes on <html> pick the
+   logo; the system setting does until the page's script has set them. */
+html[data-mode="dark"] .daisy-logo-light,
+html[data-mode="light"] .daisy-logo-dark { display: none; }
+@media (prefers-color-scheme: dark) { html:not([data-mode]) .daisy-logo-light { display: none; } }
+@media not (prefers-color-scheme: dark) { html:not([data-mode]) .daisy-logo-dark { display: none; } }
 .daisy-logo-light[src=""], .daisy-logo-dark[src=""] { display: none; }
+
+/* The theme button shows the reader's current choice. */
+[data-daisy-mode-icon] { display: none; }
+html[data-mode-choice="auto"] [data-daisy-mode-icon="auto"],
+html[data-mode-choice="light"] [data-daisy-mode-icon="light"],
+html[data-mode-choice="dark"] [data-daisy-mode-icon="dark"],
+html[data-mode-choice="theme"] [data-daisy-mode-icon="theme"],
+html:not([data-mode-choice]) [data-daisy-mode-icon="auto"] { display: inline-flex; }
+
+/* Dimmed text in a menu keeps the muted colour's contrast. */
+.daisy-muted { color: var(--daisy-text-muted); }
 
 /* ------------------------------------------------------------------ */
 /* The page grid                                                        */

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sphinx-daisyui VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-17 17:17+0100\n"
+"POT-Creation-Date: 2026-11-17 19:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,7 +38,13 @@ msgstr ""
 msgid "Built with %(sphinx_link)s %(sphinx_version)s."
 msgstr ""
 
+msgid "Choose the colour theme"
+msgstr ""
+
 msgid "Close the navigation"
+msgstr ""
+
+msgid "Dark"
 msgstr ""
 
 msgid "Documentation"
@@ -58,7 +64,13 @@ msgstr ""
 msgid "Last updated %(last_updated)s."
 msgstr ""
 
+msgid "Light"
+msgstr ""
+
 msgid "Link to this equation"
+msgstr ""
+
+msgid "Match the system"
 msgstr ""
 
 msgid "More"
@@ -100,4 +112,7 @@ msgstr ""
 
 #, python-format
 msgid "Theme: %(theme_link)s %(version)s."
+msgstr ""
+
+msgid "Themes"
 msgstr ""

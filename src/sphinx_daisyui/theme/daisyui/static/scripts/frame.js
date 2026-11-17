@@ -31,8 +31,10 @@
   const opener = document.querySelector("[data-daisy-drawer-open]");
   const closer = document.querySelector("[data-daisy-drawer-close]");
   if (window.sphinxDaisyui && window.sphinxDaisyui.keys) {
-    window.sphinxDaisyui.keys.on("Escape", () => {
+    /* A menu in the drawer takes its own Escape, so the drawer stays open. */
+    window.sphinxDaisyui.keys.on("Escape", (event) => {
       if (!drawer || !drawer.checked) return;
+      if (event.target.closest && event.target.closest(".daisy-dropdown")) return;
       drawer.checked = false;
       if (opener) opener.focus();
     });
