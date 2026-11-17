@@ -88,7 +88,7 @@ testpaths = ["tests"]
 addopts = ["--strict-markers", "--strict-config", "-ra"]
 
 [tool.forge.conformance]
-non-mirror-paths = ["tests/test_templates/"]
+non-mirror-paths = ["tests/test_templates/", "tests/test_docs/"]
 
 [tool.coverage.run]
 branch = true
