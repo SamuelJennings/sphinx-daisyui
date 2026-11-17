@@ -87,7 +87,6 @@ class TestBrand:
 
         assert brand.light == "../_static/light.svg"
 
-
     @pytest.mark.parametrize(
         "image", ["light.svg", "_static/light.svg", "https://example.org/light.svg"]
     )
@@ -118,7 +117,6 @@ class TestBrand:
         brand = make({"logo": {"link": "https://example.org/"}})
 
         assert brand.href == "https://example.org/"
-
 
 
 class TestBrandInABuild:
