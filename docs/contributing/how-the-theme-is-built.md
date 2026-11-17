@@ -89,3 +89,15 @@ switcher.
 `show_version_warning_banner` into `daisy.switcher`. `check_switcher`, connected to the end of
 the build, reads the site's `switcher.json` once and warns when it cannot be used.
 `static/scripts/versions.js` lists the versions in the page and fills the banner.
+
+## Icon links and source links
+
+`IconLinks` in `sphinx_daisyui.links` reads `icon_links` into `daisy.icon_links`, one `IconLink`
+per entry with an address, each holding its name, its address and the icon or image drawn in
+it. `check_icon_links` warns once at the start of the build when the option is text, and for
+each entry whose icon is not bundled.
+
+`SourceLinks` reads `source_repository`, `source_branch` and `source_directory` into
+`daisy.sources`: the page's edit and view addresses and the address of Sphinx's copy of its
+source. `SourceHost` holds one host's address forms, and `HOSTS` the three the theme knows.
+`daisy.top_buttons` is the part of `top_of_page_buttons` whose addresses exist.

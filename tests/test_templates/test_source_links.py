@@ -117,7 +117,7 @@ class TestTopOfPageButtons:
     def test_each_button_has_an_accessible_name(self, app: SphinxTestApp) -> None:
         page = built(app)
 
-        buttons = [t for t in page.having("href") if t["href"].startswith(GITHUB)]  # type: ignore[union-attr]
+        buttons = [t for t in page.having("href") if str(t["href"]).startswith(GITHUB)]
         assert len(buttons) == 2
         assert all(tag.get("aria-label") for tag in buttons)
         assert buttons[0]["aria-label"] != buttons[1]["aria-label"]
