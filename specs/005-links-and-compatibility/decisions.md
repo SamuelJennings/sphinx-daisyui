@@ -3,83 +3,57 @@
 Decisions made while specifying, with the reason each is defensible. Each stands until the
 maintainer changes it.
 
-## D1. The reading of issue #8, taken as agreed
+## D1. Scope: icon links and source links
 
-A site author links out from the site as icons and points each page at its source, and a reader
-opens that source. A site author switches from Furo or pydata-sphinx-theme by changing
-`html_theme` only. The design is the prototype's features 10, 11, 14 and 15, whose screens and
-decisions are agreed. Everything else the prototype holds belongs to issues #4 to #7. No goal id
-is cited because the repository has no `GOALS.md` yet.
+The theme has its own configuration and takes no other theme's options (maintainer, 2026-11-17).
+A site coming from Furo or pydata-sphinx-theme reconfigures. This feature is the prototype's
+features 10 (icon links) and 11 (edit and view source links). Its features 14 and 15, which made
+another theme's configuration build unchanged, are not built. No goal id is cited because the
+repository has no `GOALS.md` yet.
 
-## D2. Five stories
+## D2. Three stories
 
-Icon links, the Furo configurations and the pydata-sphinx-theme configurations are each one
-thing a site author sets out to do. Edit and view source links have two people: the site author
-who says where the sources live, and the reader who opens them. A site author's and a reader's
-stories are never merged, so that feature is two stories and the spec has five.
+Icon links are one thing a site author sets out to do. Source links have two people: the site
+author who says where the sources live, and the reader who opens them. A site author's and a
+reader's stories are never merged.
 
-## D3. Footer icon markup is the site author's own
+## D3. `icon_links` names bundled icons
 
-Furo's `footer_icons` entries carry their icon as raw SVG in `html`. Escaping it would print the
-SVG as text, so every Furo configuration that sets it would lose its icons, against Article X.
-It is printed as markup, on the same reasoning Article V already gives the announcement: it is
-the site author's own HTML, and both themes treat it that way. Every other value in this feature
-is escaped.
+Each entry's `icon` names one of the theme's bundled icons, with `type` `url` or `local` for an
+image. pydata-sphinx-theme's shape is kept for the entry (`name`, `url`, `icon`, `type`), since
+it is a good shape for the same thing. Its Font Awesome names, its `attributes` key and its
+`github_url`, `gitlab_url`, `bitbucket_url` and `twitter_url` shortcuts are not: each is a second
+way to write a link, or a mapping onto icons the theme does not use.
 
-Article V names only the announcement. Ruled at the specification's approval: no separate issue.
-This feature's own pull request amends Article V to name a `footer_icons` entry's `html` beside
-the announcement as the site author's own markup, and raises the constitution to 1.2.0 (FR-027).
+## D4. An unknown icon name warns
 
-## D4. `edit-this-page` keeps pydata-sphinx-theme's meaning
+A name that is not bundled draws the generic link icon and warns, naming the entry. A silent
+fallback would hide a typo, and a site that builds with warnings as errors learns of it at once.
 
-The prototype drew the component whenever an edit address existed. pydata-sphinx-theme draws it
-only when `use_edit_page_button` is on. A borrowed component keeps its source theme's meaning
-(Article X), so it follows pydata-sphinx-theme. The prototype's own rule, that turning the option
-on adds the component to the secondary sidebar when no list names it, stays, because this
-theme's default `secondary_sidebar_items` does not list it as pydata-sphinx-theme's does.
+## D5. Icon links in the footer go through the component
 
-## D5. Every component name pydata-sphinx-theme ships resolves
+`navbar-icon-links` is placed in a footer component list like any other component. There is no
+second option for footer icons, so the Article V exception for footer HTML is not needed.
 
-Read from the pydata-sphinx-theme 0.24 wheel (`research.md`): it ships `icon-links`, `indices`,
-`prev-next` and `searchbox`, which the prototype has no template for. A configuration naming
-them builds already, because an unknown name draws nothing, but the issue promises every
-component name is accepted. `icon-links` draws the icon links, its meaning there. `prev-next`,
-`indices` and `searchbox` draw nothing: the frame draws previous and next from `show_prev_next`,
-the theme has no index list, and `searchbox` is an empty container for Sphinx's highlight button.
+## D6. One shape for source links
 
-## D6. An empty `top_of_page_buttons` shows no buttons
+`source_repository`, `source_branch` and `source_directory` say where the sources live, for all
+three hosts. `top_of_page_buttons` (a list of `edit` and `view`, default `["edit"]`) says which
+buttons sit beside the breadcrumbs, and the `edit-this-page` and `sourcelink` components place
+links in a sidebar. The edit-link and view-link templates and every `html_context` key are left
+out, because each is a second way to say the same thing.
 
-In Furo an empty list means no buttons. The prototype fell back to `top_of_page_button` and drew
-the edit button. The spec follows Furo.
+## D7. The host is read from the repository's address
 
-## D7. A missing host never stops the build
+`github.com`, `gitlab.com` and `bitbucket.org` are recognised. Any other host gets no links and no
+warning, since a site may name a repository the theme cannot link into. Self-hosted instances
+can get an option naming the host later, without changing these options.
 
-pydata-sphinx-theme raises an error when `use_edit_page_button` is on and `html_context` names no
-host. Article X says an option the theme can't honour is never an error, so the build succeeds
-and draws no edit link.
+## D8. `edit-this-page` draws whenever an edit address exists
 
-## D8. pydata-sphinx-theme's self-hosted hosts and `edit_page_url_template` are in
+With no `use_edit_page_button`, placing the component is the site author's choice to show the
+link, as with any other component.
 
-Its edit link reads a self-hosted `github_url`, `gitlab_url` or `bitbucket_url` and an
-`edit_page_url_template` from `html_context`, and the prototype read neither. Both are part of
-the edit link's meaning there, and a configuration that sets them would otherwise lose its edit
-link, so the spec includes them.
+## D9. Versions
 
-## D9. `analytics` stays ignored
-
-pydata-sphinx-theme's `analytics` loads a script from another host. Article XII says the theme
-loads nothing from another host, so it is accepted and ignored for good, and the reference says
-a site adds its own analytics script. `shorten_urls`, `surface_warnings` and
-`templates_skip_empty_check` are accepted and ignored too, as the issue allows, and the
-reference says so for each.
-
-## D10. Furo's CSS variables: map every counterpart, set the rest as written
-
-The prototype mapped eight of Furo's 107 variables. The spec asks for every variable with a
-daisyUI counterpart to be mapped, and the rest set as written so a site's own stylesheet that
-reads them still works. Which variables have a counterpart is research.
-
-## D11. Versions promised
-
-Furo 2025.12 and pydata-sphinx-theme 0.24, the versions the prototype read. Options those themes
-removed in earlier versions are not promised.
+There is no other theme's version to track, since nothing is borrowed for compatibility.
