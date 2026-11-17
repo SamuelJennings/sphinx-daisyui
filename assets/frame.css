@@ -188,3 +188,5 @@ html { scroll-padding-top: 5rem; }
 .daisy-nav-toggle { margin-top: 0.125rem; color: var(--daisy-text-muted); }
 .daisy-nav-toggle svg { transition: transform 150ms ease; }
 .daisy-nav-toggle[aria-expanded="true"] svg { transform: rotate(90deg); }
+
+.daisy-breadcrumbs { color: var(--daisy-text-muted); }

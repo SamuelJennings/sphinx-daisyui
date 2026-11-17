@@ -1,5 +1,5 @@
-Reference
-=========
+Reference ``literal``
+=====================
 
 .. toctree::
 
