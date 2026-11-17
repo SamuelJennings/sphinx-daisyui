@@ -32,6 +32,9 @@ tests live in `tests/test_templates/`. Script behaviour is checked in headless C
   `docs/developer/choose-the-themes.md`, `theme_picker` in `docs/conf.py`, CHANGELOG, the
   message catalogue template (scenario 11).
 
+- [x] T016 [US1] `scripts/themes.mjs` writes `themes.json` only when the list changes, so the
+  development server, which runs it before each build, does not rebuild for ever.
+
 ## Phase 2: User Story 2 - A reader switches mode or picks a theme (P1)
 
 ### Group 3
