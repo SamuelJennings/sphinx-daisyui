@@ -11,6 +11,7 @@
   const results = dialog.querySelector("#daisy-search-results");
   const status = dialog.querySelector(".daisy-search-status");
   const text = dialog.dataset;
+  const asYouType = text.daisyAsYouType !== "false";
   const MIN_LENGTH = 2;
   const TYPING_DELAY = 60;
   const POLL_DELAY = 50;
@@ -203,6 +204,7 @@
     opener = document.activeElement;
     dialog.showModal();
     input.select();
+    if (!asYouType) return;
     load().then(() => {
       if (input.value.trim()) run();
     });
@@ -214,6 +216,7 @@
 
   input.addEventListener("input", () => {
     typed = input.value;
+    if (!asYouType) return;
     clearTimeout(timer);
     timer = setTimeout(() => load().then(run), TYPING_DELAY);
   });

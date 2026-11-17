@@ -127,3 +127,109 @@ class TestSearchButton:
 
         end = page.text.index("data-daisy-navbar-end")
         assert page.text.index("daisy-search-open") > end
+
+
+def options(**theme: object) -> dict[str, object]:
+    return {"confoverrides": {"html_theme_options": theme}}
+
+
+class TestSearchOptions:
+    @pytest.mark.sphinx(
+        "html",
+        testroot="search",
+        freshenv=True,
+        **options(navbar_persistent=[], navbar_start=["search-button-field"]),
+    )
+    def test_the_button_follows_the_navbar_start_slot(self, app: SphinxTestApp) -> None:
+        page = built(app)
+
+        assert len(page.classed("button", "daisy-search-open")) == 1
+        assert len(page.find("dialog", id="daisy-search")) == 1
+        assert page.text.index("daisy-search-open") < page.text.index(
+            "data-daisy-navbar-end"
+        )
+
+    @pytest.mark.sphinx(
+        "html",
+        testroot="search",
+        freshenv=True,
+        **options(navbar_persistent=[], footer_end=["search-button-field"]),
+    )
+    def test_the_button_follows_the_footer_slot(self, app: SphinxTestApp) -> None:
+        page = built(app)
+
+        assert len(page.classed("button", "daisy-search-open")) == 1
+        assert len(page.find("dialog", id="daisy-search")) == 1
+        assert page.text.index("daisy-search-open") > page.text.index("<footer")
+
+    @pytest.mark.sphinx(
+        "html",
+        testroot="search",
+        freshenv=True,
+        **options(search_bar_text="<b>Find</b> & go"),
+    )
+    def test_the_text_reaches_the_button_and_the_field_escaped(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = built(app)
+
+        field = page.classed("input", "daisy-search-input")
+        assert field[0].get("placeholder") == "<b>Find</b> & go"
+        assert "<b>Find</b>" not in page.text
+        assert "&lt;b&gt;Find&lt;/b&gt; &amp; go" in page.inside("button").text
+
+    @pytest.mark.sphinx(
+        "html", testroot="search", freshenv=True, **options(search_as_you_type=False)
+    )
+    def test_as_you_type_off_by_a_false_flag(self, app: SphinxTestApp) -> None:
+        dialog = dialog_of(built(app))
+
+        assert dialog.get("data-daisy-as-you-type") == "false"
+
+    @pytest.mark.sphinx(
+        "html", testroot="search", freshenv=True, **options(search_as_you_type="false")
+    )
+    def test_as_you_type_off_by_the_word_false(self, app: SphinxTestApp) -> None:
+        dialog = dialog_of(built(app))
+
+        assert dialog.get("data-daisy-as-you-type") == "false"
+
+    @pytest.mark.sphinx(
+        "html", testroot="search", freshenv=True, **options(disable_search=True)
+    )
+    def test_search_off_by_a_true_flag_leaves_no_button_or_dialog(
+        self, app: SphinxTestApp
+    ) -> None:
+        app.build()
+
+        for name in PAGES:
+            page = Page.read(Path(app.outdir) / name)
+            assert not page.classed("button", "daisy-search-open"), name
+            assert not page.find("dialog", id="daisy-search"), name
+            assert not page.having("data-daisy-search-close"), name
+        assert (Path(app.outdir) / "search.html").is_file()
+        assert Page.read(Path(app.outdir) / "search.html").find("form")
+
+    @pytest.mark.sphinx(
+        "html", testroot="search", freshenv=True, **options(disable_search="true")
+    )
+    def test_search_off_by_the_word_true_leaves_no_button_or_dialog(
+        self, app: SphinxTestApp
+    ) -> None:
+        app.build()
+
+        for name in PAGES:
+            page = Page.read(Path(app.outdir) / name)
+            assert not page.classed("button", "daisy-search-open"), name
+            assert not page.find("dialog", id="daisy-search"), name
+            assert not page.having("data-daisy-search-close"), name
+        assert (Path(app.outdir) / "search.html").is_file()
+        assert Page.read(Path(app.outdir) / "search.html").find("form")
+
+    @pytest.mark.sphinx("html", testroot="search", freshenv=True)
+    def test_a_site_setting_none_of_them_builds_without_warnings(
+        self, app: SphinxTestApp, warning: object
+    ) -> None:
+        app.build()
+
+        assert str(warning.getvalue()) == ""  # type: ignore[attr-defined]

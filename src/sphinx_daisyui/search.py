@@ -29,7 +29,12 @@ class SearchSettings:
             options: The site's theme options.
 
         Returns:
-            The settings: search on, with the default text, and results as the
-            reader types.
+            The settings: search on unless ``disable_search`` is set, the text
+            from ``search_bar_text`` or the default, and results as the reader
+            types unless ``search_as_you_type`` is off.
         """
-        return cls(enabled=True, text=translate("Search the docs"), as_you_type=True)
+        return cls(
+            enabled=not options.flag("disable_search"),
+            text=options.text("search_bar_text", translate("Search the docs")),
+            as_you_type=options.flag("search_as_you_type", True),
+        )
