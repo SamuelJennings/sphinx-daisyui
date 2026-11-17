@@ -1,8 +1,9 @@
-"""The links a site shows beside its pages: its accounts as icons."""
+"""The links a site shows beside its pages: its accounts and its sources."""
 
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from typing import Any
+from urllib.parse import urlsplit
 
 from markupsafe import Markup
 from sphinx.application import Sphinx
@@ -108,6 +109,112 @@ class IconLinks:
             if entry.get("type") not in IMAGE_TYPES
             and entry.get("icon") not in ICONS.by_name
         ]
+
+
+@dataclass(frozen=True)
+class SourceHost:
+    """The address forms of one host that holds a site's source files.
+
+    Attributes:
+        edit: Where a page's source is edited, a ``str.format`` template taking
+            ``repo``, ``branch`` and ``path``.
+        view: Where a page's source is read, a template taking the same names.
+    """
+
+    edit: str
+    view: str
+
+    @classmethod
+    def for_repository(cls, address: str) -> "SourceHost | None":
+        """Find the host a repository lives on.
+
+        Args:
+            address: The repository's address.
+
+        Returns:
+            The host's address forms, or ``None`` when the address is not on a
+            host in ``HOSTS``. A leading ``www.`` and the case of the name are
+            ignored.
+        """
+        host = (urlsplit(address).hostname or "").removeprefix("www.")
+        return HOSTS.get(host)
+
+
+HOSTS = {
+    "github.com": SourceHost(
+        "{repo}/edit/{branch}/{path}", "{repo}/blob/{branch}/{path}"
+    ),
+    "gitlab.com": SourceHost(
+        "{repo}/-/edit/{branch}/{path}", "{repo}/-/blob/{branch}/{path}"
+    ),
+    "bitbucket.org": SourceHost(
+        "{repo}/src/{branch}/{path}?mode=edit", "{repo}/src/{branch}/{path}"
+    ),
+}
+BUTTONS = ("edit", "view")
+
+
+@dataclass(frozen=True)
+class SourceLinks:
+    """The addresses of one page's source, each empty when unknown.
+
+    Attributes:
+        edit: Where the page's source file is edited in its repository.
+        view: Where the page's source file is read in its repository.
+        source: Where Sphinx's copy of the page's source is.
+    """
+
+    edit: str
+    view: str
+    source: str
+
+    @classmethod
+    def from_options(
+        cls, options: ThemeOptions, context: Mapping[str, Any]
+    ) -> "SourceLinks":
+        """Read the source addresses of one page.
+
+        Args:
+            options: The site's theme options.
+            context: The page's template context.
+
+        Returns:
+            The page's edit and view addresses on its repository's host, and
+            the address of Sphinx's copy of the source. A page with no source
+            has none of them, and a repository on another host no edit or view
+            address.
+        """
+        sourcename = context.get("sourcename")
+        if not sourcename:
+            return cls("", "", "")
+        source = ""
+        if context.get("show_source") and context.get("has_source"):
+            source = context["pathto"]("_sources/" + sourcename, 1)
+        repository = options.text("source_repository").rstrip("/")
+        repository = repository.removesuffix(".git").rstrip("/")
+        host = SourceHost.for_repository(repository)
+        if host is None:
+            return cls("", "", source)
+        directory = options.text("source_directory").strip("/")
+        name = context["pagename"] + (context.get("page_source_suffix") or ".rst")
+        found = {
+            "repo": repository,
+            "branch": options.text("source_branch", "main"),
+            "path": "/".join([directory, name] if directory else [name]),
+        }
+        return cls(host.edit.format(**found), host.view.format(**found), source)
+
+    def buttons(self, names: list[str]) -> list[str]:
+        """Pick the buttons to draw above a page.
+
+        Args:
+            names: The names in ``top_of_page_buttons``.
+
+        Returns:
+            The names that are ``edit`` or ``view`` and have an address, in the
+            order given.
+        """
+        return [name for name in names if name in BUTTONS and getattr(self, name)]
 
 
 def check_icon_links(app: Sphinx) -> None:

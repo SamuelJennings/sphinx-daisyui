@@ -11,7 +11,7 @@ from sphinx.util import logging
 from .brand import Brand
 from .icons import ICONS
 from .layout import LayoutCodeError
-from .links import IconLinks
+from .links import IconLinks, SourceLinks
 from .modes import Modes
 from .navigation import HeaderLinks, PageContents, SiteNavigation
 from .options import ThemeOptions
@@ -188,6 +188,15 @@ def add_page_context(
         page_toc=Markup() if index_page else contents.markup(show_toc_level),
         page_toc_count=0 if index_page else contents.count,
         show_toc_level=show_toc_level,
+    )
+    sources = (
+        SourceLinks("", "", "")
+        if index_page
+        else SourceLinks.from_options(options, context)
+    )
+    context["daisy"].update(
+        sources=sources,
+        top_buttons=sources.buttons(options.names("top_of_page_buttons")),
     )
     if index_page:
         context["daisy"]["secondary_sidebar_items"] = []

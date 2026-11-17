@@ -9,6 +9,8 @@ import pytest
 from markupsafe import Markup
 from sphinx.testing.util import SphinxTestApp
 
+from sphinx_daisyui.links import SourceLinks
+
 BAD_CODE = "xHh LpR lff"
 LATE = 900  # after the theme's own handler, which runs at the default 500
 
@@ -185,3 +187,40 @@ class TestPageContext:
         app.build()
 
         assert "daisy" not in contexts["index"]
+
+
+class TestSourceContext:
+    OPTIONS = {
+        "source_repository": "https://github.com/owner/project",
+        "top_of_page_buttons": ["view", "edit"],
+    }
+
+    @pytest.mark.sphinx(
+        "html",
+        testroot="links",
+        freshenv=True,
+        confoverrides={"html_theme_options": OPTIONS},
+    )
+    def test_a_page_gets_its_addresses_and_the_buttons_to_draw(
+        self, app: SphinxTestApp, contexts: dict[str, dict[str, Any]]
+    ) -> None:
+        app.build()
+
+        daisy = contexts["index"]["daisy"]
+        assert daisy["sources"].edit.endswith("/edit/main/index.rst")
+        assert daisy["top_buttons"] == ["view", "edit"]
+
+    @pytest.mark.sphinx(
+        "html",
+        testroot="links",
+        freshenv=True,
+        confoverrides={"html_theme_options": OPTIONS},
+    )
+    def test_the_search_page_has_no_addresses_and_no_buttons(
+        self, app: SphinxTestApp, contexts: dict[str, dict[str, Any]]
+    ) -> None:
+        app.build()
+
+        daisy = contexts["search"]["daisy"]
+        assert daisy["sources"] == SourceLinks("", "", "")
+        assert daisy["top_buttons"] == []
