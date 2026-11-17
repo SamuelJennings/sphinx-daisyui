@@ -63,4 +63,29 @@ the templates and the Python share.
 
 `themes.json` lists every theme daisyUI ships, in daisyUI's own order, which is the list a
 site's `theme_picker = true` offers. `scripts/themes.mjs` writes it from daisyUI's
-`themeOrder.js`, and `npm run build` rewrites it, so a daisyUI upgrade needs no edit by hand.
+`themeOrder.js`, and `npm run build` rewrites it when the list changes, so a daisyUI upgrade needs no edit by hand.
+
+## Modes and themes
+
+`Modes` in `sphinx_daisyui.modes` reads `light_theme`, `dark_theme`, `default_mode` and
+`theme_picker` into `daisy.modes`. `check_modes` warns once at the start of the build when
+`default_mode` is not `auto`, `light` or `dark`. The site's values reach the page on the
+`<script>` element that loads `static/scripts/mode.js`, which sets the attributes on `<html>`
+before the page is drawn and holds the one function that applies a reader's choice.
+`static/scripts/theme-menu.js` wires the theme menu to it.
+
+## Search
+
+`SearchSettings` in `sphinx_daisyui.search` reads `search_bar_text`, `disable_search` and
+`search_as_you_type` into `daisy.search`. `static/scripts/search.js` loads Sphinx's own
+`language_data.js`, `searchtools.js` and `searchindex.js` the first time the dialog opens, and
+finds results with Sphinx's own search functions (ADR 0004). `static/scripts/page-address.js`
+turns a page's name into its address for the build, for the search dialog and the version
+switcher.
+
+## Versions
+
+`VersionSwitcher` in `sphinx_daisyui.versions` reads the `switcher` option and
+`show_version_warning_banner` into `daisy.switcher`. `check_switcher`, connected to the end of
+the build, reads the site's `switcher.json` once and warns when it cannot be used.
+`static/scripts/versions.js` lists the versions in the page and fills the banner.
