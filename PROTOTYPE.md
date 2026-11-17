@@ -128,3 +128,7 @@ file is the record that would otherwise be its issue.
   on daisyUI's site. Decided on my own: the field refuses a letter as it's typed, with a
   sentence naming what that position takes, adds the spaces itself, and also carries the same
   rule as an HTML `pattern`.
+- 2026-11-17 Sam: header shadow on scroll is Tailwind's `shadow-xs`, switched at once with no
+  fade. Sticky mock-up sidebars keep their top edge.
+- 2026-11-17 Sam: prototype accepted ("ready to get this show on the road"). Next: onboard the
+  repository, then build `main` from this branch through the full lanes.
