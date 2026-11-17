@@ -1,6 +1,6 @@
 # Components
 
-A component is a template that a [component list](options.md) names. The theme provides seven.
+A component is a template that a [component list](options.md) names. The theme provides eight.
 Each one draws nothing when what it shows is switched off, so a list can name it without
 checking.
 
@@ -36,6 +36,20 @@ entries, a toggle that opens and closes each entry that has children, and a mark
 page. The [options](options.md) `navigation_depth`, `show_nav_level`, `collapse_navigation` and
 `sidebar_includehidden` set how much of it is listed and open. The theme puts it in the primary
 sidebar, and it draws nothing when the site has no table of contents.
+
+## `navbar-nav`
+
+Shows a link to each top-level page of the site's table of contents, then each of the
+[options](options.md) `external_links`, in the order they are given. The link to the section
+holding the page is marked. Links past `header_links_before_dropdown` are in a menu labelled
+by `header_dropdown_text`, which opens from the keyboard and is marked when the current section is
+in it. It draws nothing when the site has no table of contents and no external links.
+
+Named in `navbar_center`, it also changes the primary sidebar: `sidebar-nav` then lists only the
+pages of the current section, and nothing on a page that is in no section, such as the front
+page. On a narrow window the drawer lists every header link above it. Named in any other
+component list, it draws the links there and leaves the sidebar's navigation whole.
+[Put the sections in the header](../developer/put-the-sections-in-the-header.md) shows the steps.
 
 ## `breadcrumbs`
 

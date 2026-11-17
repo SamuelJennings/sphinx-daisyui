@@ -122,6 +122,41 @@ directives.
 - **Default:** `True`
 - **Meaning:** Whether the navigation lists the pages of a `toctree` marked `:hidden:`.
 
+## Header links
+
+The `navbar-nav` component draws a link to each top-level page of the site's table of contents,
+and to each of `external_links`, in the header.
+
+### `external_links`
+
+- **Type:** list of dicts
+- **Default:** empty
+- **Meaning:** Links to other sites, drawn by `navbar-nav` after the site's own sections. Each dict
+  has a `name`, which is the link's text, and a `url`. A dict with no `url` is left out. Each link
+  is marked as leading outside the site.
+
+### `header_links_before_dropdown`
+
+- **Type:** integer
+- **Default:** `5`
+- **Meaning:** How many header links are shown before the rest go into a menu. Zero puts every
+  link in the menu, and a number at or above the number of links draws no menu.
+
+### `header_dropdown_text`
+
+- **Type:** text
+- **Default:** empty, which shows "More" in the site's language
+- **Meaning:** The label of the menu that holds the links past `header_links_before_dropdown`.
+
+### `navbar_align`
+
+- **Type:** text, one of `content`, `left` or `right`
+- **Default:** `"content"`
+- **Meaning:** Where the header links sit in the navbar, on screens 64rem wide and up. `content`
+  starts the first link where the page's text starts, `left` starts it at the start of the
+  navbar's free space and `right` ends the links at the end of that space. Any other value is
+  read as `content`.
+
 ## On this page
 
 The `page-toc` component lists the headings of the page being read.

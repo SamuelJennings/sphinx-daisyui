@@ -213,3 +213,9 @@ li.daisy-toc-on-path > .daisy-toc-deep { display: flex; }
 .daisy-toc-mobile .daisy-toc-link { border: 0; padding-inline: 0; }
 
 .daisy-breadcrumbs { color: var(--daisy-text-muted); }
+
+/* The header links' alignment, set by navbar_align on the centre slot. The links
+   of "content" start where the article does; the script sets the margin that
+   puts them there, which depends on the layout code and the window's width. */
+[data-navbar-align="left"] { justify-content: flex-start; }
+[data-navbar-align="right"] { justify-content: flex-end; }

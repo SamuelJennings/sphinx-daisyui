@@ -25,6 +25,20 @@ The HTML writer's link takes no `aria-current`, so the link to the current page 
 Fixed text the Python writes, such as a toggle's name, is marked for translation with
 `translate`, Sphinx's translator for the `sphinx` message domain that the templates use too.
 
+## Header links
+
+`SiteNavigation.top_level` lists the entries at the first level of the same cached tree as
+`HeaderLink` records: the entry's title, its address and whether it is on the current page's path.
+`HeaderLinks` takes those, the `external_links` records, `header_links_before_dropdown` and
+`header_dropdown_text`, and splits them into `shown` and `more` with `more_text` and
+`more_current`. `SiteNavigation.section_menu` draws the pages under the current top-level entry
+with the same marks as `menu`, which is what the primary sidebar shows when `navbar-nav` is in
+`navbar_center`. `add_page_context` sets `daisy.sectioned`, which is true when `NAVBAR_NAV` is in `navbar_center`,
+`daisy.header`, built when `NAVBAR_NAV` is in any component list, and `daisy.navbar_align`, one of
+`NAVBAR_ALIGNMENTS`.
+`static/scripts/navigation.js` sets the margin that starts the header links where the article
+starts, and keeps the header menu closed after Escape.
+
 ## On this page
 
 `PageContents` in `sphinx_daisyui.navigation` reads the page's headings from `document_toc`,
