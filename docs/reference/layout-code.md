@@ -61,12 +61,12 @@ any other. The line under the window is the setting to copy into `conf.py`.
     </label>
     <div class="lp-group">
       <span class="lp-label">Examples</span>
-      <div class="join">
-        <button type="button" class="btn btn-sm join-item" data-code="hHh LpR lff">Default</button>
-        <button type="button" class="btn btn-sm join-item" data-code="lHh LpR lff">Brand in the sidebar</button>
-        <button type="button" class="btn btn-sm join-item" data-code="hHh LpR fff">Full-width footer</button>
-        <button type="button" class="btn btn-sm join-item" data-code="hhh lpr fff">Nothing stays</button>
-        <button type="button" class="btn btn-sm join-item" data-code="hHr LpR lfr">Tall sidebars</button>
+      <div class="lp-options">
+        <button type="button" class="btn btn-sm" data-code="hHh LpR lff">Default</button>
+        <button type="button" class="btn btn-sm" data-code="lHh LpR lff">Brand in the sidebar</button>
+        <button type="button" class="btn btn-sm" data-code="hHh LpR fff">Full-width footer</button>
+        <button type="button" class="btn btn-sm" data-code="hhh lpr fff">Nothing stays</button>
+        <button type="button" class="btn btn-sm" data-code="hHr LpR lfr">Tall sidebars</button>
       </div>
     </div>
     <div class="lp-group">
