@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sphinx-daisyui VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-17 19:31+0100\n"
+"POT-Creation-Date: 2026-11-17 20:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,6 +38,9 @@ msgstr ""
 msgid "Built with %(sphinx_link)s %(sphinx_version)s."
 msgstr ""
 
+msgid "Choose a version"
+msgstr ""
+
 msgid "Choose the colour theme"
 msgstr ""
 
@@ -45,6 +48,9 @@ msgid "Close search"
 msgstr ""
 
 msgid "Close the navigation"
+msgstr ""
+
+msgid "Current version"
 msgstr ""
 
 msgid "Dark"
@@ -61,6 +67,9 @@ msgstr ""
 
 #, python-format
 msgid "Equation %(number)s"
+msgstr ""
+
+msgid "Go to the preferred version"
 msgstr ""
 
 msgid "Home"
@@ -99,6 +108,9 @@ msgid "Page"
 msgstr ""
 
 msgid "Page tools"
+msgstr ""
+
+msgid "Preferred"
 msgstr ""
 
 msgid "Previous"
@@ -145,7 +157,16 @@ msgstr ""
 msgid "Themes"
 msgstr ""
 
+#, python-format
+msgid ""
+"This is the documentation for %(version)s. The preferred version is "
+"%(preferred)s."
+msgstr ""
+
 msgid "Type to search pages, sections and API names."
+msgstr ""
+
+msgid "Version warning"
 msgstr ""
 
 msgid "close"

@@ -22,6 +22,7 @@ SYSTEM_MODE = "Match the system"
 SEARCH = "Search"
 SEARCH_PROMPT = "Type to search pages, sections and API names."
 SEARCH_UNAVAILABLE = "Search is not available here."
+CHOOSE_VERSION = "Choose a version"
 MARKUP_TEXT = 'Suche "nicht" <b>da</b>'
 THEME = Path(sphinx_daisyui.__file__).parent
 SHIPPED = THEME / "locale" / "sphinx.pot"
@@ -38,6 +39,7 @@ def catalogue(app_params: object) -> Catalog:
     catalogue.add(EQUATION, "Gleichung")
     catalogue.add(CHOOSE_THEME, "Farbschema wählen")
     catalogue.add(SYSTEM_MODE, "Wie das System")
+    catalogue.add(CHOOSE_VERSION, "Version wählen")
     catalogue.add(SEARCH, "Suchen")
     catalogue.add(SEARCH_PROMPT, "Seiten, Abschnitte und API-Namen suchen.")
     catalogue.add(SEARCH_UNAVAILABLE, MARKUP_TEXT)
@@ -127,6 +129,27 @@ class TestTranslation:
         dialog = page.find("dialog", id="daisy-search")
         assert [b.get("aria-label") for b in button] == [name.string]
         assert dialog[0].get("data-daisy-prompt") == prompt.string
+
+    @pytest.mark.sphinx(
+        "html",
+        testroot="locale",
+        freshenv=True,
+        confoverrides={
+            "html_theme_options": {
+                "switcher": {"json_url": "s.json", "version_match": "dev"},
+                "check_switcher": False,
+            }
+        },
+    )
+    def test_the_version_switchers_name_is_translated(
+        self, catalogue: Catalog, app: SphinxTestApp
+    ) -> None:
+        app.build()
+
+        name = catalogue.get(CHOOSE_VERSION)
+        assert name is not None
+        page = Page.read(Path(app.outdir) / "index.html")
+        assert name.string in [b.get("aria-label") for b in page.find("div")]
 
     @pytest.mark.sphinx("html", testroot="locale", freshenv=True)
     def test_a_translation_holding_markup_stays_inside_its_attribute(

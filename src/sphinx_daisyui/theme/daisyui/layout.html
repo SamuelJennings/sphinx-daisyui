@@ -22,6 +22,9 @@
 
 {%- block header %}
   <a href="#main-content" class="btn btn-primary btn-sm absolute -top-20 left-4 z-50 focus:top-2">{{ _("Skip to content") }}</a>
+  {%- if d.switcher.shown and d.switcher.banner %}
+    <div role="region" aria-label="{{ _('Version warning')|e }}" class="daisy-version-banner bg-warning text-warning-content text-center text-sm px-4 py-2" data-daisy-version-banner data-daisy-json-url="{{ d.switcher.json_url|e }}" data-daisy-version-match="{{ d.switcher.version_match|e }}" data-text-message="{{ _('This is the documentation for %(version)s. The preferred version is %(preferred)s.')|e }}" data-text-link="{{ _('Go to the preferred version')|e }}" hidden></div>
+  {%- endif %}
   {%- if not d.sticky_banners %}{% include "components/announcement.html" %}{% endif %}
 {%- endblock %}
 
