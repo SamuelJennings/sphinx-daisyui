@@ -69,32 +69,24 @@ class TestBrand:
 
         assert brand.light == brand.dark == "https://example.org/site.svg"
 
-    def test_furo_options_give_each_mode_its_image(self) -> None:
-        brand = make({"light_logo": "light.svg", "dark_logo": "dark.svg"})
-
-        assert brand.light == "../_static/light.svg"
-        assert brand.dark == "../_static/dark.svg"
-
     def test_the_logo_option_gives_each_mode_its_image(self) -> None:
         brand = make({"logo": BOTH})
 
         assert brand.light == "../_static/light.svg"
         assert brand.dark == "../_static/dark.svg"
 
-    def test_the_logo_option_wins_over_the_furo_options(self) -> None:
-        brand = make({"logo": BOTH, "light_logo": "a.svg", "dark_logo": "b.svg"})
-
-        assert brand.light == "../_static/light.svg"
-
-    def test_a_light_logo_alone_serves_the_dark_mode(self) -> None:
-        brand = make({"light_logo": "light.svg"})
+    def test_a_light_image_alone_serves_the_dark_mode(self) -> None:
+        brand = make({"logo": {"image_light": "light.svg"}})
 
         assert brand.light == brand.dark == "../_static/light.svg"
 
-    def test_a_light_logo_wins_over_the_html_logo(self) -> None:
-        brand = make({"light_logo": "light.svg"}, logo_url="../_static/site.svg")
+    def test_a_logo_image_wins_over_the_html_logo(self) -> None:
+        brand = make(
+            {"logo": {"image_light": "light.svg"}}, logo_url="../_static/site.svg"
+        )
 
         assert brand.light == "../_static/light.svg"
+
 
     @pytest.mark.parametrize(
         "image", ["light.svg", "_static/light.svg", "https://example.org/light.svg"]
@@ -114,41 +106,19 @@ class TestBrand:
         assert brand.text == ""
         assert brand.alt == "Project"
 
-    def test_a_hidden_name_gives_no_text(self) -> None:
-        brand = make({"light_logo": "light.svg", "sidebar_hide_name": "true"})
-
-        assert brand.text == ""
-        assert brand.alt == "Project"
-
-    def test_a_logo_given_for_one_mode_keeps_the_title(
-        self,
-    ) -> None:
-        assert make({"light_logo": "light.svg"}).text == "Docs title"
-
     def test_the_logo_text_is_shown_beside_the_images(self) -> None:
         brand = make({"logo": {**BOTH, "text": "My site"}})
-
-        assert brand.text == "My site"
-
-    def test_text_the_logo_option_gives_is_shown_though_the_name_is_hidden(
-        self,
-    ) -> None:
-        brand = make({"logo": {"text": "My site"}, "sidebar_hide_name": "true"})
 
         assert brand.text == "My site"
 
     def test_the_alt_text_is_read_from_the_logo_option(self) -> None:
         assert make({"logo": {**BOTH, "alt_text": "Our mark"}}).alt == "Our mark"
 
-    def test_the_logo_link_is_followed(self) -> None:
-        assert make({"logo_link": "https://example.org/"}).href == (
-            "https://example.org/"
-        )
+    def test_the_link_in_the_logo_option_is_followed(self) -> None:
+        brand = make({"logo": {"link": "https://example.org/"}})
 
-    def test_the_link_in_the_logo_option_wins_over_the_logo_link(self) -> None:
-        brand = make({"logo": {"link": "/a/"}, "logo_link": "/b/"})
+        assert brand.href == "https://example.org/"
 
-        assert brand.href == "/a/"
 
 
 class TestBrandInABuild:
@@ -178,22 +148,6 @@ class TestBrandInABuild:
         "html",
         testroot="logo",
         freshenv=True,
-        confoverrides={
-            "html_theme_options": {"light_logo": "light.svg", "dark_logo": "dark.svg"}
-        },
-    )
-    def test_the_furo_options_give_both_images_from_each_depth(
-        self, brands: Callable[[str], Brand]
-    ) -> None:
-        assert brands("index").light == "_static/light.svg"
-        assert brands("index").dark == "_static/dark.svg"
-        assert brands("sub/page").light == "../_static/light.svg"
-        assert brands("sub/page").dark == "../_static/dark.svg"
-
-    @pytest.mark.sphinx(
-        "html",
-        testroot="logo",
-        freshenv=True,
         confoverrides={"html_theme_options": {"logo": BOTH}},
     )
     def test_the_logo_option_gives_both_images_from_each_depth(
@@ -206,9 +160,9 @@ class TestBrandInABuild:
         "html",
         testroot="logo",
         freshenv=True,
-        confoverrides={"html_theme_options": {"light_logo": "light.svg"}},
+        confoverrides={"html_theme_options": {"logo": {"image_light": "light.svg"}}},
     )
-    def test_a_light_logo_alone_serves_the_dark_mode(
+    def test_a_light_image_alone_serves_the_dark_mode(
         self, brands: Callable[[str], Brand]
     ) -> None:
         assert brands("sub/page").dark == "../_static/light.svg"
@@ -219,12 +173,14 @@ class TestBrandInABuild:
         freshenv=True,
         confoverrides={
             "html_theme_options": {
-                "logo": {"image_light": "_static/light.svg"},
-                "logo_link": "https://example.org/",
+                "logo": {
+                    "image_light": "_static/light.svg",
+                    "link": "https://example.org/",
+                },
             }
         },
     )
-    def test_a_static_path_and_a_link_option_resolve_from_each_depth(
+    def test_a_static_path_and_a_link_resolve_from_each_depth(
         self, brands: Callable[[str], Brand]
     ) -> None:
         assert brands("index").light == "_static/light.svg"
@@ -250,14 +206,27 @@ class TestBrandInABuild:
         "html",
         testroot="logo",
         freshenv=True,
-        confoverrides={
-            "html_theme_options": {"light_logo": "light.svg", "sidebar_hide_name": True}
-        },
+        confoverrides={"html_theme_options": {"logo": BOTH}},
     )
-    def test_a_hidden_name_gives_empty_text_and_an_alt_naming_the_site(
+    def test_a_logo_without_text_gives_empty_text_and_an_alt_naming_the_site(
         self, brands: Callable[[str], Brand]
     ) -> None:
         brand = brands("index")
 
         assert brand.text == ""
         assert brand.alt == "Logo"
+
+
+class TestRemovedOptions:
+    @pytest.mark.sphinx("html", testroot="logo", freshenv=True)
+    def test_the_theme_declares_no_option_of_another_theme(
+        self, app: SphinxTestApp
+    ) -> None:
+        declared = app.builder.theme.get_options({}).keys()
+
+        assert not {
+            "light_logo",
+            "dark_logo",
+            "sidebar_hide_name",
+            "logo_link",
+        } & set(declared)

@@ -1,4 +1,4 @@
-"""The theme options a site sets, read in the forms Furo and pydata-sphinx-theme allow."""
+"""The theme options a site sets."""
 
 import json
 from collections.abc import Callable, Mapping

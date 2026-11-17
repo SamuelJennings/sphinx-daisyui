@@ -5,11 +5,7 @@ sidebars = ["sidebar-nav.html"]
 
 [options]
 layout = "hHh LpR lff"
-light_logo = ""
-dark_logo = ""
-sidebar_hide_name = ""
 logo = ""
-logo_link = ""
 navbar_start = "navbar-logo"
 navbar_center = ""
 navbar_end = "version-switcher, theme-switcher, navbar-icon-links"

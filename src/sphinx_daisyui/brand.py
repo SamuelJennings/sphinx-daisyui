@@ -38,8 +38,8 @@ class Brand:
         """
         pathto = context["pathto"]
         logo = options.mapping("logo")
-        light_name = logo.get("image_light") or options.text("light_logo")
-        dark_name = logo.get("image_dark") or options.text("dark_logo")
+        light_name = logo.get("image_light")
+        dark_name = logo.get("image_dark")
         light = (
             options.static_url(light_name, pathto)
             if light_name
@@ -48,9 +48,7 @@ class Brand:
         dark = options.static_url(dark_name, pathto) if dark_name else light
         if "text" in logo:
             text = str(logo["text"])
-        elif options.flag("sidebar_hide_name") or (
-            light and (logo.get("image_light") or logo.get("image_dark"))
-        ):
+        elif light and (light_name or dark_name):
             text = ""
         else:
             text = context.get("docstitle") or context.get("project") or ""
@@ -59,9 +57,5 @@ class Brand:
             dark=dark,
             text=text,
             alt=str(logo.get("alt_text") or context.get("project") or ""),
-            href=str(
-                logo.get("link")
-                or options.text("logo_link")
-                or pathto(context.get("root_doc", "index"))
-            ),
+            href=str(logo.get("link") or pathto(context.get("root_doc", "index"))),
         )

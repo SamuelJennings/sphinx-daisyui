@@ -18,8 +18,7 @@ html_last_updated_fmt = "%d %B %Y"
 html_static_path = ["_static"]
 html_favicon = "_static/logo-light.svg"
 html_theme_options = {
-    "light_logo": "logo-light.svg",
-    "dark_logo": "logo-dark.svg",
+    "logo": {"image_light": "logo-light.svg", "image_dark": "logo-dark.svg"},
     "footer_start": ["copyright", "last-updated"],
     "footer_end": ["sphinx-version", "theme-version"],
     "navigation_with_keys": True,

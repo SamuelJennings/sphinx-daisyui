@@ -40,7 +40,7 @@ class TestBrandOnThePage:
         "html",
         testroot="logo",
         freshenv=True,
-        confoverrides=options(light_logo="light.svg", dark_logo="dark.svg"),
+        confoverrides=options(logo=BOTH),
     )
     def test_the_images_are_addressed_from_a_page_at_the_root(
         self, app: SphinxTestApp
@@ -53,7 +53,7 @@ class TestBrandOnThePage:
         "html",
         testroot="logo",
         freshenv=True,
-        confoverrides=options(light_logo="light.svg", dark_logo="dark.svg"),
+        confoverrides=options(logo=BOTH),
     )
     def test_the_images_are_addressed_from_a_page_one_level_down(
         self, app: SphinxTestApp
@@ -116,7 +116,7 @@ class TestBrandOnThePage:
         "html",
         testroot="logo",
         freshenv=True,
-        confoverrides=options(layout=SIDEBAR_CODE, light_logo="light.svg"),
+        confoverrides=options(layout=SIDEBAR_CODE, logo=BOTH),
     )
     def test_the_brand_is_written_twice_and_the_navbar_copy_yields_to_the_sidebar(
         self, app: SphinxTestApp
@@ -133,7 +133,7 @@ class TestBrandOnThePage:
         "html",
         testroot="logo",
         freshenv=True,
-        confoverrides=options(light_logo="light.svg"),
+        confoverrides=options(logo=BOTH),
     )
     def test_the_sidebar_copy_yields_to_the_navbar_under_the_default_code(
         self, app: SphinxTestApp

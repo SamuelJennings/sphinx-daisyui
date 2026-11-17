@@ -43,16 +43,7 @@ nothing. [Components](../reference/components.md) names the setting for each one
 ## Show a logo
 
 1. Put the logo files in a directory listed in `html_static_path` in `conf.py`.
-2. Name them in `html_theme_options`, in the shape of the theme you are coming from. Furo's:
-
-   ```python
-   html_theme_options = {
-       "light_logo": "logo-light.svg",
-       "dark_logo": "logo-dark.svg",
-   }
-   ```
-
-   pydata-sphinx-theme's:
+2. Name them in the `logo` option in `html_theme_options`:
 
    ```python
    html_theme_options = {
