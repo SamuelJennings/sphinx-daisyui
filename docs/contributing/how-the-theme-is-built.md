@@ -43,8 +43,8 @@ starts, and keeps the header menu closed after Escape.
 
 `PageContents` in `sphinx_daisyui.navigation` reads the page's headings from `document_toc`,
 which Sphinx builds from the page's table of contents, as docutils nodes. It drops the page's own
-title, marks each list with `daisy-toc-list`, each link with `daisy-toc-link` and each list at or
-below `show_toc_level` with `daisy-toc-deep`, and renders them once. `add_page_context` gives
+title, marks each list with `daisy-toc-list`, each link with `daisy-toc-link` and each list
+deeper than `show_toc_level` with `daisy-toc-deep`, and renders them once. `add_page_context` gives
 the templates the result as `daisy.page_toc`, with `daisy.page_toc_count` and
 `daisy.show_toc_level`. `static/scripts/page-toc.js` marks the heading being read with
 `aria-current="location"` and its entries with `daisy-toc-on-path`, which shows the deeper

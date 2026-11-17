@@ -336,10 +336,10 @@ The `page-toc` component lists the headings of the page being read.
 
 - **Type:** integer
 - **Default:** `2`
-- **Meaning:** How many levels of headings are shown before the reader reaches them. Headings
-  under that depth stay hidden until the section above them is being read. A level of `1`
-  shows only the headings directly under the page's title, and a level larger than the page's
-  deepest heading shows them all.
+- **Meaning:** How many levels of headings are listed at all times. Headings
+  deeper than that stay hidden until the section above them is being read. A level of `1`
+  lists only the headings directly under the page's title, a level of `2` lists the headings
+  under those as well, and a level larger than the page's deepest heading lists them all.
 
 ## Component lists
 
