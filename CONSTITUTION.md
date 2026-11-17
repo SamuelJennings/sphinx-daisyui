@@ -26,11 +26,17 @@ Tests build a real site through `sphinx.testing` and check the pages it produces
 author and a reader meet them.
 
 ### Article V — Security & data-safety
-Text from a site's configuration or pages reaches the HTML only through Jinja's autoescaping or
-docutils' writer. A template marks a value `safe` only when the value is markup Sphinx itself
-produced, such as `body` or `toc`. The page script inserts text with `textContent`, never by
-assigning HTML built from page or search-index text. Secrets live in runtime configuration, never
-in code, test sites or version control.
+Sphinx's template environment does not autoescape, so escaping is written out.
+
+- A template escapes every value it prints from a theme option, `html_context` or the page
+  context with `|e`. The exception is markup Sphinx itself produced, such as `body` or `toc`.
+- Python that builds markup from option text escapes it with `markupsafe.escape`, never an
+  f-string.
+- An announcement is the site author's own HTML, as in Furo and pydata-sphinx-theme, and is
+  printed as markup. That includes one fetched from a URL the site author names.
+- The page script inserts page and search-index text with `textContent`, never by assigning
+  HTML built from it.
+- Secrets live in runtime configuration, never in code, test sites or version control.
 
 ### Article VI — Documentation
 Public API changes ship their docs in the same pull request: README and CHANGELOG updated.
@@ -137,4 +143,4 @@ Read at plan and review. Applies to every change.
 
 ---
 
-**Version**: 1.0.0 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-17
+**Version**: 1.1.0 | **Ratified**: 2026-11-17 | **Last Amended**: 2026-11-17
