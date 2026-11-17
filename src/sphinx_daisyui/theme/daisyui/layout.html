@@ -68,6 +68,12 @@
             <div class="flex shrink-0 items-center gap-1">{{ components(d.article_header_end) }}</div>
           </div>
         {%- endif %}
+        {%- if d.page_toc_count and 'page-toc.html' in d.secondary_sidebar_items %}
+          <details class="daisy-toc-mobile collapse collapse-arrow mt-4 rounded-box border border-base-300 bg-base-200/60 xl:hidden">
+            <summary class="collapse-title min-h-0 py-3 text-sm font-semibold">{{ _("On this page") }}</summary>
+            <nav class="collapse-content text-sm" aria-label="{{ _('On this page')|e }}">{{ d.page_toc }}</nav>
+          </details>
+        {%- endif %}
         <article class="daisy-sphinx-content">
           {% block body %}{% endblock %}
         </article>

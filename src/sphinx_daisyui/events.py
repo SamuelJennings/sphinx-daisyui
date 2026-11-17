@@ -11,7 +11,7 @@ from sphinx.util import logging
 from .brand import Brand
 from .icons import ICONS
 from .layout import LayoutCodeError
-from .navigation import SiteNavigation
+from .navigation import PageContents, SiteNavigation
 from .options import ThemeOptions
 
 LOGGER = logging.getLogger(__name__)
@@ -137,5 +137,12 @@ def add_page_context(
         "announcement_url": announcement if is_url else "",
         "navigation": site.menu(options.number("show_nav_level", 1)),
     }
+    show_toc_level = options.number("show_toc_level", 2)
+    contents = PageContents(app.env, pagename, app.builder)
+    context["daisy"].update(
+        page_toc=Markup() if index_page else contents.markup(show_toc_level),
+        page_toc_count=0 if index_page else contents.count,
+        show_toc_level=show_toc_level,
+    )
     if index_page:
         context["daisy"]["secondary_sidebar_items"] = []

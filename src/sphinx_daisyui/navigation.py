@@ -9,7 +9,7 @@ from docutils import nodes
 from markupsafe import Markup
 from sphinx.builders import Builder
 from sphinx.environment import BuildEnvironment
-from sphinx.environment.adapters.toctree import global_toctree_for_doc
+from sphinx.environment.adapters.toctree import document_toc, global_toctree_for_doc
 from sphinx.locale import get_translation
 from sphinx.writers.html5 import HTML5Translator
 
@@ -226,3 +226,83 @@ class SiteNavigation:
         paragraph = item.children[0]
         if isinstance(paragraph, nodes.Element):
             paragraph += nodes.raw("", str(html), format="html")
+
+
+class PageContents:
+    """The headings of a page, drawn as the list of its On this page.
+
+    Args:
+        env: The build environment holding the page's table of contents.
+        docname: The page being built.
+        builder: The HTML builder, which renders the nodes.
+    """
+
+    def __init__(self, env: BuildEnvironment, docname: str, builder: Builder) -> None:
+        self.env = env
+        self.docname = docname
+        self.builder = builder
+
+    @cached_property
+    def headings(self) -> nodes.bullet_list | None:
+        """The list of the page's headings, without the page's own title.
+
+        Returns:
+            The list under the title, or ``None`` when the page has none.
+        """
+        toc = document_toc(self.env, self.docname, self.builder.tags)
+        title = next(toc.findall(nodes.list_item), None)
+        if title is None:
+            return None
+        return next(
+            (c for c in title.children if isinstance(c, nodes.bullet_list)), None
+        )
+
+    @property
+    def count(self) -> int:
+        """How many headings the page has below its title."""
+        if self.headings is None:
+            return 0
+        return len(list(self.headings.findall(nodes.list_item)))
+
+    def markup(self, show_toc_level: int) -> Markup:
+        """Draw the headings as nested lists the stylesheet and script mark.
+
+        Args:
+            show_toc_level: The depth at which a list is left closed until
+                its section is read, where the page's first headings are in a
+                list of depth one.
+
+        Returns:
+            The lists' markup, empty when the page has no headings.
+        """
+        if self.headings is None:
+            return Markup()
+        headings = self.headings.deepcopy()
+        for bullets in headings.findall(nodes.bullet_list):
+            depth = 1 + sum(
+                isinstance(parent, nodes.bullet_list)
+                for parent in self.parents(bullets)
+            )
+            bullets["classes"] = ["daisy-toc-list"]
+            if depth >= show_toc_level:
+                bullets["classes"] += ["daisy-toc-deep"]
+        for link in headings.findall(nodes.reference):
+            link["classes"] += ["daisy-toc-link"]
+        # Sphinx wrote the titles and Docutils escaped them when rendering.
+        return Markup(self.builder.render_partial(headings)["fragment"])  # type: ignore[attr-defined]  # noqa: S704
+
+    @staticmethod
+    def parents(node: nodes.Node) -> list[nodes.Element]:
+        """List the nodes that enclose one, within its own tree.
+
+        Args:
+            node: The node to start from.
+
+        Returns:
+            Its parents, nearest first.
+        """
+        found: list[nodes.Element] = []
+        while node.parent is not None:
+            found.append(node.parent)
+            node = node.parent
+        return found

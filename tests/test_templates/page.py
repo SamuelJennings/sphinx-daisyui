@@ -40,3 +40,11 @@ class Page(HTMLParser):
     def order(self, attribute: str) -> list[str | None]:
         """List the values of an attribute in document order."""
         return [found[attribute] for found in self.having(attribute)]
+
+    def classed(self, tag: str, name: str) -> list[dict[str, str | None]]:
+        """Find the tags of one kind whose class list holds a class."""
+        return [
+            found
+            for kind, found in self.tags
+            if kind == tag and name in (found.get("class") or "").split()
+        ]

@@ -1,4 +1,5 @@
 import posixpath
+from html.parser import HTMLParser
 from typing import Any
 
 import pytest
@@ -8,7 +9,7 @@ from sphinx import addnodes
 from sphinx.testing.util import SphinxTestApp
 from test_templates.page import Page
 
-from sphinx_daisyui.navigation import SiteNavigation, translate
+from sphinx_daisyui.navigation import PageContents, SiteNavigation, translate
 
 NAV = pytest.mark.sphinx("html", testroot="nav", freshenv=True)
 BASIC = pytest.mark.sphinx("html", testroot="basic", freshenv=True, srcdir="no-toctree")
@@ -323,3 +324,114 @@ class TestNoToctree:
         site = navigation(app)
 
         assert site.menu(1) == ""
+
+
+TOC = pytest.mark.sphinx("html", testroot="toc", freshenv=True)
+
+
+class ListReader(HTMLParser):
+    """The lists of a page's contents: each one's classes and first link's text."""
+
+    def __init__(self, text: str) -> None:
+        super().__init__()
+        self.lists: list[tuple[list[str], str]] = []
+        self.links: list[dict[str, str | None]] = []
+        self.anchor = False
+        self.feed(text)
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        found = dict(attrs)
+        if tag == "ul":
+            self.lists.append(((found.get("class") or "").split(), ""))
+        if tag == "a":
+            self.links.append(found)
+            self.anchor = True
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag == "a":
+            self.anchor = False
+
+    def handle_data(self, data: str) -> None:
+        if not self.anchor:
+            return
+        # The first link after a list opens is that list's own first entry.
+        for index in reversed(range(len(self.lists))):
+            names, text = self.lists[index]
+            if not text:
+                self.lists[index] = (names, data)
+            if not text or index == 0:
+                return
+
+    def deep(self) -> list[str]:
+        """The first link's text of each list marked deep, in order."""
+        return [text for names, text in self.lists if "daisy-toc-deep" in names]
+
+
+def contents(app: SphinxTestApp, docname: str) -> PageContents:
+    app.build()
+    return PageContents(app.env, docname, app.builder)
+
+
+class TestPageContents:
+    @TOC
+    def test_the_headings_are_nested_in_order_without_the_title(
+        self, app: SphinxTestApp
+    ) -> None:
+        reader = ListReader(str(contents(app, "levels").markup(2)))
+
+        assert [link["href"] for link in reader.links] == [
+            "#first",
+            "#under-first",
+            "#second",
+            "#naive-cafe",
+        ]
+        assert len(reader.lists) == 2
+
+    @TOC
+    def test_every_list_and_link_is_marked_for_the_script(
+        self, app: SphinxTestApp
+    ) -> None:
+        reader = ListReader(str(contents(app, "levels").markup(2)))
+
+        assert all("daisy-toc-list" in names for names, _ in reader.lists)
+        assert all(
+            "daisy-toc-link" in (link.get("class") or "").split()
+            for link in reader.links
+        )
+
+    @TOC
+    def test_the_count_is_the_number_of_headings_below_the_title(
+        self, app: SphinxTestApp
+    ) -> None:
+        assert contents(app, "levels").count == 4
+
+    @TOC
+    def test_a_page_with_no_headings_has_none(self, app: SphinxTestApp) -> None:
+        page = contents(app, "flat")
+
+        assert page.count == 0
+        assert page.markup(2) == ""
+
+    @TOC
+    @pytest.mark.parametrize(
+        ("level", "deep"),
+        [(1, ["First", "Under first"]), (2, ["Under first"]), (3, [])],
+    )
+    def test_lists_at_or_below_the_level_are_marked_deep(
+        self, app: SphinxTestApp, level: int, deep: list[str]
+    ) -> None:
+        # The list of the page's first headings is depth 1, the lists under it 2.
+        reader = ListReader(str(contents(app, "levels").markup(level)))
+
+        assert reader.deep() == deep
+
+    @TOC
+    def test_a_heading_keeps_its_markup(self, app: SphinxTestApp) -> None:
+        markup = str(contents(app, "markup").markup(2))
+
+        assert "<code" in markup
+        assert "<em>emphasis</em>" in markup
+
+    @TOC
+    def test_the_markup_is_not_escaped_again(self, app: SphinxTestApp) -> None:
+        assert isinstance(contents(app, "levels").markup(2), Markup)
