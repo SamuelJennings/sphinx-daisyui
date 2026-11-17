@@ -51,8 +51,8 @@ html[data-mode-choice="theme"] [data-daisy-mode-icon="theme"] { display: inline-
 }
 .daisy-layout.daisy-scrolled > .daisy-area-header {
   border-bottom-color: var(--color-base-300);
-  box-shadow: 0 1px 3px color-mix(in oklab, var(--color-base-content) 8%, transparent),
-    0 4px 12px -6px color-mix(in oklab, var(--color-base-content) 10%, transparent);
+  /* Tailwind's shadow-xs, as daisyUI's own site uses. */
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 }
 .daisy-layout[data-footer-fixed] > .daisy-area-footer { position: sticky; bottom: 0; z-index: 20; }
 
