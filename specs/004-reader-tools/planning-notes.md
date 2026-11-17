@@ -53,8 +53,11 @@ named.
   and the page script. Read by the page-body styles' Pygments styles (#6), the logo per mode
   (#4), and Furo's CSS variables (#8). Check daisyUI's `data-theme`, and Sphinx's own
   `pygments_dark_style` in `theme.toml`, which keys on a media query rather than an attribute,
-  first. FS-001's logo reads `data-mode`: research says what the frame shows for the logo before
-  this feature lands.
+  first.
+- **Task: move the logo per mode onto the mode attributes.** FS-001 picks the light or dark logo
+  with a `prefers-color-scheme` media query, because the mode attributes do not exist yet. This
+  feature moves that one rule onto `data-mode`, so the logo follows the reader's choice and a
+  picked theme's own colour scheme (US2 scenario 5).
 - **The search button under three names.** One component; `search-button.html` and
   `search-field.html` include `search-button-field.html`. Reused by the pydata-sphinx-theme
   configurations (#8). Check: nothing.
