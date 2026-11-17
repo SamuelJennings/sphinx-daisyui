@@ -85,7 +85,6 @@
 .lp-lines span { display: block; height: 0.5rem; border-radius: 999px; background: color-mix(in oklab, var(--lp-c) 30%, transparent); }
 .lp-lines span:nth-child(3n) { width: 70%; }
 .lp-lines span:nth-child(4n) { width: 85%; }
-.lp-hint { margin: 0; color: color-mix(in oklab, var(--color-base-content) 65%, transparent); }
 
 .lp-snippet {
   margin: 0; padding: 0.875rem 1rem; border-radius: var(--radius-box);
