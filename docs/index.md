@@ -49,7 +49,7 @@ tokens, so the documentation takes on the same theme as the application, and any
 
 - **Readable first.** A measure of about 75 characters, a type scale with clear steps, and
   generous space above headings.
-- **Every theme, light and dark.** Code, notices, tables and sphinx-design components all draw
+- **Every theme, light and dark.** Code, admonitions, tables and sphinx-design components all draw
   from the theme's tokens, so nothing is left in the wrong colours.
 - **Search as you type.** Pages, sections and API names, from Sphinx's own index, with no
   server and no third-party service.

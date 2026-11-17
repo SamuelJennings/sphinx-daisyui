@@ -201,3 +201,9 @@ html:root, html[data-theme], html [data-theme] {
 
 /* Tooltips under the last navbar icons never widen the page. */
 .daisy-navbar { overflow-x: clip; }
+
+/* Thin scrollbars on the sidebars, in the theme's colours. */
+.daisy-sidebar-scroll, .daisy-secondary {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--color-base-content) 20%, transparent) transparent;
+}

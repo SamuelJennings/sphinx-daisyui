@@ -1,6 +1,6 @@
-# Notices
+# Admonitions
 
-Each kind of notice takes its colour from the theme: information, help, caution and danger.
+Each kind of admonition takes its colour from the theme: information, help, caution and danger.
 
 ```{note}
 A note adds something the reader may want to know.
@@ -45,7 +45,7 @@ Danger: this deletes data.
 Something has gone wrong.
 ```
 
-```{admonition} A notice with its own title
+```{admonition} An admonition with its own title
 A generic admonition, with a title of its own.
 ```
 
@@ -54,9 +54,9 @@ A to-do item, shown because `todo_include_todos` is on.
 ```
 
 :::{note}
-A notice holding a code block:
+An admonition holding a code block:
 
 ```python
-print("inside a notice")
+print("inside an admonition")
 ```
 :::

@@ -18,7 +18,7 @@ file is the record that would otherwise be its issue.
   the template names both use in `html_sidebars` and the component lists. Source: the two
   packages' own `theme.conf` files.
 - **The look comes from django-mvp-sphinx.** Its page-body stylesheet (`content.css`, drawn
-  with daisyUI tokens: notices, code, tables, signatures, sphinx-design) is ported, not redrawn.
+  with daisyUI tokens: admonitions, code, tables, signatures, sphinx-design) is ported, not redrawn.
   So is its rule that a wide table or equation scrolls in its own focusable region.
 - **Three columns, as documentation readers expect.** Site navigation on the left, the page in
   a column of about 75 characters, the page's own headings on the right, collapsing to a drawer
@@ -54,7 +54,7 @@ file is the record that would otherwise be its issue.
 - **Version switcher**: reads pydata's `switcher.json`. Choosing a version opens the same page
   there when it exists.
 - **Documentation site** `docs/`: install, switching guides, options reference, and a kitchen
-  sink (typography, notices, code, tables, lists, maths, sphinx-design, autodoc). Built three
+  sink (typography, admonitions, code, tables, lists, maths, sphinx-design, autodoc). Built three
   times: with the theme's own options at `/`, with a Furo configuration at `/as-furo/`, and with
   a pydata-sphinx-theme configuration at `/as-pydata/`.
 - **Serving**: `scripts/serve.sh` (sphinx-autobuild, rebuilding the stylesheet and all three
@@ -91,3 +91,8 @@ file is the record that would otherwise be its issue.
 
 - 2026-11-17 Sam: prototype it locally before onboarding anything. Support Furo's and
   pydata-sphinx-theme's options so users can switch easily.
+- 2026-11-17 Sam: article-info items stay on one line. A quotation's attribution gets a small
+  space after its dash. The page is called Admonitions, after the directive. Lists are more
+  compact: 4px between one-line items, wider spacing only when an item holds several blocks.
+  A toctree in a page is drawn as the sidebar's menu, with toggles, and the first two levels
+  start open.

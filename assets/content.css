@@ -4,7 +4,7 @@
    follows the theme switcher and dark mode with nothing to configure.
 
    Spacing works from one rhythm. Blocks are separated by --daisy-sphinx-flow; boxes
-   (notices, code, tables, cards) by a little more; a heading has far more
+   (admonitions, code, tables, cards) by a little more; a heading has far more
    space above it than below, so it reads as the start of what follows. */
 
 /* Everything is scoped to the page body, so the theme's frame keeps daisyUI's own styles. */
@@ -21,7 +21,7 @@
     --daisy-sphinx-flow: 1.25rem;
     --daisy-sphinx-flow-box: 1.75rem;
     --daisy-sphinx-flow-tight: 0.75rem;
-    --daisy-sphinx-flow-list: 0.375rem;
+    --daisy-sphinx-flow-list: 0.25rem;
     --daisy-sphinx-flow-list-loose: 0.75rem;
     --daisy-sphinx-pad-box: 1rem 1.25rem;
 
@@ -45,7 +45,7 @@
     --daisy-sphinx-shadow-raised: 0 4px 12px color-mix(in oklab, var(--color-base-content) 10%, transparent),
       0 1px 3px color-mix(in oklab, var(--color-base-content) 8%, transparent);
 
-    /* Notices, one set per meaning: the edge and icon, the tint, the border
+    /* Admonitions, one set per meaning: the edge and icon, the tint, the border
        and the title. A warning's title takes less of its colour, because
        the theme's warning colour is light. */
     --daisy-sphinx-admonition-info: var(--color-info);
@@ -515,7 +515,10 @@
     margin-top: var(--daisy-sphinx-flow-list);
   }
 
-  :scope :is(ul, ol):not(.simple) > li + li {
+  /* MyST never marks a list simple, so looseness is read from the items: a
+     list stands its items apart only when one of them holds more than one
+     block. A nested list alone doesn't count. */
+  :scope :is(ul, ol):has(> li > * + :is(p, pre, div, dl, blockquote, table, figure)) > li + li {
     margin-top: var(--daisy-sphinx-flow-list-loose);
   }
 
@@ -525,6 +528,11 @@
 
   :scope li > :is(ul, ol) {
     margin-top: var(--daisy-sphinx-flow-list);
+  }
+
+  /* An item's single paragraph keeps no space of its own. */
+  :scope li > p:only-child {
+    margin: 0;
   }
 
   /* A task list draws its own boxes, as daisyUI draws a checkbox. */
@@ -648,30 +656,62 @@
     margin-top: 0.5rem;
   }
 
-  :scope .toctree-wrapper ul {
+  /* Drawn as the sidebar's menu: compact rows, a toggle beside an entry that
+     has pages of its own, and a rule down the side of each level below. The
+     extra .toctree-wrapper outranks the list spacing above. */
+  :scope .toctree-wrapper :is(ul, ol) {
     padding-inline-start: 0;
     list-style: none;
   }
 
-  :scope .toctree-wrapper li {
+  :scope .toctree-wrapper :is(ul, ol) > li {
     padding: 0;
   }
 
-  :scope .toctree-wrapper li + li {
-    margin-top: 0.125rem;
+  :scope .toctree-wrapper :is(ul, ol) > li + li {
+    margin-top: 1px;
   }
 
-  :scope .toctree-wrapper li > ul {
-    margin-top: 0.125rem;
-    margin-inline-start: 1rem;
+  :scope .toctree-wrapper li > :is(ul, ol) {
+    margin-top: 1px;
+    margin-inline-start: 0.875rem;
     padding-inline-start: 0.5rem;
     border-inline-start: var(--daisy-sphinx-border) solid var(--daisy-sphinx-rule);
+  }
+
+  :scope .toctree-wrapper li > :is(ul, ol)[hidden] {
+    display: none;
+  }
+
+  :scope .toctree-wrapper .daisy-nav-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.125rem;
+  }
+
+  :scope .toctree-wrapper .daisy-nav-row > a {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  :scope .toctree-wrapper .daisy-nav-toggle {
+    margin-top: 0.3rem;
+    color: var(--daisy-sphinx-muted);
+  }
+
+  :scope .toctree-wrapper .daisy-nav-toggle svg {
+    transition: transform 150ms ease;
+  }
+
+  :scope .toctree-wrapper .daisy-nav-toggle[aria-expanded="true"] svg {
+    transform: rotate(90deg);
   }
 
   :scope .toctree-wrapper a {
     display: block;
     padding: 0.375rem 0.75rem;
     border-radius: var(--radius-field, 0.25rem);
+    line-height: 1.4;
     color: var(--daisy-sphinx-text);
     text-decoration: none;
   }
@@ -815,7 +855,7 @@
   }
 
   /* ------------------------------------------------------------------ */
-  /* Notices                                                             */
+  /* Admonitions                                                             */
   /* ------------------------------------------------------------------ */
 
   /* As daisyUI's soft alert: a tinted box in the colour of what it means,
@@ -866,7 +906,7 @@
     mask: var(--daisy-sphinx-box-icon) center / contain no-repeat;
   }
 
-  /* Inline code inside a notice keeps clear of the notice's tint. */
+  /* Inline code inside an admonition keeps clear of its tint. */
   :scope .admonition :not(pre) > code {
     background-color: var(--color-base-100);
   }
@@ -920,7 +960,7 @@
   }
 
   /* Version notes: a slim line in the colour of the change, lighter than a
-     notice because it is a fact about the text, not advice. */
+     admonition because it is a fact about the text, not advice. */
   :scope :is(.versionadded, .versionchanged, div.deprecated, .versionremoved) {
     padding: 0.125rem 0 0.125rem 1rem;
     border-inline-start: 3px solid var(--daisy-sphinx-version-edge);
@@ -1972,6 +2012,21 @@
      padding and the row's negative margins cancel the columns' gutters. */
   :scope .sd-container-fluid { padding-inline: 0; }
   :scope .sd-card.sd-border-primary { border-color: var(--color-primary); }
+
+  /* An article-info line: each item as wide as its text, on one line, and the
+     line as wide as the page when there is no avatar beside it. */
+  :scope .sd-row > .sd-col.sd-col-auto {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 100%;
+  }
+  :scope .sd-col-auto > p {
+    white-space: nowrap;
+  }
+  :scope .sd-row > .sd-col:only-child:has(.sd-col-auto) {
+    flex: 1 1 100%;
+    width: 100%;
+  }
   :scope .sd-row {
     margin-inline: calc(-0.5 * var(--sd-gutter-x));
   }

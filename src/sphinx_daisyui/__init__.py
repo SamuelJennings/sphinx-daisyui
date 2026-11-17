@@ -212,10 +212,38 @@ def rewrite_body(markup: str) -> str:
     - An equation on its own line has its notation wrapped the same way, after its
       number, so a wide equation scrolls.
     - Every heading link is named for a screen reader by the text it belongs to.
+    - A quotation's attribution keeps a thin space after its dash.
+    - A toctree in the page is drawn as the sidebar's menu: an entry with pages of its
+      own gets a toggle, and the levels below the first two start closed.
     """
-    if "<table" not in markup and 'class="math' not in markup and "headerlink" not in markup:
-        return markup
     soup = BeautifulSoup(markup, "html.parser")
+    for attribution in soup.select("p.attribution"):
+        first = attribution.contents[0] if attribution.contents else None
+        if isinstance(first, str) and first.startswith("\u2014") and not first.startswith("\u2014\u2009"):
+            first.replace_with("\u2014\u2009" + first[1:].lstrip())
+    for wrapper in soup.select("div.toctree-wrapper"):
+        for li in wrapper.find_all("li"):
+            link = li.find("a", recursive=False)
+            child = li.find("ul", recursive=False)
+            if link is None or child is None:
+                continue
+            depth = len([ul for ul in li.find_parents("ul") if wrapper in ul.find_parents("div")])
+            is_open = depth < 2
+            row = soup.new_tag("div", attrs={"class": "daisy-nav-row"})
+            link.wrap(row)
+            button = soup.new_tag(
+                "button",
+                attrs={
+                    "type": "button",
+                    "class": "daisy-nav-toggle btn btn-ghost btn-xs btn-square",
+                    "aria-expanded": "true" if is_open else "false",
+                    "aria-label": f"Show the pages in {link.get_text(strip=True)}",
+                },
+            )
+            button.append(BeautifulSoup(str(icon("chevron-right", "size-4")), "html.parser"))
+            row.append(button)
+            if not is_open:
+                child["hidden"] = ""
     for table in soup.find_all("table"):
         if table.find_parent("table") is not None:
             continue

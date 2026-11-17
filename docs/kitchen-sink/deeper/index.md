@@ -1,11 +1,12 @@
 # Deeper pages
 
-Pages nested below others, to show how the sidebar opens a branch and marks the way to the
-page you are reading.
+Pages nested below others, to show how a contents list in a page is drawn: the first two
+levels open, the rest behind a toggle, as the sidebar does it.
 
 ```{toctree}
-:maxdepth: 1
+:maxdepth: 4
 
-second
+second/index
 deepest/index
+third
 ```
