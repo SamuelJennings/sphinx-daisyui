@@ -69,6 +69,15 @@ named.
   previous and next (#4). Check Sphinx's own `navigation_with_keys` handling in `doctools.js`
   first.
 
+## Component-list defaults
+
+FS-001's component-list defaults are the prototype's `theme.toml` values, with `navbar_center`
+empty. So `theme-switcher` and `version-switcher` sit in `navbar_end` and `search-button-field` in
+`navbar_persistent` by default (FR-006, FR-023, FR-027). This feature ships the components those
+names resolve to, and changes none of the defaults.
+
+## Reused from the page frame
+
 It reuses from FS-001 (#4): the square icon button (the dialog's close button), `ThemeOptions`
 (every option here is read through it) and `Icons` (every icon in the three tools).
 
