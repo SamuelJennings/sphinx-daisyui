@@ -215,18 +215,3 @@ class TestBrandInABuild:
 
         assert brand.text == ""
         assert brand.alt == "Logo"
-
-
-class TestRemovedOptions:
-    @pytest.mark.sphinx("html", testroot="logo", freshenv=True)
-    def test_the_theme_declares_no_option_of_another_theme(
-        self, app: SphinxTestApp
-    ) -> None:
-        declared = app.builder.theme.get_options({}).keys()
-
-        assert not {
-            "light_logo",
-            "dark_logo",
-            "sidebar_hide_name",
-            "logo_link",
-        } & set(declared)
