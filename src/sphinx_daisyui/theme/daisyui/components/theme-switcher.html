@@ -1,0 +1,36 @@
+{%- from "components/macros.html" import navbar_dropdown with context %}
+{#- data-daisy-mode-names on the root holds the translated names of the three modes,
+    in the order auto, light, dark, separated by a vertical bar; the page script reads
+    them to name the current choice. -#}
+{%- set d = daisy %}
+{%- call(part) navbar_dropdown(trigger_class="btn-square", label=_("Choose the colour theme"), panel_class="w-60", attrs={"data-daisy-mode-names": _("Match the system") ~ "|" ~ _("Light") ~ "|" ~ _("Dark")}) %}
+  {%- if part == "trigger" %}
+    <span data-daisy-mode-icon="auto">{{ d.icon("sun-moon", "size-5") }}</span>
+    <span data-daisy-mode-icon="light">{{ d.icon("sun", "size-5") }}</span>
+    <span data-daisy-mode-icon="dark">{{ d.icon("moon", "size-5") }}</span>
+    <span data-daisy-mode-icon="theme">{{ d.icon("palette", "size-5") }}</span>
+    <span class="sr-only" data-daisy-mode-current></span>
+  {%- else %}
+    <ul class="menu menu-sm w-full p-0">
+      <li><button type="button" data-daisy-set-mode="auto" aria-pressed="false">{{ d.icon("sun-moon", "size-4") }}{{ _("Match the system") }}</button></li>
+      <li><button type="button" data-daisy-set-mode="light" aria-pressed="false">{{ d.icon("sun", "size-4") }}{{ _("Light") }}</button></li>
+      <li><button type="button" data-daisy-set-mode="dark" aria-pressed="false">{{ d.icon("moon", "size-4") }}{{ _("Dark") }}</button></li>
+    </ul>
+    {%- if d.modes.picker %}
+      <div class="divider daisy-muted my-1 text-xs">{{ _("Themes") }}</div>
+      <ul class="menu menu-sm max-h-72 w-full flex-nowrap overflow-y-auto p-0">
+        {%- for name in d.modes.picker %}
+          <li>
+            <button type="button" data-daisy-set-theme="{{ name|e }}" aria-pressed="false" class="gap-3">
+              <span data-theme="{{ name|e }}" class="grid shrink-0 grid-cols-2 gap-0.5 rounded-field border border-base-content/10 bg-base-100 p-1" aria-hidden="true">
+                <span class="size-1.5 rounded-full bg-base-content"></span><span class="size-1.5 rounded-full bg-primary"></span>
+                <span class="size-1.5 rounded-full bg-secondary"></span><span class="size-1.5 rounded-full bg-accent"></span>
+              </span>
+              <span class="capitalize">{{ name|e }}</span>
+            </button>
+          </li>
+        {%- endfor %}
+      </ul>
+    {%- endif %}
+  {%- endif %}
+{%- endcall %}

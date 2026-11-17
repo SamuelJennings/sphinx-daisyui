@@ -1,0 +1,7 @@
+{%- if daisy.search.enabled %}
+<button type="button" class="daisy-search-open daisy-muted btn btn-sm h-9 gap-2 border-base-300 bg-base-200/70 font-normal shadow-none hover:bg-base-200 md:w-56 md:justify-start" aria-label="{{ _('Search')|e }}" aria-haspopup="dialog">
+  {{ daisy.icon("search", "size-4") }}
+  <span class="hidden md:inline">{{ daisy.search.text|e }}</span>
+  <span class="ms-auto hidden items-center gap-0.5 md:flex"><kbd class="kbd kbd-xs" data-daisy-mod>Ctrl</kbd><kbd class="kbd kbd-xs">K</kbd></span>
+</button>
+{%- endif %}

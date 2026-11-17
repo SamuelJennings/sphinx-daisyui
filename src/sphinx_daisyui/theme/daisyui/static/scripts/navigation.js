@@ -13,7 +13,7 @@
   /* A menu in the header opens when its control has focus, as daisyUI draws it.
      Escape closes it and leaves focus on the control, which would open it again
      but for the class that holds it shut until the control is used or left. */
-  document.querySelectorAll(".daisy-navbar .dropdown").forEach((menu) => {
+  document.querySelectorAll(".daisy-dropdown").forEach((menu) => {
     const control = menu.querySelector(":scope > [role='button']");
     if (!control) return;
     menu.addEventListener("keydown", (event) => {

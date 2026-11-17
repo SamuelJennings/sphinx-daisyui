@@ -4,11 +4,18 @@
 
 {%- block extrahead %}
   {{- super() }}
+  <meta name="color-scheme" content="light dark">
+  {#- Without defer: it sets the theme before the body is painted, so no reader sees a flash. #}
+  <script src="{{ pathto('_static/scripts/mode.js', 1)|e }}" data-light-theme="{{ d.modes.light|e }}" data-dark-theme="{{ d.modes.dark|e }}" data-default-mode="{{ d.modes.default|e }}" data-themes="{{ d.modes.picker|join(' ')|e }}"></script>
   <script defer src="{{ pathto('_static/scripts/keys.js', 1)|e }}"></script>
+  <script defer src="{{ pathto('_static/scripts/page-address.js', 1)|e }}"></script>
+  <script defer src="{{ pathto('_static/scripts/versions.js', 1)|e }}"></script>
+  <script defer src="{{ pathto('_static/scripts/search.js', 1)|e }}"></script>
   <script defer src="{{ pathto('_static/scripts/frame.js', 1)|e }}"></script>
   <script defer src="{{ pathto('_static/scripts/back-to-top.js', 1)|e }}"></script>
   <script defer src="{{ pathto('_static/scripts/announcement.js', 1)|e }}"></script>
   <script defer src="{{ pathto('_static/scripts/navigation.js', 1)|e }}"></script>
+  <script defer src="{{ pathto('_static/scripts/theme-menu.js', 1)|e }}"></script>
   <script defer src="{{ pathto('_static/scripts/page-toc.js', 1)|e }}"></script>
 {%- endblock %}
 
@@ -16,6 +23,9 @@
 
 {%- block header %}
   <a href="#main-content" class="btn btn-primary btn-sm absolute -top-20 left-4 z-50 focus:top-2">{{ _("Skip to content") }}</a>
+  {%- if d.switcher.shown and d.switcher.banner %}
+    <div role="region" aria-label="{{ _('Version warning')|e }}" class="daisy-version-banner bg-warning text-warning-content text-center text-sm px-4 py-2" data-daisy-version-banner data-daisy-json-url="{{ d.switcher.json_url|e }}" data-daisy-version-match="{{ d.switcher.version_match|e }}" data-text-message="{{ _('This is the documentation for %(version)s. The preferred version is %(preferred)s.')|e }}" data-text-link="{{ _('Go to the preferred version')|e }}" hidden></div>
+  {%- endif %}
   {%- if not d.sticky_banners %}{% include "components/announcement.html" %}{% endif %}
 {%- endblock %}
 
@@ -70,7 +80,8 @@
     </aside>
     <label for="daisy-drawer" class="daisy-drawer-overlay" aria-label="{{ _('Close the navigation')|e }}"></label>
 
-    <main id="main-content" class="daisy-area-main min-w-0 px-4 sm:px-6 lg:px-10" tabindex="-1">
+    {#- Sphinx's search page reads the text of the element with role="main" for each result's summary. #}
+    <main id="main-content" role="main" class="daisy-area-main min-w-0 px-4 sm:px-6 lg:px-10" tabindex="-1">
       <div class="mx-auto max-w-[46rem] pt-6 pb-10">
         {%- if d.article_header_start or d.article_header_end %}
           <div class="daisy-article-header flex min-h-8 items-center gap-3">
@@ -125,6 +136,7 @@
   {%- if d.back_to_top %}
     <button type="button" class="daisy-back-to-top btn btn-sm fixed bottom-6 left-1/2 z-30 -translate-x-1/2 gap-1 rounded-full shadow-lg" hidden>{{ d.icon("arrow-up", "size-4") }}{{ _("Back to top") }}</button>
   {%- endif %}
+  {%- if d.search.enabled %}{% include "components/search-modal.html" %}{% endif %}
 {%- endblock %}
 
 {%- block footer %}{% endblock %}

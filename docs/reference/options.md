@@ -17,7 +17,7 @@ html_theme_options = {
 
 Each name is a template. The theme looks for it in its own `components/` directory first, then in
 the site's `templates_path`. A name that no template has draws nothing and raises no warning.
-[Components](components.md) lists the five the theme provides.
+[Components](components.md) lists the ones the theme provides.
 
 ## Layout
 
@@ -48,6 +48,42 @@ to `_static`. Sphinx's `html_logo` is used for both modes when `logo` gives no i
     shown in dark mode when `image_dark` is not set.
   - `alt_text`: the logo's `alt` text. The default is the project name.
   - `link`: where the brand leads. The default is the site's home page.
+
+## Modes and themes
+
+A reader sees the site in a mode: light, dark, or the one their system asks for. Each mode draws
+one daisyUI theme. The [theme-switcher](components.md) component lets a reader choose.
+[Choose the themes](../developer/choose-the-themes.md) shows the steps.
+
+### `light_theme`
+
+- **Type:** string
+- **Default:** `"light"`
+- **Meaning:** The theme the light mode draws. The name is used as given, so a theme of the
+  site's own works as well as one of daisyUI's.
+
+### `dark_theme`
+
+- **Type:** string
+- **Default:** `"dark"`
+- **Meaning:** The theme the dark mode draws. The name is used as given.
+
+### `default_mode`
+
+- **Type:** string
+- **Default:** `"auto"`
+- **Meaning:** The mode a reader sees before they have chosen one. The values are `"auto"`, which
+  follows the system's setting, `"light"` and `"dark"`. Any other value builds with a warning and
+  means `"auto"`. A reader's own choice replaces it, and the browser remembers that choice.
+
+### `theme_picker`
+
+- **Type:** boolean, string or list of strings
+- **Default:** empty, which offers no theme by name
+- **Meaning:** The themes the theme menu lists besides the three modes. `True` or `"all"` lists
+  every theme the stylesheet holds. A list of names, or one string with the names separated by
+  commas, lists those in the order given, each once. An empty value, `False` or `"false"` lists
+  none. A name is accepted as given, so a site's own theme can be named.
 
 ## Moving between pages
 
@@ -90,6 +126,73 @@ to `_static`. Sphinx's `html_logo` is used for both modes when `logo` gives no i
 - **Meaning:** Whether the banner sits inside the header, so that it stays with the header when
   the layout code keeps the header in place. When off, the banner is the first thing on the page
   and scrolls away.
+
+## Search
+
+The theme draws a search button and a search dialog that list results from the index Sphinx
+writes. [Set up search](../developer/set-up-search-and-versions.md) shows the steps.
+
+### `search_bar_text`
+
+- **Type:** string
+- **Default:** `""`, which shows the words Search the docs in the reader's language
+- **Meaning:** The words on the search button and in the dialog's field. The text is shown as
+  written, so markup in it appears as characters and is never read as HTML.
+
+### `disable_search`
+
+- **Type:** boolean
+- **Default:** `False`
+- **Meaning:** When `True`, no page draws the search button or the dialog, and the keyboard
+  shortcuts that open the dialog do nothing. Sphinx's own search page is still built.
+
+### `search_as_you_type`
+
+- **Type:** boolean
+- **Default:** `True`
+- **Meaning:** Whether results are listed while the reader types. When `False`, nothing is
+  listed as they type, and Enter opens Sphinx's full search page with their words.
+
+## Versions
+
+The theme draws a version menu in the header when a site names the file that lists its
+versions. [Set up versions](../developer/set-up-search-and-versions.md) shows the steps.
+
+### `switcher`
+
+- **Type:** dictionary with `json_url` and `version_match`
+- **Default:** `{}`, which draws no menu and no banner
+- **Meaning:** `json_url` is where the file listing every version is. `version_match` is the
+  version this build documents. It labels the menu and picks the entry the reader is on.
+  The menu is drawn on every page only when `json_url` is set.
+
+`json_url` takes three forms:
+
+- A full address, such as `https://example.org/switcher.json`, or one starting with `//`, which
+  is read as `https:`.
+- A path from the server's root, such as `/switcher.json`.
+- Any other path, such as `_static/switcher.json`, which is read from the site's root.
+
+A version's `url` in the file takes the same three forms. A path from the server's root is
+used as given, and any other path is read from the site's root, so one file serves a page at any
+depth. The check described under `check_switcher` reads a path in `json_url` from the build's
+output, where a path from the server's root is read as from the site's root.
+
+### `check_switcher`
+
+- **Type:** boolean
+- **Default:** `True`
+- **Meaning:** Whether the build reads the file at `json_url` once, at the end of the build,
+  and warns when it cannot be read or is not a list of versions each with a `version` and a
+  `url`. The build still succeeds. A path is read from the built site, so a file in a static
+  directory is found after the build copies it. When `False`, the file is never read.
+
+### `show_version_warning_banner`
+
+- **Type:** boolean
+- **Default:** `False`
+- **Meaning:** When `True` and `json_url` is set, every page carries a banner before the header
+  that appears on any version other than the preferred one and links to the preferred one.
 
 ## Site navigation
 

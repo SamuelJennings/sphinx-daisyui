@@ -287,13 +287,12 @@ class TestReaderPage:
         assert len(reachable) == 2
 
     @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
-    def test_the_page_has_one_main_landmark_and_no_main_role(
-        self, app: SphinxTestApp
-    ) -> None:
+    def test_the_page_has_one_main_landmark(self, app: SphinxTestApp) -> None:
         page = built(app)
 
         assert len([name for name, _ in page.tags if name == "main"]) == 1
-        assert not [attrs for _, attrs in page.tags if attrs.get("role") == "main"]
+        roles = [name for name, attrs in page.tags if attrs.get("role") == "main"]
+        assert roles == ["main"]
 
     @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
     def test_both_sidebars_are_labelled_landmarks(self, app: SphinxTestApp) -> None:

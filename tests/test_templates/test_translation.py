@@ -17,6 +17,13 @@ BREADCRUMB = "Breadcrumb"
 TOGGLE = "Show the pages in %(title)s"
 TABLE = "Table"
 EQUATION = "Equation"
+CHOOSE_THEME = "Choose the colour theme"
+SYSTEM_MODE = "Match the system"
+SEARCH = "Search"
+SEARCH_PROMPT = "Type to search pages, sections and API names."
+SEARCH_UNAVAILABLE = "Search is not available here."
+CHOOSE_VERSION = "Choose a version"
+MARKUP_TEXT = 'Suche "nicht" <b>da</b>'
 THEME = Path(sphinx_daisyui.__file__).parent
 SHIPPED = THEME / "locale" / "sphinx.pot"
 
@@ -30,6 +37,12 @@ def catalogue(app_params: object) -> Catalog:
     catalogue.add(TOGGLE, "Seiten in %(title)s anzeigen")
     catalogue.add(TABLE, "Tabelle")
     catalogue.add(EQUATION, "Gleichung")
+    catalogue.add(CHOOSE_THEME, "Farbschema wählen")
+    catalogue.add(SYSTEM_MODE, "Wie das System")
+    catalogue.add(CHOOSE_VERSION, "Version wählen")
+    catalogue.add(SEARCH, "Suchen")
+    catalogue.add(SEARCH_PROMPT, "Seiten, Abschnitte und API-Namen suchen.")
+    catalogue.add(SEARCH_UNAVAILABLE, MARKUP_TEXT)
     srcdir = Path(app_params.kwargs["srcdir"])  # type: ignore[attr-defined]
     folder = srcdir / "locale" / "de" / "LC_MESSAGES"
     folder.mkdir(parents=True, exist_ok=True)
@@ -83,6 +96,71 @@ class TestTranslation:
             r.get("aria-label") for r in page.classed("div", "daisy-sphinx-scroll")
         ]
         assert names == [table.string, equation.string]
+
+    @pytest.mark.sphinx("html", testroot="locale", freshenv=True)
+    def test_the_theme_menus_name_and_a_mode_button_are_translated(
+        self, catalogue: Catalog, app: SphinxTestApp
+    ) -> None:
+        app.build()
+
+        name = catalogue.get(CHOOSE_THEME)
+        system = catalogue.get(SYSTEM_MODE)
+        assert name is not None
+        assert system is not None
+        text = (Path(app.outdir) / "index.html").read_text(encoding="utf-8")
+        page = Page(text)
+        assert name.string in [b.get("aria-label") for b in page.find("div")]
+        assert re.search(
+            r'data-daisy-set-mode="auto"[^>]*>.*?' + re.escape(system.string), text
+        )
+
+    @pytest.mark.sphinx("html", testroot="locale", freshenv=True)
+    def test_the_search_buttons_name_and_the_dialogs_prompt_are_translated(
+        self, catalogue: Catalog, app: SphinxTestApp
+    ) -> None:
+        app.build()
+
+        name = catalogue.get(SEARCH)
+        prompt = catalogue.get(SEARCH_PROMPT)
+        assert name is not None
+        assert prompt is not None
+        page = Page.read(Path(app.outdir) / "index.html")
+        button = page.classed("button", "daisy-search-open")
+        dialog = page.find("dialog", id="daisy-search")
+        assert [b.get("aria-label") for b in button] == [name.string]
+        assert dialog[0].get("data-daisy-prompt") == prompt.string
+
+    @pytest.mark.sphinx(
+        "html",
+        testroot="locale",
+        freshenv=True,
+        confoverrides={
+            "html_theme_options": {
+                "switcher": {"json_url": "s.json", "version_match": "dev"},
+                "check_switcher": False,
+            }
+        },
+    )
+    def test_the_version_switchers_name_is_translated(
+        self, catalogue: Catalog, app: SphinxTestApp
+    ) -> None:
+        app.build()
+
+        name = catalogue.get(CHOOSE_VERSION)
+        assert name is not None
+        page = Page.read(Path(app.outdir) / "index.html")
+        assert name.string in [b.get("aria-label") for b in page.find("div")]
+
+    @pytest.mark.sphinx("html", testroot="locale", freshenv=True)
+    def test_a_translation_holding_markup_stays_inside_its_attribute(
+        self, catalogue: Catalog, app: SphinxTestApp
+    ) -> None:
+        app.build()
+
+        page = Page.read(Path(app.outdir) / "index.html")
+        dialog = page.find("dialog", id="daisy-search")
+        assert dialog[0].get("data-daisy-unavailable") == MARKUP_TEXT
+        assert not page.find("b")
 
     def test_every_message_the_templates_mark_is_in_the_shipped_template(self) -> None:
         marked = {

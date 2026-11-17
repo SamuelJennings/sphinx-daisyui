@@ -1,0 +1,13 @@
+{%- from "components/macros.html" import navbar_dropdown with context %}
+{#- The script fills [data-daisy-version-list] from the file at data-daisy-json-url, and
+    reads the text it shows from the data-text attributes. -#}
+{%- set d = daisy %}
+{%- if d.switcher.shown %}
+  {%- call(part) navbar_dropdown(trigger_class="gap-1 font-medium", label=_("Choose a version"), panel_class="w-52", attrs={"data-daisy-json-url": d.switcher.json_url, "data-daisy-version-match": d.switcher.version_match, "data-text-preferred": _("Preferred"), "data-text-current": _("Current version")}) %}
+    {%- if part == "trigger" %}
+      {{ d.icon("history", "size-4") }}<span data-daisy-version-label>{{ d.switcher.version_match|e }}</span>{{ d.icon("chevron-down", "size-3.5 opacity-60") }}
+    {%- else %}
+      <ul class="menu w-full p-0" data-daisy-version-list></ul>
+    {%- endif %}
+  {%- endcall %}
+{%- endif %}

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sphinx-daisyui VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-17 17:17+0100\n"
+"POT-Creation-Date: 2026-11-17 20:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,10 +38,28 @@ msgstr ""
 msgid "Built with %(sphinx_link)s %(sphinx_version)s."
 msgstr ""
 
+msgid "Choose a version"
+msgstr ""
+
+msgid "Choose the colour theme"
+msgstr ""
+
+msgid "Close search"
+msgstr ""
+
 msgid "Close the navigation"
 msgstr ""
 
+msgid "Current version"
+msgstr ""
+
+msgid "Dark"
+msgstr ""
+
 msgid "Documentation"
+msgstr ""
+
+msgid "Enter with nothing chosen opens the full results."
 msgstr ""
 
 msgid "Equation"
@@ -51,6 +69,9 @@ msgstr ""
 msgid "Equation %(number)s"
 msgstr ""
 
+msgid "Go to the preferred version"
+msgstr ""
+
 msgid "Home"
 msgstr ""
 
@@ -58,7 +79,13 @@ msgstr ""
 msgid "Last updated %(last_updated)s."
 msgstr ""
 
+msgid "Light"
+msgstr ""
+
 msgid "Link to this equation"
+msgstr ""
+
+msgid "Match the system"
 msgstr ""
 
 msgid "More"
@@ -67,19 +94,44 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
+#, python-format
+msgid "Nothing matches %(query)s."
+msgstr ""
+
 msgid "On this page"
 msgstr ""
 
 msgid "Open the navigation"
 msgstr ""
 
+msgid "Page"
+msgstr ""
+
 msgid "Page tools"
+msgstr ""
+
+msgid "Preferred"
 msgstr ""
 
 msgid "Previous"
 msgstr ""
 
 msgid "Previous and next page"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Search is not available here."
+msgstr ""
+
+msgid "Search the docs"
+msgstr ""
+
+msgid "Search the documentation"
+msgstr ""
+
+msgid "Section"
 msgstr ""
 
 msgid "Sections"
@@ -100,4 +152,28 @@ msgstr ""
 
 #, python-format
 msgid "Theme: %(theme_link)s %(version)s."
+msgstr ""
+
+msgid "Themes"
+msgstr ""
+
+#, python-format
+msgid ""
+"This is the documentation for %(version)s. The preferred version is "
+"%(preferred)s."
+msgstr ""
+
+msgid "Type to search pages, sections and API names."
+msgstr ""
+
+msgid "Version warning"
+msgstr ""
+
+msgid "close"
+msgstr ""
+
+msgid "to move"
+msgstr ""
+
+msgid "to open"
 msgstr ""

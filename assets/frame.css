@@ -3,11 +3,30 @@
 html { scroll-padding-top: 5rem; }
 [id] { scroll-margin-top: 5rem; }
 
-/* The logo for the other mode stays hidden. Until the theme has modes of its own
-   the system setting picks it; the modes feature moves this rule onto them. */
-@media (prefers-color-scheme: dark) { .daisy-logo-light { display: none; } }
-@media not (prefers-color-scheme: dark) { .daisy-logo-dark { display: none; } }
+/* The logo for the other mode stays hidden. The mode attributes on <html> pick the
+   logo; the system setting does until the page's script has set them. */
+html[data-mode="dark"] .daisy-logo-light,
+html[data-mode="light"] .daisy-logo-dark { display: none; }
+@media (prefers-color-scheme: dark) { html:not([data-mode]) .daisy-logo-light { display: none; } }
+@media not (prefers-color-scheme: dark) { html:not([data-mode]) .daisy-logo-dark { display: none; } }
 .daisy-logo-light[src=""], .daisy-logo-dark[src=""] { display: none; }
+
+/* The theme button shows the reader's current choice. */
+[data-daisy-mode-icon] { display: none; }
+html[data-mode-choice="auto"] [data-daisy-mode-icon="auto"],
+html[data-mode-choice="light"] [data-daisy-mode-icon="light"],
+html[data-mode-choice="dark"] [data-daisy-mode-icon="dark"],
+html[data-mode-choice="theme"] [data-daisy-mode-icon="theme"],
+html:not([data-mode-choice]) [data-daisy-mode-icon="auto"] { display: inline-flex; }
+
+/* In the drawer the menus sit at the start of the window, so their panels open from the start. */
+[data-daisy-navbar-end-slot] .daisy-dropdown > .dropdown-content {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+}
+
+/* Dimmed text in a menu keeps the muted colour's contrast. */
+.daisy-muted { color: var(--daisy-text-muted); }
 
 /* ------------------------------------------------------------------ */
 /* The page grid                                                        */
@@ -223,3 +242,54 @@ li.daisy-toc-on-path > .daisy-toc-deep { display: flex; }
 /* A link's visually hidden text is placed against the link itself, so it stays
    inside the sidebar's scrolling box instead of lengthening the page. */
 a:has(> .sr-only) { position: relative; }
+
+/* ------------------------------------------------------------------ */
+/* Search                                                              */
+/* ------------------------------------------------------------------ */
+
+.daisy-search-results mark {
+  background: color-mix(in oklab, var(--color-warning) 35%, transparent);
+  color: inherit;
+  border-radius: 2px;
+}
+.daisy-search-results a.menu-active {
+  background: color-mix(in oklab, var(--color-primary) 13%, transparent);
+  color: inherit;
+}
+#daisy-search .modal-box { overflow: hidden; }
+@media (width < 40rem) {
+  #daisy-search.modal-top .modal-box {
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+  }
+}
+
+/* The full search page Sphinx writes. */
+#search-results { margin-top: 1.5rem; }
+#search-results .search-summary { color: var(--daisy-text-muted); }
+#search-results ul.search {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+#search-results ul.search li {
+  margin: 0;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--daisy-border);
+  border-radius: var(--radius-box);
+}
+#search-results ul.search li > a { font-weight: 600; }
+#search-results ul.search li p.context {
+  margin: 0.25rem 0 0;
+  font-size: 0.875rem;
+  color: var(--daisy-text-muted);
+}
+#search-results span.highlighted,
+.daisy-sphinx-content span.highlighted {
+  background: color-mix(in oklab, var(--color-warning) 35%, transparent);
+  border-radius: 2px;
+}

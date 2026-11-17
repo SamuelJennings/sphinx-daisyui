@@ -14,3 +14,15 @@ installation
 arrange-the-page
 put-the-sections-in-the-header
 ```
+
+```{toctree}
+:caption: Searching
+
+set-up-search-and-versions
+```
+
+```{toctree}
+:caption: Colours
+
+choose-the-themes
+```

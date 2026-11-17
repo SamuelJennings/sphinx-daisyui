@@ -27,7 +27,12 @@ SECTION_HREFS = [
 
 def header(**options: Any) -> pytest.MarkDecorator:
     """Build the sections root with ``navbar-nav`` in the centre, plus options."""
-    values = {"navbar_center": ["navbar-nav"], "external_links": EXTERNALS, **options}
+    values = {
+        "navbar_center": ["navbar-nav"],
+        "navbar_end": [],
+        "external_links": EXTERNALS,
+        **options,
+    }
     return pytest.mark.sphinx(
         "html",
         testroot="sections",

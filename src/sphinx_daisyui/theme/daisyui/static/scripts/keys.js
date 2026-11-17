@@ -1,4 +1,4 @@
-/* Keyboard shortcuts: one place to ask whether the reader is typing, and one to bind a key. */
+/* Keyboard shortcuts: one place to ask whether the reader is typing, and one to bind a key, with or without Ctrl or ⌘. */
 (function () {
   "use strict";
 
@@ -11,10 +11,17 @@
     return el.matches("input, textarea, select") || el.isContentEditable;
   }
 
-  /* Run a handler when a key is pressed, unless Alt, Ctrl or Meta is held. */
-  function on(key, handler) {
+  /* Run a handler when a key is pressed. A plain shortcut ignores the key while Alt, Ctrl or Meta is held; with options.modifier it runs only while Ctrl or Meta is held, and not Alt. */
+  function on(key, handler, options) {
+    const modifier = Boolean(options && options.modifier);
+    const wanted = key.toLowerCase();
     document.addEventListener("keydown", (event) => {
-      if (event.key !== key || event.altKey || event.ctrlKey || event.metaKey) return;
+      if (event.altKey) return;
+      if (modifier) {
+        if (!(event.ctrlKey || event.metaKey) || event.key.toLowerCase() !== wanted) return;
+      } else if (event.key !== key || event.ctrlKey || event.metaKey) {
+        return;
+      }
       handler(event);
     });
   }

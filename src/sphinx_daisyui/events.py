@@ -11,8 +11,11 @@ from sphinx.util import logging
 from .brand import Brand
 from .icons import ICONS
 from .layout import LayoutCodeError
+from .modes import Modes
 from .navigation import HeaderLinks, PageContents, SiteNavigation
 from .options import ThemeOptions
+from .search import SearchSettings
+from .versions import VersionSwitcher
 
 LOGGER = logging.getLogger(__name__)
 VERSION = version("sphinx-daisyui")
@@ -146,6 +149,9 @@ def add_page_context(
     context["daisy"] = {
         "layout": options.layout(),
         "brand": Brand.from_options(options, context),
+        "modes": Modes.from_options(options),
+        "search": SearchSettings.from_options(options),
+        "switcher": VersionSwitcher.from_options(options),
         "icon": ICONS.svg,
         "version": VERSION,
         "repository": REPOSITORY,
