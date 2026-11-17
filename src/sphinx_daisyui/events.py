@@ -104,4 +104,5 @@ def add_page_context(
         **{name: options.components(name) for name in COMPONENT_OPTIONS},
         "secondary": options.components("secondary_sidebar_items"),
         "show_prev_next": options.flag("show_prev_next", True),
+        "back_to_top": options.flag("back_to_top_button", True),
     }
