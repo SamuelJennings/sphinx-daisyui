@@ -3,6 +3,9 @@
 @import "tailwindcss" source(none);
 @source "../src/sphinx_daisyui/theme/daisyui";
 @source "../src/sphinx_daisyui/*.py";
+/* daisyUI components compiled in so raw HTML in a page can use them, such as a
+   mockup, an input, a join or a badge. */
+@source inline("mockup-browser mockup-browser-toolbar input input-sm join join-item btn-xs btn-active badge-primary badge-outline fieldset fieldset-legend label input-error text-error validator");
 
 @plugin "daisyui" {
   themes: all;
@@ -10,3 +13,4 @@
 
 @import "./tokens.css";
 @import "./frame.css";
+@import "./content.css";
