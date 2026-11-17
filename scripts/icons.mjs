@@ -17,5 +17,5 @@ for (const [name, key] of Object.entries(brands)) {
   if (!icon) { console.error("missing brand", name); continue; }
   out[name] = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="${icon.path}"/></svg>`;
 }
-fs.writeFileSync("src/sphinx_daisyui/icons.json", JSON.stringify(out, null, 0));
+fs.writeFileSync("src/sphinx_daisyui/icons.json", JSON.stringify(out, null, 0) + "\n");
 console.log(Object.keys(out).length, "icons");
