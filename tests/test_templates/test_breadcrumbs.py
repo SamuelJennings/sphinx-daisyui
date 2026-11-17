@@ -60,7 +60,7 @@ class TestBreadcrumbs:
         assert targets(page, name) == [HOME]
         assert len(page.find("li", **{"aria-current": "page"})) == 1
 
-    def test_the_title_is_escaped_once_and_a_parents_markup_is_kept(
+    def test_the_current_title_is_escaped_once_and_carries_no_markup(
         self, app: SphinxTestApp
     ) -> None:
         name = "reference/item.html"
@@ -68,11 +68,10 @@ class TestBreadcrumbs:
         page = breadcrumbs(app, name)
 
         assert page is not None
-        text = page.text
-        assert "&lt;" not in text
-        assert "&amp;amp;" not in text
-        assert text.count("&amp;") == 1
-        assert [tag for tag, _ in page.tags].count("code") == 1
+        assert "&lt;" not in page.text
+        assert "&amp;amp;" not in page.text
+        assert page.text.count("&amp;") == 1
+        assert "code" not in [tag for tag, _ in page.tags]
 
     def test_the_landmark_is_labelled_in_the_sites_language(
         self, app: SphinxTestApp
@@ -81,3 +80,15 @@ class TestBreadcrumbs:
 
         assert page is not None
         assert page.find("nav")[0]["aria-label"] == translate("Breadcrumb")
+
+
+@pytest.mark.sphinx("html", testroot="crumbs", freshenv=True)
+def test_a_parents_title_reaches_the_page_as_sphinx_wrote_it(
+    app: SphinxTestApp,
+) -> None:
+    page = breadcrumbs(app, "child.html")
+
+    assert page is not None
+    assert [tag for tag, _ in page.tags].count("code") == 1
+    assert "&lt;" not in page.text
+    assert "&amp;amp;" not in page.text
