@@ -8,6 +8,9 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- Icon links: the `icon_links` and `icon_links_label` options and the `navbar-icon-links`
+  component, which link a site's accounts as bundled icons or images in the navbar or the
+  footer, and a build-time warning for an unknown icon name.
 - A version switcher, drawn by the `version-switcher` component from a `switcher.json` file, the
   `switcher`, `check_switcher` and `show_version_warning_banner` options, and a build-time
   warning when the file cannot be used.
