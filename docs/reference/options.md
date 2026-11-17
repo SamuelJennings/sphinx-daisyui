@@ -49,6 +49,42 @@ to `_static`. Sphinx's `html_logo` is used for both modes when `logo` gives no i
   - `alt_text`: the logo's `alt` text. The default is the project name.
   - `link`: where the brand leads. The default is the site's home page.
 
+## Modes and themes
+
+A reader sees the site in a mode: light, dark, or the one their system asks for. Each mode draws
+one daisyUI theme. The [theme-switcher](components.md) component lets a reader choose.
+[Choose the themes](../developer/choose-the-themes.md) shows the steps.
+
+### `light_theme`
+
+- **Type:** string
+- **Default:** `"light"`
+- **Meaning:** The theme the light mode draws. The name is used as given, so a theme of the
+  site's own works as well as one of daisyUI's.
+
+### `dark_theme`
+
+- **Type:** string
+- **Default:** `"dark"`
+- **Meaning:** The theme the dark mode draws. The name is used as given.
+
+### `default_mode`
+
+- **Type:** string
+- **Default:** `"auto"`
+- **Meaning:** The mode a reader sees before they have chosen one. The values are `"auto"`, which
+  follows the system's setting, `"light"` and `"dark"`. Any other value builds with a warning and
+  means `"auto"`. A reader's own choice replaces it, and the browser remembers that choice.
+
+### `theme_picker`
+
+- **Type:** boolean, string or list of strings
+- **Default:** empty, which offers no theme by name
+- **Meaning:** The themes the theme menu lists besides the three modes. `True` or `"all"` lists
+  every theme the stylesheet holds. A list of names, or one string with the names separated by
+  commas, lists those in the order given, each once. An empty value, `False` or `"false"` lists
+  none. A name is accepted as given, so a site's own theme can be named.
+
 ## Moving between pages
 
 ### `show_prev_next`

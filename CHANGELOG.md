@@ -8,6 +8,9 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- The `light_theme`, `dark_theme`, `default_mode` and `theme_picker` options, and the
+  `theme-switcher` component, which lets a reader choose light, dark, the system's setting or a
+  theme by name.
 - The `daisyui` HTML theme, registered with Sphinx, with its stylesheet compiled from Tailwind
   CSS 4 and daisyUI 5 and shipped in the package.
 - The `layout` option, which arranges the header, sidebars, page and footer with one code, and

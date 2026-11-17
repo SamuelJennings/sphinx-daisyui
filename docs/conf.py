@@ -52,6 +52,7 @@ html_theme_options = {
     "footer_start": ["copyright", "last-updated"],
     "footer_end": ["sphinx-version", "theme-version"],
     "navigation_with_keys": True,
+    "theme_picker": True,
 }
 
 if os.environ.get("DAISY_LAYOUT"):

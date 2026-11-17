@@ -1,6 +1,6 @@
 # Components
 
-A component is a template that a [component list](options.md) names. The theme provides eight.
+A component is a template that a [component list](options.md) names. The theme provides ten.
 Each one draws nothing when what it shows is switched off, so a list can name it without
 checking.
 
@@ -51,6 +51,17 @@ page. On a narrow window the drawer lists every header link above it. Named in a
 component list, it draws the links there and leaves the sidebar's navigation whole.
 [Put the sections in the header](../developer/put-the-sections-in-the-header.md) shows the steps.
 
+## `theme-switcher`
+
+Shows a button that opens a menu of the three modes: match the system, light and dark. When the
+[option](options.md) `theme_picker` names themes, the menu lists them below the modes, each with
+a swatch of its colours. The button shows the reader's current choice. The theme puts it in
+`navbar_end`, and on a narrow window it moves into the drawer with the rest of that list.
+
+The site's themes and its starting mode apply with or without it. A site that leaves the component
+out of every list draws no menu, and every page still follows `light_theme`, `dark_theme` and
+`default_mode`, and the reader's system when the mode is `"auto"`.
+
 ## `breadcrumbs`
 
 Shows the path to the page: a link home, a link to each page above it in the table of contents,
@@ -79,7 +90,7 @@ A name that matches no template draws nothing and raises no warning.
 
 ## Macros
 
-`components/macros.html` holds two macros a component may import:
+`components/macros.html` holds three macros a component may import:
 
 ```jinja
 {%- from 'components/macros.html' import components, icon_button with context %}
@@ -89,3 +100,19 @@ A name that matches no template draws nothing and raises no warning.
   first and then in the site's templates.
 - `icon_button(label, icon, tooltip="")` draws a ghost button holding the named icon. The label
   is the button's accessible name. When a tooltip is given, it shows on hover.
+- `navbar_dropdown(tag="div", panel_tag="div", trigger_class="", panel_class="", label="",
+  attrs={}, trigger_attrs={})` draws one menu in the navbar and is used with `call`. It draws
+  the outer element, the button that opens the menu and the panel, and the caller fills the
+  button and the panel:
+
+  ```jinja
+  {%- call(part) navbar_dropdown(panel_tag="ul", panel_class="menu w-56") %}
+    {%- if part == "trigger" %}Menu{% else %}<li><a href="#">An entry</a></li>{% endif %}
+  {%- endcall %}
+  ```
+
+  `tag` and `panel_tag` name the outer element and the panel. `trigger_class` and `panel_class`
+  add classes to the button and the panel, `label` is the button's accessible name, and `attrs`
+  and `trigger_attrs` are dicts of attributes for the outer element and the button. Every value is
+  escaped. The outer element carries the class `daisy-dropdown`, which the theme's script uses to
+  open the menu from the keyboard and to close it with Escape, wherever the menu sits on the page.

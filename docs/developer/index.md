@@ -14,3 +14,9 @@ installation
 arrange-the-page
 put-the-sections-in-the-header
 ```
+
+```{toctree}
+:caption: Colours
+
+choose-the-themes
+```
