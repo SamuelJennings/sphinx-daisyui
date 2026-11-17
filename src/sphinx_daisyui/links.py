@@ -181,14 +181,16 @@ class SourceLinks:
         Returns:
             The page's edit and view addresses on its repository's host, and
             the address of Sphinx's copy of the source. A page with no source
-            has none of them, and a repository on another host no edit or view
-            address.
+            file, which Sphinx gives no ``page_source_suffix``, has none of
+            them, and a repository on another host no edit or view address.
+            Sphinx's copy is linked only when Sphinx shows and copies it.
         """
-        sourcename = context.get("sourcename")
-        if not sourcename:
+        suffix = context.get("page_source_suffix")
+        if not suffix:
             return cls("", "", "")
+        sourcename = context.get("sourcename")
         source = ""
-        if context.get("show_source") and context.get("has_source"):
+        if sourcename and context.get("show_source") and context.get("has_source"):
             source = context["pathto"]("_sources/" + sourcename, 1)
         repository = options.text("source_repository").rstrip("/")
         repository = repository.removesuffix(".git").rstrip("/")
@@ -196,7 +198,7 @@ class SourceLinks:
         if host is None:
             return cls("", "", source)
         directory = options.text("source_directory").strip("/")
-        name = context["pagename"] + (context.get("page_source_suffix") or ".rst")
+        name = context["pagename"] + suffix
         found = {
             "repo": repository,
             "branch": options.text("source_branch", "main"),

@@ -345,13 +345,11 @@ class TestSourceLinksAddresses:
 
         assert links.view.endswith(f"/index{suffix}")
 
-    def test_a_page_with_no_suffix_in_its_context_is_an_rst_file(self) -> None:
+    def test_a_page_with_no_suffix_in_its_context_has_no_source_file(self) -> None:
         context = {"pagename": "index", "sourcename": "index.rst.txt"}
         options = ThemeOptions({"source_repository": "https://github.com/o/p"})
 
-        links = SourceLinks.from_options(options, context)
-
-        assert links.view.endswith("/index.rst")
+        assert SourceLinks.from_options(options, context) == SourceLinks("", "", "")
 
     @pytest.mark.parametrize("repository", ["https://example.org/o/p", "", None])
     def test_an_unknown_host_or_no_repository_has_no_edit_or_view_address(
@@ -363,12 +361,14 @@ class TestSourceLinksAddresses:
 
         assert (links.edit, links.view) == ("", "")
 
-    def test_a_page_with_no_source_has_no_addresses_at_all(self) -> None:
+    def test_a_page_sphinx_does_not_copy_keeps_its_edit_and_view_addresses(
+        self,
+    ) -> None:
         options = {"source_repository": REPOSITORY.format(host="github.com")}
 
         links = sources(options, sourcename="", show_source=True, has_source=True)
 
-        assert links == SourceLinks("", "", "")
+        assert (bool(links.edit), bool(links.view), links.source) == (True, True, "")
 
     def test_a_page_with_no_sourcename_in_its_context_has_none(self) -> None:
         context = {"pagename": "genindex", "pathto": pathto}

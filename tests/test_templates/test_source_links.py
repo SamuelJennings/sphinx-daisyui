@@ -354,6 +354,30 @@ class TestWithoutAnAddress:
         assert leading_to(page, GITHUB) == []
 
 
+class TestWithoutSphinxsCopy:
+    @pytest.mark.sphinx(
+        "html",
+        testroot="links",
+        freshenv=True,
+        confoverrides={
+            "html_copy_source": False,
+            "html_theme_options": {
+                "source_repository": GITHUB,
+                "top_of_page_buttons": ["edit", "view"],
+            },
+        },
+    )
+    def test_the_edit_and_view_buttons_stay_when_sphinx_does_not_copy_the_source(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = built(app, DEEP)
+
+        assert leading_to(page, GITHUB) == [
+            f"{GITHUB}/edit/main/a/b/c/page.rst",
+            f"{GITHUB}/blob/main/a/b/c/page.rst",
+        ]
+
+
 class TestSourceLink:
     SIDEBAR = {"top_of_page_buttons": [], "secondary_sidebar_items": ["sourcelink"]}
 
