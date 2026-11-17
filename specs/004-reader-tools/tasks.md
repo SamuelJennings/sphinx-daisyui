@@ -56,6 +56,9 @@ tests live in `tests/test_templates/`. Script behaviour is checked in headless C
   Chrome: US3 scenarios 1-12, 14, 16, 17 and the edge cases, and the dialog's results against
   the full search page's for a set of queries (SC-003).
 
+- [x] T014 [US3] The `<main>` element carries `role="main"`, the element Sphinx's search page
+  reads each result's summary from, and stays the page's one main landmark.
+
 ## Phase 4: User Story 4 - A site author sets up search or leaves it out (P2)
 
 ### Group 5
