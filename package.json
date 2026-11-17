@@ -1,0 +1,14 @@
+{
+  "name": "sphinx-daisyui-assets",
+  "private": true,
+  "description": "Compiles the theme's stylesheet. Python's build runs it, so users of the theme never need Node.",
+  "scripts": {
+    "build": "tailwindcss -i assets/theme.css -o src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css --minify",
+    "watch": "tailwindcss -i assets/theme.css -o src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.5",
+    "daisyui": "^5.8.1",
+    "tailwindcss": "^4.3.5"
+  }
+}

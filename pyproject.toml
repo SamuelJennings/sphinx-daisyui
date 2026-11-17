@@ -1,0 +1,105 @@
+[project]
+name = "sphinx-daisyui"
+description = "A Sphinx theme drawn with daisyUI 5, configured with the options of Furo and pydata-sphinx-theme"
+license = "MIT"
+version = "0.0.1"
+readme = "README.md"
+authors = [{ name = "Sam", email = "samuel.scott.jennings@gmail.com" }]
+requires-python = ">=3.11"
+keywords = ["sphinx", "theme", "daisyui", "tailwind", "documentation"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Framework :: Sphinx",
+    "Framework :: Sphinx :: Theme",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Documentation",
+    "Topic :: Documentation :: Sphinx",
+    "Topic :: Software Development :: Documentation",
+]
+dependencies = ["sphinx>=7.4"]
+
+[project.entry-points."sphinx.html_themes"]
+daisyui = "sphinx_daisyui"
+
+[project.urls]
+homepage = "https://github.com/SamuelJennings/sphinx-daisyui"
+repository = "https://github.com/SamuelJennings/sphinx-daisyui"
+documentation = "https://github.com/SamuelJennings/sphinx-daisyui#readme"
+changelog = "https://github.com/SamuelJennings/sphinx-daisyui/blob/main/CHANGELOG.md"
+
+[dependency-groups]
+dev = [
+    "deptry>=0.25.1",
+    "mypy>=2.3.1",
+    "pre-commit>=4.6.2",
+    "pydoclint>=0.10.1",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.15.22",
+]
+docs = ["myst-parser>=4.0", "sphinx-autobuild>=2024.10.3"]
+
+[build-system]
+requires = ["hatchling", "hatch-jupyter-builder>=0.10"]
+build-backend = "hatchling.build"
+
+# The stylesheet is compiled from assets/ with npm when the package is built, and
+# ships in both the wheel and the sdist, so installing the theme never needs Node.
+# A build that finds it already compiled leaves it alone.
+[tool.hatch.build.hooks.jupyter-builder]
+build-function = "hatch_jupyter_builder.npm_builder"
+ensured-targets = ["src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css"]
+skip-if-exists = ["src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css"]
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
+build_cmd = "build"
+npm = ["npm"]
+
+[tool.hatch.build]
+artifacts = ["src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/sphinx_daisyui"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src/sphinx_daisyui",
+    "/assets",
+    "/package.json",
+    "/package-lock.json",
+    "/README.md",
+    "/LICENSE",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--strict-markers", "--strict-config", "-ra"]
+
+[tool.coverage.run]
+branch = true
+source = ["sphinx_daisyui"]
+
+[tool.coverage.report]
+skip_empty = true
+show_missing = true
+
+[tool.ruff]
+extend = "ruff-base.toml"
+
+[tool.ruff.lint.extend-per-file-ignores]
+# Asserts are how pytest tests assert.
+"tests/**" = ["S101"]
+
+[tool.mypy]
+files = ["src/sphinx_daisyui"]
+warn_return_any = true
+warn_unused_ignores = true
+show_error_codes = true
+
+[tool.deptry]
+extend_exclude = ["tests/", "docs/"]
