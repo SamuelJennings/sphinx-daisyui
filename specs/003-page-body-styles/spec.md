@@ -27,8 +27,8 @@ region, which a keyboard reader can reach. A toctree written into a page is draw
 navigation's menu, with branches that open and close.
 
 A site author who embeds raw HTML keeps daisyUI's own look on it with the escape class, and a site
-author who prefers a Pygments style for their code brings it back with pydata-sphinx-theme's
-options.
+author who prefers a Pygments style for their code brings it back with the
+`pygments_light_style` and `pygments_dark_style` options.
 
 The theme adds no directive or role. It styles the HTML that Sphinx and the extensions it
 supports already write (Article XIII).
@@ -145,17 +145,14 @@ Check the toggles by keyboard in a browser.
 A site author embeds raw HTML in a page, such as a daisyUI component, and wraps it in an element
 with the escape class `daisy-sphinx-escape`, so the page-body styles leave it alone and it keeps
 daisyUI's own look. A site author who wants a Pygments style for their code sets
-pydata-sphinx-theme's `pygments_light_style` and `pygments_dark_style`, or the older misspelt
-`pygment_light_style` and `pygment_dark_style`, and the code is highlighted with those styles in
+`pygments_light_style` and `pygments_dark_style`, and the code is highlighted with those styles in
 the matching mode.
 
 **Why this priority**: both are ways out of the theme's defaults that a site author reaches for
-once the defaults are in place. The Pygments options are borrowed options, so a configuration
-written for pydata-sphinx-theme expects them to work (Article X).
+once the defaults are in place.
 
 **Independent Test**: build test sites with raw HTML inside and outside the escape class, and
-with each Pygments option set alone, both set, under each spelling and with an unknown style
-name, and check which stylesheets the page links and what they hold.
+with each Pygments option set alone, both set and with an unknown style name, and check which stylesheets the page links and what they hold.
 
 **Acceptance Scenarios**:
 
@@ -174,18 +171,14 @@ name, and check which stylesheets the page links and what they hold.
    does not mix into it.
 6. **Given** only one of the two set, **When** the site builds, **Then** that mode uses the named
    style and the other mode keeps the theme's token highlighting.
-7. **Given** the misspelt `pygment_light_style` or `pygment_dark_style`, **When** the site
-   builds, **Then** it acts exactly as the correctly spelt option does.
-8. **Given** a correctly spelt and a misspelt option both set for the same mode, **When** the
-   site builds, **Then** the correctly spelt one is used.
-9. **Given** a Pygments style name that Pygments does not know, **When** the site builds,
+7. **Given** a Pygments style name that Pygments does not know, **When** the site builds,
    **Then** the build succeeds with one warning naming the option and the value, and that mode
    keeps the theme's token highlighting.
-10. **Given** a reader whose mode is auto and whose system is dark, **When** a page is shown on a
-    site with a dark Pygments style, **Then** the dark style is the one in force.
-11. **Given** the theme's documentation, **When** a site author reads it, **Then** the escape
-    class, the daisyUI components compiled in for raw HTML, and the four Pygments options are
-    documented with their defaults.
+8. **Given** a reader whose mode is auto and whose system is dark, **When** a page is shown on a
+   site with a dark Pygments style, **Then** the dark style is the one in force.
+9. **Given** the theme's documentation, **When** a site author reads it, **Then** the escape
+   class, the daisyUI components compiled in for raw HTML, and the two Pygments options are
+   documented with their defaults.
 
 ---
 
@@ -250,13 +243,11 @@ name, and check which stylesheets the page links and what they hold.
 
 **Stepping outside the page-body styles (US3)**
 
-- **FR-014**: The theme MUST accept pydata-sphinx-theme's `pygments_light_style` and
-  `pygments_dark_style`, and its older `pygment_light_style` and `pygment_dark_style` with the
-  same meaning, each defaulting to no style. A style set for a mode MUST highlight that mode's
-  code, and a mode with no style set MUST keep the token highlighting. The correctly spelt option
-  MUST win when both spellings are set for one mode.
+- **FR-014**: The theme MUST accept the options `pygments_light_style` and
+  `pygments_dark_style`, each defaulting to no style. A style set for a mode MUST highlight that
+  mode's code, and a mode with no style set MUST keep the token highlighting.
 - **FR-015**: A Pygments style name that Pygments does not know MUST produce one build warning
-  naming the option and the value, and MUST NOT fail the build (Article X).
+  naming the option and the value, and MUST NOT fail the build.
 - **FR-016**: A Pygments style MUST apply in the reader's mode as the page resolves it, including
   auto mode, through the mode attributes the page carries on `<html>`.
 - **FR-017**: Content inside an element with the class `daisy-sphinx-escape` MUST be left out of
@@ -302,8 +293,8 @@ name, and check which stylesheets the page links and what they hold.
 - **SC-004**: Every page passes a keyboard walk: every scroll region, copy button, sphinx-design
   tab and dropdown, and toctree toggle is reached and used without a pointer, with a visible
   focus state.
-- **SC-005**: A configuration written for pydata-sphinx-theme that sets its Pygments style
-  options, under either spelling, builds unchanged and shows those styles in the matching mode.
+- **SC-005**: A site that sets `pygments_light_style`, `pygments_dark_style` or both shows
+  those styles in the matching mode, and the token highlighting in a mode with none.
 - **SC-006**: No value from a page or its configuration reaches the page body unescaped, except
   markup Sphinx produced.
 
@@ -316,14 +307,12 @@ name, and check which stylesheets the page links and what they hold.
   out to do, and the second depends on site navigation (#5) where the first does not. The site
   author's two ways out of the defaults (the escape class and Pygments styles) are one story,
   because both step outside the page-body styles and neither is set out to on its own terms.
-- Q: Which settings bring Pygments styles back? → A: pydata-sphinx-theme's four theme options
-  (FR-014). Sphinx's `pygments_style` and Furo's `pygments_dark_style` setting are not theme
-  options. Whether a Furo configuration's highlighting is honoured belongs to the Furo
-  configurations work in #8.
-- Q: When both spellings of an option are set, which wins? → A: The correctly spelt one, which
-  is the name pydata-sphinx-theme documents today (FR-014).
+- Q: Which settings bring Pygments styles back? → A: The two theme options
+  `pygments_light_style` and `pygments_dark_style`, one per mode (FR-014). Sphinx's own
+  `pygments_style` setting does not, because it is set on every site and would undo the token
+  highlighting.
 - Q: What happens with a style name Pygments does not know? → A: One warning and the token
-  highlighting for that mode, never a failed build (FR-015, Article X).
+  highlighting for that mode, never a failed build (FR-015).
 - Q: Does the theme depend on sphinx-design or sphinx-copybutton? → A: No. Their styles apply
   when a site loads them (FR-011). The documentation site loads both for its kitchen sink pages.
 
@@ -342,4 +331,4 @@ name, and check which stylesheets the page links and what they hold.
   the page named Admonitions, and code highlighted from the tokens unless a Pygments style is set.
 - Out of scope, owned by sibling features: the page frame and the drawer (#4), the site
   navigation, On this page and header links (#5), modes, the theme picker and the search page
-  (#7), and edit and view links and the Furo and pydata-sphinx-theme configuration presets (#8).
+  (#7), and icon links and edit and view links (#8).

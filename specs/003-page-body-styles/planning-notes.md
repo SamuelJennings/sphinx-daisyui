@@ -29,7 +29,7 @@ feature:
 | `assets/theme.css` | Its `@source inline` list (`:8`): the daisyUI components compiled in for raw HTML | `assets/theme.css`. The list is documented for sites (FR-018), so the plan settles which components it holds |
 | `assets/frame.css` | `:228-296`: sphinx-copybutton's button, and sphinx-design's colour variables mapped onto the tokens | `assets/`, beside `content.css` or inside it, as the plan decides |
 | `src/sphinx_daisyui/__init__.py` | `rewrite_body` (`:258-328`), the Pygments half of `on_builder_inited` (`:577-590`), and the `pygments.css` filter in `on_page_context` (`:510-513`) | `src/sphinx_daisyui/`, grouped in a class (Article IX) |
-| `theme/daisyui/theme.toml` | `pygments_light_style`, `pygments_dark_style`, `pygment_light_style`, `pygment_dark_style` | The same path |
+| `theme/daisyui/theme.toml` | `pygments_light_style` and `pygments_dark_style` only. The prototype's misspelt `pygment_light_style` and `pygment_dark_style` are not carried over | The same path |
 | `docs/kitchen-sink/` | Every page: typography, admonitions, code, tables, lists, media, design, api, the `deeper/` tree and `conf-snippet.py` | `docs/kitchen-sink/`, linked from the documentation's table of contents and moved into `main`'s documentation standard |
 | `docs/_ext/palette.py` | All of it, the module the API page documents | `docs/_ext/palette.py` |
 | `docs/conf.py` | The extensions and MyST settings the kitchen sink needs (`sphinx_design`, `sphinx_copybutton`, autodoc, viewcode, MathJax, MyST's `colon_fence`, `deflist`, `tasklist`, `dollarmath`, `fieldlist`, `substitution`) and the `_ext` path | `docs/conf.py`, with the extensions added to the `docs` dependency group |
@@ -63,7 +63,7 @@ named builds it.
   `--daisy-sphinx-muted` and its neighbours (`content.css:29-47`).
 - **The mode attributes.** Built by modes and daisyUI themes (#7): "One documented contract on
   `<html>`, with one function that applies a choice, used by both the inline script and the page
-  script." Reused by the logo (#4), the Furo configurations (#8) and here, for the Pygments
+  script." Reused by the logo (#4) and here, for the Pygments
   styles (`__init__.py:586` in the prototype). Until #7 lands, the Pygments styles key on the
   attributes the page frame writes. Check first: Sphinx's own `pygments_dark_style` in
   `theme.toml`, which keys on a media query rather than an attribute.
@@ -95,8 +95,6 @@ From "Faked or skipped" and "Duplication to remove" in `PROTOTYPE.md`:
   `@scope (.daisy-sphinx-content) to (.daisy-sphinx-escape)`, on an element in `layout.html` that
   the page frame (#4) ports. Confirm the class the frame's port writes, and that `@scope` holds in
   the browsers the theme supports. Record the support target if none is written down.
-- **pydata-sphinx-theme's handling of an unknown Pygments style.** Confirm it warns and falls back
-  (D5), and match the warning's shape.
 - **Where the Pygments stylesheet is written.** The prototype writes `daisy-pygments.css` into the
   output directory at `builder-inited`. Check that this survives incremental builds and parallel
   writes, and whether Sphinx's own highlighter bridge can produce the styles instead.

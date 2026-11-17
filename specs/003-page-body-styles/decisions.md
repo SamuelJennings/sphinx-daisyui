@@ -21,42 +21,36 @@ the rest of the page body depends only on the frame. A separate story lets the b
 reading story first. The escape class and the Pygments options stay one site author's story: both
 are ways out of the theme's defaults, and neither is a distinct goal.
 
-## D3. Only pydata-sphinx-theme's options bring Pygments back
+## D3. Two options bring Pygments back, one per mode
 
 The prototype's decision is that code is highlighted from the tokens and Pygments' stylesheet is
-dropped, unless `pygments_light_style` or `pygments_dark_style` is set. Sphinx's own
-`pygments_style` setting is left as it is: honouring it would bring Pygments' colours back on
-every site that kept Sphinx's default, against the decision. Furo reads `pygments_dark_style` as
-a `conf.py` setting, not a theme option, and whether a Furo configuration's highlighting is
-honoured is decided with the Furo configurations in #8.
+dropped, unless `pygments_light_style` or `pygments_dark_style` is set. The theme has its own
+configuration, with one name and one shape per setting, so these two options are the only way:
+no second spelling and no option read from another theme. The names are pydata-sphinx-theme's,
+taken as the theme's own because they fit. Sphinx's own `pygments_style` setting is left as it
+is: honouring it would bring Pygments' colours back on every site that kept Sphinx's default,
+against the decision.
 
-## D4. The correctly spelt option wins
+## D4. An unknown Pygments style warns, and the mode keeps token highlighting
 
-pydata-sphinx-theme renamed `pygment_light_style` and `pygment_dark_style` to the correctly spelt
-names. A site that sets both spellings is mid-migration, and the name the source theme documents
-today is the one it means. The prototype declares both spellings in `theme.toml`.
+A misspelt style name is a site author's slip that the rest of the page does not depend on, so it
+warns rather than failing the build, and a build run with warnings as errors still catches it. The
+fallback is the theme's own token highlighting, which is this theme's default.
 
-## D5. An unknown Pygments style warns, and the mode keeps token highlighting
-
-Article X forbids an error for an option the theme accepts. pydata-sphinx-theme warns and falls
-back to a default style when Pygments does not know the name. Here the fallback is the theme's
-own token highlighting, which is this theme's default. Research confirms pydata-sphinx-theme's
-behaviour before it is built.
-
-## D6. The dark Pygments style follows the page's mode, not the system's
+## D5. The dark Pygments style follows the page's mode, not the system's
 
 Sphinx's own `pygments_dark_style` theme setting keys the dark stylesheet on a media query, which
 ignores a reader who picked a mode in the navbar. The prototype keys on the mode attribute on
 `<html>`, so the style follows the mode the reader sees, including auto. The modes feature (#7)
 owns that contract. Until it lands, the page frame's attributes are the ones read.
 
-## D7. Neither sphinx-design nor sphinx-copybutton becomes a dependency
+## D6. Neither sphinx-design nor sphinx-copybutton becomes a dependency
 
 The theme styles their markup when a site loads them (Article XIII). Making either a dependency
 would install it on sites that do not use it (Article VII). The documentation site adds both to
 its own dependency group for the kitchen sink pages.
 
-## D8. The fixed names are translated, and the region names are not pinned
+## D7. The fixed names are translated, and the region names are not pinned
 
 The prototype names a table's region "Table" and an equation's "Equation", and a toggle
 "Show the pages in …". The specification requires a fixed name and its translation (FR-019), not
