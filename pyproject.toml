@@ -1,18 +1,34 @@
 [project]
 name = "sphinx-daisyui"
-description = "A Sphinx theme drawn with daisyUI 5, with its own options"
+description = "A Sphinx documentation theme drawn with daisyUI 5 and Tailwind CSS 4, with 35 colour themes in light and dark"
 license = "MIT"
 version = "0.1.0"
 readme = "README.md"
-authors = [{ name = "Sam", email = "samuel.scott.jennings@gmail.com" }]
+authors = [{ name = "Sam Jennings", email = "samuel.scott.jennings@gmail.com" }]
 requires-python = ">=3.11"
-keywords = ["sphinx", "theme", "daisyui", "tailwind", "documentation"]
+keywords = [
+    "sphinx",
+    "sphinx-theme",
+    "theme",
+    "daisyui",
+    "tailwind",
+    "tailwindcss",
+    "documentation",
+    "docs",
+    "dark-mode",
+    "furo",
+    "pydata-sphinx-theme",
+]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
     "Framework :: Sphinx",
     "Framework :: Sphinx :: Theme",
     "Intended Audience :: Developers",
     "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -20,6 +36,8 @@ classifiers = [
     "Topic :: Documentation",
     "Topic :: Documentation :: Sphinx",
     "Topic :: Software Development :: Documentation",
+    "Topic :: Text Processing :: Markup :: HTML",
+    "Typing :: Typed",
 ]
 dependencies = ["docutils>=0.20", "markupsafe>=2.1", "pygments>=2.17", "sphinx>=7.4"]
 
@@ -27,10 +45,11 @@ dependencies = ["docutils>=0.20", "markupsafe>=2.1", "pygments>=2.17", "sphinx>=
 daisyui = "sphinx_daisyui"
 
 [project.urls]
-homepage = "https://github.com/SamuelJennings/sphinx-daisyui"
-repository = "https://github.com/SamuelJennings/sphinx-daisyui"
-documentation = "https://github.com/SamuelJennings/sphinx-daisyui#readme"
-changelog = "https://github.com/SamuelJennings/sphinx-daisyui/blob/main/CHANGELOG.md"
+Homepage = "https://samueljennings.github.io/sphinx-daisyui/"
+Documentation = "https://samueljennings.github.io/sphinx-daisyui/"
+Repository = "https://github.com/SamuelJennings/sphinx-daisyui"
+Issues = "https://github.com/SamuelJennings/sphinx-daisyui/issues"
+Changelog = "https://github.com/SamuelJennings/sphinx-daisyui/blob/main/CHANGELOG.md"
 
 [dependency-groups]
 dev = [
