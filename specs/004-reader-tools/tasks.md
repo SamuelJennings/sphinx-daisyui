@@ -85,6 +85,8 @@ tests live in `tests/test_templates/`. Script behaviour is checked in headless C
   components reference, the versions half of the guide with the file's format,
   `docs/_static/switcher.json` and `switcher` in `docs/conf.py`, CHANGELOG (scenario 7).
 
+- [x] T017 [US5] The version list is drawn at the prototype's menu size.
+
 ## Phase 6: User Story 6 - A reader moves to another version of the page they are on (P2)
 
 ### Group 7
