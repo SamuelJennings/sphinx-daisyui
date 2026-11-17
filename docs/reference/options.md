@@ -122,6 +122,19 @@ directives.
 - **Default:** `True`
 - **Meaning:** Whether the navigation lists the pages of a `toctree` marked `:hidden:`.
 
+## On this page
+
+The `page-toc` component lists the headings of the page being read.
+
+### `show_toc_level`
+
+- **Type:** integer
+- **Default:** `2`
+- **Meaning:** How many levels of headings are shown before the reader reaches them. Headings
+  under that depth stay hidden until the section above them is being read. A level of `1`
+  shows only the headings directly under the page's title, and a level larger than the page's
+  deepest heading shows them all.
+
 ## Component lists
 
 ### `navbar_start`
@@ -188,7 +201,7 @@ directives.
 - **Type:** list of component names
 - **Default:** `"page-toc"`
 - **Meaning:** The components in the secondary sidebar. The sidebar is left out when the list is
-  empty.
+  empty, and on the search page and every index page.
 
 ### `footer_start`
 

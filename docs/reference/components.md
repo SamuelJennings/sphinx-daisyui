@@ -43,6 +43,15 @@ Shows the path to the page: a link home, a link to each page above it in the tab
 and the page's own title as plain text. It draws nothing on the front page. It is named in
 `article_header_start` by default.
 
+## `page-toc`
+
+Shows the headings of the page, nested as they are in the page, under the label On this page.
+The heading being read is marked as the reader scrolls, and the last heading is marked at the
+foot of the page. The [option](options.md) `show_toc_level` sets how deep the list is open.
+It draws nothing on a page with no headings below its title, nor on the search page or an
+index. It is named in `secondary_sidebar_items` by default, and when it is named there, a
+closed On this page disclosure with the same headings appears above the page on narrow windows.
+
 ## Your own components
 
 A site adds a component by putting a template in a directory listed in `templates_path`, and

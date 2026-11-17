@@ -6,3 +6,4 @@ Toc
    levels
    flat
    markup
+   unicode

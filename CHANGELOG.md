@@ -24,3 +24,6 @@ All notable changes to this project are recorded here. The format follows
   an address to fetch, and the `sticky_banners` option, which keeps it with the header.
 - The site navigation in the primary sidebar, with a toggle for each entry that has children and
   the current page marked, and breadcrumbs above each page that lead from the front page to it.
+- The `page-toc` component, which lists the headings of the page under On this page and marks
+  the one being read, a closed disclosure with the same list above the page on narrow windows,
+  and the `show_toc_level` option.

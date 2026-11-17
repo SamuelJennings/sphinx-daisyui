@@ -128,3 +128,16 @@ class TestPageToc:
 
         assert page.classed("nav", "daisy-page-toc") == []
         assert page.find("details") == []
+
+
+class TestNonAsciiHeading:
+    @toc()
+    def test_a_link_to_a_heading_with_a_non_ascii_id_names_an_id_on_the_page(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = built(app, "unicode.html")
+
+        links = [a["href"] for a in contents(page).classed("a", "daisy-toc-link")]
+        ids = {tag["id"] for tag in page.having("id")}
+        assert "#café-ünï" in links
+        assert "café-ünï" in ids

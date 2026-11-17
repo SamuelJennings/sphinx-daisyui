@@ -189,4 +189,27 @@ html { scroll-padding-top: 5rem; }
 .daisy-nav-toggle svg { transition: transform 150ms ease; }
 .daisy-nav-toggle[aria-expanded="true"] svg { transform: rotate(90deg); }
 
+/* On this page: a list of the headings, the deeper ones shown only in the section being read. */
+.daisy-toc-list { display: flex; flex-direction: column; font-size: 0.8125rem; line-height: 1.4; }
+.daisy-page-toc > .daisy-toc-list { border-inline-start: 1px solid var(--color-base-300); }
+.daisy-toc-list .daisy-toc-list { padding-inline-start: 0.75rem; }
+.daisy-toc-list .daisy-toc-deep { display: none; }
+li.daisy-toc-on-path > .daisy-toc-deep { display: flex; }
+.daisy-toc-link {
+  display: block;
+  margin-inline-start: -1px;
+  padding: 0.3rem 0.75rem;
+  border-inline-start: 2px solid transparent;
+  color: var(--daisy-text-muted);
+  transition: color 120ms, border-color 120ms;
+}
+.daisy-toc-link:hover { color: var(--color-base-content); }
+.daisy-toc-link[aria-current="location"] {
+  border-inline-start-color: var(--color-primary);
+  color: color-mix(in oklab, var(--color-primary) 75%, var(--color-base-content));
+  font-weight: 600;
+}
+.daisy-toc-mobile .daisy-toc-list { gap: 0.125rem; }
+.daisy-toc-mobile .daisy-toc-link { border: 0; padding-inline: 0; }
+
 .daisy-breadcrumbs { color: var(--daisy-text-muted); }

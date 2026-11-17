@@ -25,6 +25,21 @@ The HTML writer's link takes no `aria-current`, so the link to the current page 
 Fixed text the Python writes, such as a toggle's name, is marked for translation with
 `translate`, Sphinx's translator for the `sphinx` message domain that the templates use too.
 
+## On this page
+
+`PageContents` in `sphinx_daisyui.navigation` reads the page's headings from `document_toc`,
+which Sphinx builds from the page's table of contents, as docutils nodes. It drops the page's own
+title, marks each list with `daisy-toc-list`, each link with `daisy-toc-link` and each list at or
+below `show_toc_level` with `daisy-toc-deep`, and renders them once. `add_page_context` gives
+the templates the result as `daisy.page_toc`, with `daisy.page_toc_count` and
+`daisy.show_toc_level`. `static/scripts/page-toc.js` marks the heading being read with
+`aria-current="location"` and its entries with `daisy-toc-on-path`, which shows the deeper
+headings of that section.
+
+`is_index_page` in `sphinx_daisyui.events` tells the search page, the domain indexes and the
+general indexes from other pages by the template Sphinx renders them with. They have no headings
+of their own, so `add_page_context` gives them an empty secondary sidebar and no contents.
+
 ## Icons
 
 `Icons` in `sphinx_daisyui.icons` reads the bundled `icons.json`, and `ICONS` is the one instance
