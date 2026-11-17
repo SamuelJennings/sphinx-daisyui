@@ -1,18 +1,12 @@
-/* The frame around a page: navbar, sidebars, navigation and search. */
+/* The frame around a page: the grid, the header, the sidebars and the drawer. */
 
 html { scroll-padding-top: 5rem; }
 [id] { scroll-margin-top: 5rem; }
 
-/* The logo for the other mode stays hidden. */
-html[data-mode="dark"] .daisy-logo-light,
-html[data-mode]:not([data-mode="dark"]) .daisy-logo-dark { display: none; }
-/* A page with no mode follows the system setting. */
-@media (prefers-color-scheme: dark) {
-  html:not([data-mode]) .daisy-logo-light { display: none; }
-}
-@media not (prefers-color-scheme: dark) {
-  html:not([data-mode]) .daisy-logo-dark { display: none; }
-}
+/* The logo for the other mode stays hidden. Until the theme has modes of its own
+   the system setting picks it; the modes feature moves this rule onto them. */
+@media (prefers-color-scheme: dark) { .daisy-logo-light { display: none; } }
+@media not (prefers-color-scheme: dark) { .daisy-logo-dark { display: none; } }
 .daisy-logo-light[src=""], .daisy-logo-dark[src=""] { display: none; }
 
 /* ------------------------------------------------------------------ */
