@@ -6,4 +6,6 @@ for code in "lHh LpR lff" "hHh LpR fff" "hhh lpr fff" "hHr LpR lfr"; do
   DAISY_LAYOUT="$code" build "layouts/${code// /-}" &
 done
 DAISY_NAVBAR_CENTER=navbar-nav build "header-links" &
+DAISY_SOURCE_SIDEBAR=1 build "source-sidebar" &
+DAISY_FOOTER_ICONS=1 build "footer-icons" &
 wait

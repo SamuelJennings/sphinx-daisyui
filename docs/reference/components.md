@@ -1,6 +1,6 @@
 # Components
 
-A component is a template that a [component list](options.md) names. The theme provides ten.
+A component is a template that a [component list](options.md) names. The theme provides these.
 Each one draws nothing when what it shows is switched off, so a list can name it without
 checking.
 
@@ -50,6 +50,31 @@ pages of the current section, and nothing on a page that is in no section, such 
 page. On a narrow window the drawer lists every header link above it. Named in any other
 component list, it draws the links there and leaves the sidebar's navigation whole.
 [Put the sections in the header](../developer/put-the-sections-in-the-header.md) shows the steps.
+
+## `navbar-icon-links`
+
+Shows a list of links, one for each entry of the [option](options.md) `icon_links`, each drawn
+as an icon with the entry's name as its accessible name and its tooltip. The list is named by
+`icon_links_label`. The theme puts it in `navbar_end`, and it may be named in any other
+component list, such as `footer_end`. It draws nothing when no entry has a `url`.
+[Link the sources](../developer/link-the-sources.md) shows the steps.
+
+## `edit-this-page`
+
+Shows a link labelled Edit this page, drawn as a ghost button with a pencil icon, that leads to
+the page's source file on the host's editing page. The address comes from the
+[options](options.md) `source_repository`, `source_branch` and `source_directory`. It draws
+nothing when the page has no edit address. It is not in a component list by default, and is
+meant for `secondary_sidebar_items`. [Link the sources](../developer/link-the-sources.md) shows
+the steps.
+
+## `sourcelink`
+
+Shows a link labelled Show source, drawn as a ghost button with a file icon, that leads to
+Sphinx's copy of the page's source under `_sources`. It draws only when both
+`html_show_sourcelink` and `html_copy_source` are on, and a page with no source draws nothing.
+It is not in a component list by default, and is meant for `secondary_sidebar_items`.
+[Link the sources](../developer/link-the-sources.md) shows the steps.
 
 ## `theme-switcher`
 
@@ -113,7 +138,7 @@ A name that matches no template draws nothing and raises no warning.
 
 ## Macros
 
-`components/macros.html` holds three macros a component may import:
+`components/macros.html` holds four macros a component may import:
 
 ```jinja
 {%- from 'components/macros.html' import components, icon_button with context %}
@@ -121,10 +146,17 @@ A name that matches no template draws nothing and raises no warning.
 
 - `components(names)` draws each name in a list, looking in the theme's `components/` directory
   first and then in the site's templates.
-- `icon_button(label, icon, tooltip="", data={})` draws a ghost button holding the named icon.
-  The label is the button's accessible name. When a tooltip is given, it shows on hover. Each
-  entry of `data` becomes a `data-` attribute on the button, so `{"daisy-search-close": ""}`
-  writes `data-daisy-search-close`; a page script finds the button by it.
+- `icon_button(label, icon, tooltip="", data={}, href="", tooltip_class="")` draws a ghost
+  button holding the named icon. The label is the button's accessible name. When a tooltip is
+  given, it shows on hover, and `tooltip_class` adds a placement class to it, such as
+  `tooltip-bottom`, written out in full. Each entry of `data` becomes a `data-` attribute on the
+  button, so `{"daisy-search-close": ""}` writes `data-daisy-search-close`; a page script finds
+  the button by it. With an `href`, the macro draws a link to that address in place of the
+  button, with the same label, tooltip and attributes. Used with `call`, the caller's markup
+  fills the button in place of the named icon.
+- `source_link(href, icon, label, rel="")` draws a ghost link, as wide as its content, holding
+  the named icon and the label, for a list of page tools. `rel` is added to the link when
+  given.
 - `navbar_dropdown(tag="div", panel_tag="div", trigger_class="", panel_class="", label="",
   attrs={}, trigger_attrs={})` draws one menu in the navbar and is used with `call`. It draws
   the outer element, the button that opens the menu and the panel, and the caller fills the

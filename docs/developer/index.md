@@ -26,3 +26,9 @@ set-up-search-and-versions
 
 choose-the-themes
 ```
+
+```{toctree}
+:caption: Linking
+
+link-the-sources
+```

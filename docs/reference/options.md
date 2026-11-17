@@ -260,6 +260,74 @@ and to each of `external_links`, in the header.
   navbar's free space and `right` ends the links at the end of that space. Any other value is
   read as `content`.
 
+## Icon links
+
+The `navbar-icon-links` component draws a link for each entry of `icon_links`, as an icon.
+
+### `icon_links`
+
+- **Type:** list of dicts
+- **Default:** empty
+- **Meaning:** The accounts and sites to link as icons. Each dict has these keys:
+  - `url`: where the link leads. A dict with no `url` is left out.
+  - `name`: the link's accessible name and its tooltip. Without one, the `url` is the name.
+  - `icon`: the icon the link is drawn with. With no `type`, it is the name of one of the
+    icons listed below. With `type` set to `url`, it is the address of an image. With `type`
+    set to `local`, it is the address of an image, a path starting `_static/`, or a path
+    relative to `_static`, and every page points at the file from its own depth.
+  - `type`: `url` or `local` when `icon` is an image. Any other value, or none, makes `icon`
+    a bundled icon's name.
+- **Warnings:** The build warns once, with the warning type `daisyui.icon_links`, when the option
+  is given as text rather than a list, and once for each entry whose `icon` is not a bundled
+  icon. The warning names the entry and the icon, and the link is drawn with the `link` icon.
+- **Bundled icons:** `anaconda`, `arrow-left`, `arrow-right`, `arrow-up`, `bitbucket`, `bluesky`, `book-open`, `check`, `chevron-down`, `chevron-right`, `circle-plus`, `circle-x`, `codeberg`, `condaforge`, `copy`, `discord`, `discourse`, `docker`, `external-link`, `file-code`, `github`, `gitlab`, `history`, `info`, `jupyter`, `languages`, `lightbulb`, `link`, `list`, `mastodon`, `matrix`, `megaphone`, `menu`, `moon`, `npm`, `octagon-x`, `orcid`, `palette`, `pencil`, `pypi`, `python`, `readthedocs`, `search`, `square-arrow-out-up-right`, `square-plus`, `stackoverflow`, `star`, `sun`, `sun-moon`, `triangle-alert`, `x`, `x-twitter`, `youtube`, `zenodo`, `zulip`.
+
+### `icon_links_label`
+
+- **Type:** text
+- **Default:** empty, which names the list "Icon links" in the site's language
+- **Meaning:** The name of the list of icon links, which a screen reader announces before the
+  links.
+
+## Source links
+
+The edit and view buttons above a page, and the `edit-this-page` component, link each page to
+its source file in the site's repository. The theme recognises three hosts, `github.com`,
+`gitlab.com` and `bitbucket.org`, and reads the host from the address in `source_repository`.
+A repository on any other host gets no edit or view link, and the build does not warn. A page
+with no source file of its own, such as the search page or an index, gets none either.
+
+### `source_repository`
+
+- **Type:** text
+- **Default:** empty
+- **Meaning:** The address of the repository that holds the site's source, such as
+  `https://github.com/SamuelJennings/sphinx-daisyui`. A trailing slash or `.git` is ignored.
+  With no address, or an address on a host the theme does not recognise, no edit or view
+  link is drawn.
+
+### `source_branch`
+
+- **Type:** text
+- **Default:** `main`
+- **Meaning:** The branch the edit and view links lead to.
+
+### `source_directory`
+
+- **Type:** text
+- **Default:** empty, which means the source files are at the top of the repository
+- **Meaning:** The folder of the repository that holds the site's source files, such as
+  `docs/`. A slash at the start or the end is ignored.
+
+### `top_of_page_buttons`
+
+- **Type:** list of names
+- **Default:** `["edit"]`
+- **Meaning:** The buttons drawn beside the breadcrumbs, from the first to the last. `edit`
+  leads to the page's source file on the host's editing page, and `view` to the file as the
+  host shows it. Any other name is left out, and an empty list shows no button. A name whose
+  address is unknown draws no button.
+
 ## On this page
 
 The `page-toc` component lists the headings of the page being read.

@@ -4,7 +4,8 @@ The documentation is built with the theme itself.
 
 Set DAISY_LAYOUT to build these pages with another layout code, and
 DAISY_NAVBAR_CENTER to build them with a component in the middle of the navbar,
-to compare them.
+and DAISY_FOOTER_ICONS to build them with the icon links in the footer, to compare
+them.
 """
 
 import os
@@ -51,6 +52,23 @@ html_theme_options = {
     "logo": {"image_light": "logo-light.svg", "image_dark": "logo-dark.svg"},
     "footer_start": ["copyright", "last-updated"],
     "footer_end": ["sphinx-version", "theme-version"],
+    "icon_links": [
+        {
+            "name": "GitHub",
+            "url": "https://github.com/SamuelJennings/sphinx-daisyui",
+            "icon": "github",
+        },
+        {
+            "name": "PyPI",
+            "url": "https://pypi.org/project/sphinx-daisyui",
+            "icon": "pypi",
+        },
+    ],
+    "source_repository": "https://github.com/SamuelJennings/sphinx-daisyui",
+    "source_branch": "main",
+    "source_directory": "docs/",
+    "top_of_page_buttons": ["edit"],
+    "secondary_sidebar_items": ["page-toc", "sourcelink"],
     "navigation_with_keys": True,
     "theme_picker": True,
     "switcher": {"json_url": "_static/switcher.json", "version_match": "dev"},
@@ -65,6 +83,19 @@ if os.environ.get("DAISY_LAYOUT"):
 
 if os.environ.get("DAISY_NAVBAR_CENTER"):
     html_theme_options["navbar_center"] = [os.environ["DAISY_NAVBAR_CENTER"]]
+
+if os.environ.get("DAISY_FOOTER_ICONS"):
+    html_theme_options["footer_end"] = [
+        *html_theme_options.get("footer_end", []),
+        "navbar-icon-links",
+    ]
+
+if os.environ.get("DAISY_SOURCE_SIDEBAR"):
+    html_theme_options["secondary_sidebar_items"] = [
+        "page-toc",
+        "edit-this-page",
+        "sourcelink",
+    ]
 
 # docs/agents/ and the brainstorm are notes for maintainers, not part of the site.
 exclude_patterns = ["_build", "adr", "agents", "brainstorm.md"]

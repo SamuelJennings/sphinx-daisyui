@@ -83,10 +83,19 @@
     {#- Sphinx's search page reads the text of the element with role="main" for each result's summary. #}
     <main id="main-content" role="main" class="daisy-area-main min-w-0 px-4 sm:px-6 lg:px-10" tabindex="-1">
       <div class="mx-auto max-w-[46rem] pt-6 pb-10">
-        {%- if d.article_header_start or d.article_header_end %}
+        {%- if d.article_header_start or d.article_header_end or d.top_buttons %}
           <div class="daisy-article-header flex min-h-8 items-center gap-3">
             <div class="min-w-0 flex-1">{{ components(d.article_header_start) }}</div>
-            <div class="flex shrink-0 items-center gap-1">{{ components(d.article_header_end) }}</div>
+            <div class="flex shrink-0 items-center gap-1">
+              {{ components(d.article_header_end) }}
+              {%- for button in d.top_buttons %}
+                {%- if button == "edit" %}
+                  {%- call icon_button(_("Edit this page"), "", _("Edit this page"), href=d.sources.edit, tooltip_class="tooltip-left") %}{{ d.icon("pencil", "size-4") }}{% endcall %}
+                {%- elif button == "view" %}
+                  {%- call icon_button(_("View this page's source"), "", _("View this page's source"), href=d.sources.view, tooltip_class="tooltip-left") %}{{ d.icon("file-code", "size-4") }}{% endcall %}
+                {%- endif %}
+              {%- endfor %}
+            </div>
           </div>
         {%- endif %}
         {%- if d.page_toc_count and 'page-toc.html' in d.secondary_sidebar_items %}

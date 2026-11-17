@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sphinx-daisyui VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-17 20:04+0100\n"
+"POT-Creation-Date: 2026-11-17 21:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,6 +59,9 @@ msgstr ""
 msgid "Documentation"
 msgstr ""
 
+msgid "Edit this page"
+msgstr ""
+
 msgid "Enter with nothing chosen opens the full results."
 msgstr ""
 
@@ -73,6 +76,9 @@ msgid "Go to the preferred version"
 msgstr ""
 
 msgid "Home"
+msgstr ""
+
+msgid "Icon links"
 msgstr ""
 
 #, python-format
@@ -137,6 +143,9 @@ msgstr ""
 msgid "Sections"
 msgstr ""
 
+msgid "Show source"
+msgstr ""
+
 #, python-format
 msgid "Show the pages in %(title)s"
 msgstr ""
@@ -167,6 +176,9 @@ msgid "Type to search pages, sections and API names."
 msgstr ""
 
 msgid "Version warning"
+msgstr ""
+
+msgid "View this page's source"
 msgstr ""
 
 msgid "close"
