@@ -26,10 +26,10 @@ the keyboard or the header and sees matching pages, sections and API names as th
 Sphinx's full search page behind it. A site author lists the site's published versions in a
 `switcher.json` file, and a reader moves to the same page in another version.
 
-Options that pydata-sphinx-theme already defines (`theme-switcher`, `search_bar_text`,
-`disable_search`, `search_as_you_type`, `switcher`, `check_switcher`,
-`show_version_warning_banner`, the `search-button-field`, `search-button`, `search-field` and
-`version-switcher` components) keep their names, types and meaning (Article X).
+Every option and component here is the theme's own, with one name and one shape. Where
+pydata-sphinx-theme has a good option for the same thing, its name and shape are used
+(`search_bar_text`, `disable_search`, `switcher`, the `theme-switcher` and `version-switcher`
+components). Every option has a meaning here: none is accepted only to be ignored.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -69,12 +69,9 @@ the built page carries on `<html>`, the picker's entries and the theme menu's pr
    the page uses it.
 9. **Given** `theme-switcher` left out of every component list, **When** the site builds,
    **Then** no page carries the theme menu, and the site's themes and starting mode still apply.
-10. **Given** a pydata-sphinx-theme configuration that sets `default_mode` in `html_context`,
-    **When** the site builds, **Then** pages start in that mode, and a `default_mode` theme option
-    set as well takes precedence.
-11. **Given** a site author's theme names and mode, **When** the page prints them, **Then** each
+10. **Given** a site author's theme names and mode, **When** the page prints them, **Then** each
     reaches the page escaped.
-12. **Given** the built site, **When** a site author reads the theme's documentation, **Then**
+11. **Given** the built site, **When** a site author reads the theme's documentation, **Then**
     each option and the component are documented with their defaults, and the attributes the
     theme sets on `<html>` are documented for a site's own stylesheets and scripts to read.
 
@@ -188,23 +185,22 @@ names for a screen reader.
 
 ### User Story 4 - A site author sets up search or leaves it out (Priority: P2)
 
-A site author places the search button by any of pydata-sphinx-theme's three names,
-`search-button-field`, `search-button` or `search-field`, sets `search_bar_text` for the text
+A site author places the `search-button-field` component, sets `search_bar_text` for the text
 shown in the button and the dialog's field, turns results as you type off with
 `search_as_you_type`, or leaves search out of the site with `disable_search`.
 
-**Why this priority**: the defaults serve most sites. These options matter to sites coming from
-pydata-sphinx-theme, whose configurations name them.
+**Why this priority**: the defaults serve most sites. These options are for sites that place
+search elsewhere, word it for their readers, or have no use for it.
 
-**Independent Test**: build test sites with each name placed and each option set, and check the
+**Independent Test**: build test sites with the component placed and each option set, and check the
 built header's button, the dialog's presence and field, and the markers the page script reads.
 
 **Acceptance Scenarios**:
 
 1. **Given** the default component lists, **When** the site builds, **Then** the header carries
    the search button in `navbar_persistent`, and every page carries the search dialog once.
-2. **Given** `search-button-field`, `search-button` or `search-field` named in a component list,
-   **When** the site builds, **Then** each draws the same search button.
+2. **Given** `search-button-field` named in another component list, **When** the site builds,
+   **Then** the search button is drawn there.
 3. **Given** `search_bar_text` set, **When** a page is built, **Then** that text is shown in the
    search button and the dialog's field, escaped.
 4. **Given** `search_as_you_type` switched off, **When** a reader types in the dialog, **Then** no
@@ -212,20 +208,19 @@ built header's button, the dialog's presence and field, and the markers the page
 5. **Given** `disable_search` switched on, **When** the site builds, **Then** no page carries the
    search button or the dialog, and the shortcuts do nothing.
 6. **Given** the built site, **When** a site author reads the theme's documentation, **Then** each
-   option and component name is documented with its default.
+   option and the component are documented with their defaults.
 
 ---
 
 ### User Story 5 - A site author lists the site's published versions (Priority: P2)
 
-A site author publishes a `switcher.json` file in pydata-sphinx-theme's format, listing each
+A site author publishes a `switcher.json` file listing each
 version's name, version and address and which one is preferred, and sets `switcher` with its
 `json_url` and the `version_match` of the version being built. They place the `version-switcher`
 component, which is in `navbar_end` by default. They keep `check_switcher` on to have the build
 check the file, and switch `show_version_warning_banner` on to warn readers of other versions.
 
-**Why this priority**: only sites that publish several versions need it, and those coming from
-pydata-sphinx-theme already have the file.
+**Why this priority**: only sites that publish several versions need it.
 
 **Independent Test**: build test sites with a valid file, an unreadable address and a file of the
 wrong shape, with each option set, and check the built component's markers and the build's
@@ -331,104 +326,100 @@ reader lands and the banner's presence.
   separately.
 - **FR-004**: Theme names in `light_theme`, `dark_theme` and `theme_picker` MUST be accepted as
   given, so a theme a site defines in its own static stylesheet can be named.
-- **FR-005**: The theme MUST honour pydata-sphinx-theme's `default_mode` in `html_context`, with
-  the `default_mode` theme option taking precedence when both are set.
-- **FR-006**: The theme MUST ship the `theme-switcher` component, with pydata-sphinx-theme's
-  name, and keep it in `navbar_end` by default.
-- **FR-007**: Every page MUST carry on `<html>` the attributes `data-theme`, `data-mode`,
+- **FR-005**: The theme MUST ship the `theme-switcher` component and keep it in `navbar_end` by
+  default.
+- **FR-006**: Every page MUST carry on `<html>` the attributes `data-theme`, `data-mode`,
   `data-mode-choice`, `data-light-theme`, `data-dark-theme` and `data-default-mode`, set before
   the page first paints. They MUST be documented as the public contract that a site's own
   stylesheets and scripts, and the theme's other features, read.
 
 **Switching for a reader (US2)**
 
-- **FR-008**: A reader's choice of mode or picked theme MUST be kept in the browser, per site,
+- **FR-007**: A reader's choice of mode or picked theme MUST be kept in the browser, per site,
   and applied before the first paint of every later page of that site.
-- **FR-009**: Applying a choice MUST be one function, used by the script that runs before the
+- **FR-008**: Applying a choice MUST be one function, used by the script that runs before the
   first paint and by the page script.
-- **FR-010**: In `auto`, the page MUST follow the system's setting while it is open.
-- **FR-011**: A picked daisyUI theme MUST set `data-mode` to light or dark from that theme's own
+- **FR-009**: In `auto`, the page MUST follow the system's setting while it is open.
+- **FR-010**: A picked daisyUI theme MUST set `data-mode` to light or dark from that theme's own
   colour scheme.
-- **FR-012**: A stored choice that is no longer offered, cannot be read, or cannot be stored MUST
+- **FR-011**: A stored choice that is no longer offered, cannot be read, or cannot be stored MUST
   leave the page in the site's starting mode or the current choice, with no script error.
-- **FR-013**: The theme menu MUST mark the current choice for sight and for a screen reader, and
+- **FR-012**: The theme menu MUST mark the current choice for sight and for a screen reader, and
   MUST be usable from the keyboard alone (Article XIV).
 
 **The search dialog for a reader (US3)**
 
-- **FR-014**: Every page with search enabled MUST carry one search dialog, opened by Ctrl+K and
+- **FR-013**: Every page with search enabled MUST carry one search dialog, opened by Ctrl+K and
   ⌘K at any time, by `/` when the reader is not typing in a field, and by the search button.
-- **FR-015**: The dialog MUST list, as the reader types, the pages, section titles and API
+- **FR-014**: The dialog MUST list, as the reader types, the pages, section titles and API
   objects from the search index Sphinx writes for the build, each linked to its page and anchor.
-- **FR-016**: Matching MUST use Sphinx's own search language support for the site's `language`
+- **FR-015**: Matching MUST use Sphinx's own search language support for the site's `language`
   (its stemmer and stop words), so the dialog and Sphinx's full search page find the same pages
   for a word.
-- **FR-017**: The arrow keys MUST move the chosen result, Enter MUST open it, and Enter with none
+- **FR-016**: The arrow keys MUST move the chosen result, Enter MUST open it, and Enter with none
   chosen MUST open Sphinx's full search page with the reader's words. The chosen result MUST be
   exposed to a screen reader as the field's active option.
-- **FR-018**: Escape, the close button and a press outside the dialog MUST close it and return
+- **FR-017**: Escape, the close button and a press outside the dialog MUST close it and return
   focus to where it was.
-- **FR-019**: Results and the dialog's messages MUST be written into the page as text, never by
+- **FR-018**: Results and the dialog's messages MUST be written into the page as text, never by
   assigning HTML built from index or query text (Article V).
-- **FR-020**: When the search index cannot be read, the dialog MUST say search is not available
+- **FR-019**: When the search index cannot be read, the dialog MUST say search is not available
   and still send Enter to the full search page.
-- **FR-021**: Sphinx's full search page MUST be drawn with the theme's styles and daisyUI's
+- **FR-020**: Sphinx's full search page MUST be drawn with the theme's styles and daisyUI's
   tokens only (Article XI).
-- **FR-022**: The keyboard shortcuts MUST be registered through the one keyboard helper the page
+- **FR-021**: The keyboard shortcuts MUST be registered through the one keyboard helper the page
   frame starts, which this feature grows, and which tells whether the reader is typing.
 
 **Search options for a site author (US4)**
 
-- **FR-023**: The theme MUST ship one search button component, drawn under the names
-  `search-button-field`, `search-button` and `search-field`, and keep `search-button-field` in
-  `navbar_persistent` by default.
-- **FR-024**: The theme MUST accept pydata-sphinx-theme's `search_bar_text`, `disable_search`
-  and `search_as_you_type` with their types and meanings. `search_as_you_type` MUST default to on,
-  and off MUST stop results being listed as the reader types.
-- **FR-025**: With `disable_search` on, no page MUST carry the search button or dialog, and the
+- **FR-022**: The theme MUST ship one search button component, `search-button-field`, and keep
+  it in `navbar_persistent` by default.
+- **FR-023**: The theme MUST accept `search_bar_text` (the button's and the field's text),
+  `disable_search` (default off) and `search_as_you_type` (default on). Off, `search_as_you_type`
+  MUST stop results being listed as the reader types.
+- **FR-024**: With `disable_search` on, no page MUST carry the search button or dialog, and the
   shortcuts MUST do nothing.
 
 **Versions for a site author (US5)**
 
-- **FR-026**: The theme MUST accept pydata-sphinx-theme's `switcher` (`json_url`,
-  `version_match`), `check_switcher` (default on) and `show_version_warning_banner` (default off),
-  and read `switcher.json` in pydata-sphinx-theme's format (`name`, `version`, `url`,
-  `preferred`).
-- **FR-027**: The theme MUST ship the `version-switcher` component, with pydata-sphinx-theme's
-  name, and keep it in `navbar_end` by default. It MUST draw nothing without a `json_url`.
-- **FR-028**: A `json_url` MUST resolve from every page, whether a full address, a path from the
+- **FR-025**: The theme MUST accept `switcher` (`json_url`, `version_match`), `check_switcher`
+  (default on) and `show_version_warning_banner` (default off), and read a `switcher.json` that
+  lists entries of `name`, `version`, `url` and `preferred`.
+- **FR-026**: The theme MUST ship the `version-switcher` component and keep it in `navbar_end` by
+  default. It MUST draw nothing without a `json_url`.
+- **FR-027**: A `json_url` MUST resolve from every page, whether a full address, a path from the
   site's root or a path relative to the built site.
-- **FR-029**: With `check_switcher` on, the build MUST read the file once and warn, naming the
+- **FR-028**: With `check_switcher` on, the build MUST read the file once and warn, naming the
   address, when it cannot be read or is not a list of versions, without stopping the build.
 
 **Moving between versions for a reader (US6)**
 
-- **FR-030**: The version switcher MUST list the file's versions in order, marking the one that
+- **FR-029**: The version switcher MUST list the file's versions in order, marking the one that
   matches `version_match` as current and the preferred one as preferred.
-- **FR-031**: Picking a version MUST open the reader's current page in that version when its build
+- **FR-030**: Picking a version MUST open the reader's current page in that version when its build
   holds it, and that version's home page otherwise or when it cannot be checked.
-- **FR-032**: The same page MUST be found from the page's address as the build writes it,
+- **FR-031**: The same page MUST be found from the page's address as the build writes it,
   including for `dirhtml`, through one page-address module that the search dialog and the version
   switcher share.
-- **FR-033**: A file that cannot be read in the browser MUST leave no version switcher on the
+- **FR-032**: A file that cannot be read in the browser MUST leave no version switcher on the
   page.
-- **FR-034**: With `show_version_warning_banner` on, a page of a version other than the preferred
+- **FR-033**: With `show_version_warning_banner` on, a page of a version other than the preferred
   one MUST show a named banner before the header, linking to the same place in the preferred
   version.
-- **FR-035**: Versions' names and addresses from the file MUST be written as text, and a link MUST
+- **FR-034**: Versions' names and addresses from the file MUST be written as text, and a link MUST
   be made only from a web address (Article V).
 
 **Across the feature**
 
-- **FR-036**: The theme menu and the version switcher MUST be drawn with one shared navbar
+- **FR-035**: The theme menu and the version switcher MUST be drawn with one shared navbar
   dropdown, which the page frame's square icon button and icon set feed.
-- **FR-037**: Every value a template prints from a theme option, `html_context` or the page
+- **FR-036**: Every value a template prints from a theme option, `html_context` or the page
   context MUST be escaped, as amended Article V states.
-- **FR-038**: Fixed text the theme writes for these tools, in templates and in the page script,
+- **FR-037**: Fixed text the theme writes for these tools, in templates and in the page script,
   MUST be marked for translation in the message catalogue the page frame sets up (Article VIII).
-- **FR-039**: Every option this feature adds MUST be declared in `theme.toml`, read through the
+- **FR-038**: Every option this feature adds MUST be declared in `theme.toml`, read through the
   one context the theme sets for each page, and documented with its default (Article VI).
-- **FR-040**: Every control these tools add MUST be reachable and usable by keyboard with a
+- **FR-039**: Every control these tools add MUST be reachable and usable by keyboard with a
   visible focus state, and named for a screen reader, and dimmed text in them MUST meet WCAG 2.2
   AA contrast on daisyUI's default light and dark themes (Article XIV).
 
@@ -449,10 +440,8 @@ reader lands and the banner's presence.
 
 - **SC-001**: On every page, the daisyUI theme the reader chose, or the site's starting mode, is
   in force before the first paint, on a reload, a new page and a later visit.
-- **SC-002**: A pydata-sphinx-theme configuration that sets `theme-switcher`, `search_bar_text`,
-  `disable_search`, `search_as_you_type`, `switcher`, `check_switcher`,
-  `show_version_warning_banner`, any of the three search button names or `version-switcher`
-  builds unchanged and each acts with the meaning it has there.
+- **SC-002**: Every option this feature adds changes what a built page carries or how the build
+  behaves, and a site that sets none of them builds with no warnings.
 - **SC-003**: For a set of queries on the documentation site, the dialog lists every page Sphinx's
   full search page finds for the same words.
 - **SC-004**: A reader finds and opens a result, switches mode, picks a theme and picks a version
@@ -471,21 +460,22 @@ reader lands and the banner's presence.
 
 - Q: How many stories, given the issue lists three tools? → A: Six. Each tool has a site author's
   part and a reader's part, and the two are never merged into one story.
-- Q: `search_as_you_type` defaults to off in pydata-sphinx-theme, but the accepted design lists
-  results as the reader types. Which default? → A: On, as in the accepted design. Off keeps
-  pydata-sphinx-theme's meaning: no results as the reader types (FR-024).
-- Q: What does `check_switcher` do? → A: What it does in pydata-sphinx-theme: the build reads the
-  file and warns when it cannot, and the pages still build (FR-029).
-- Q: What does `show_version_warning_banner` do? → A: What it does in pydata-sphinx-theme: a
-  banner on pages of versions other than the preferred one, linking to the preferred version
-  (FR-034).
+- Q: Does `search_as_you_type` stay, and with what default? → A: Yes, as the theme's own option,
+  because it changes what the reader gets. On by default, as in the accepted design. Off, no
+  results are listed as the reader types (FR-023).
+- Q: What does `check_switcher` do? → A: The build reads the file and warns when it cannot, and
+  the pages still build (FR-028).
+- Q: What does `show_version_warning_banner` do? → A: A banner on pages of versions other than the
+  preferred one, linking to the preferred version (FR-033).
+- Q: How many names does the search button have? → A: One, `search-button-field`, the name the
+  default `navbar_persistent` uses (FR-022).
 - Q: Does the picker's full list come from a list in the package's Python? → A: No. It comes from
   the same source the stylesheet's compiled themes come from, so the two cannot drift (FR-003).
 - Q: Is a theme name the theme does not know an error? → A: No. A site may define its own daisyUI
   theme in its static stylesheet, so names are accepted as given (FR-004). A `default_mode` the
   theme does not know warns, because only three values mean anything (FR-002).
-- Q: Does pydata-sphinx-theme's `html_context["default_mode"]` work? → A: Yes, with the theme
-  option taking precedence when both are set (FR-005).
+- Q: Can the starting mode be set anywhere but `default_mode`? → A: No. One setting has one
+  option (FR-001).
 
 ## Assumptions
 
@@ -495,6 +485,6 @@ reader lands and the banner's presence.
 - The theme's own fixed text is in English, added to the message catalogue with no translations.
 - Out of scope, owned by sibling features: the page frame, logo, announcement and previous and
   next links (#4), site navigation, On this page and header links (#5), the page-body styles and
-  Pygments styles (#6), icon links, edit and view links and the Furo and pydata-sphinx-theme
-  configuration presets (#8). The header links menu (#5) reuses this feature's navbar dropdown,
-  and the logo (#4), Pygments styles (#6) and Furo's CSS variables (#8) read its mode attributes.
+  Pygments styles (#6), icon links and edit and view links (#8). The header links menu (#5)
+  reuses this feature's navbar dropdown, and the logo (#4) and Pygments styles (#6) read its mode
+  attributes.

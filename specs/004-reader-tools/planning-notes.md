@@ -22,7 +22,7 @@ feature:
 | Prototype file | What this feature takes | Lands in `main` at |
 |---|---|---|
 | `components/theme-switcher.html` | All, drawn with the shared navbar dropdown | `theme/daisyui/components/` |
-| `components/search-button-field.html`, `search-button.html`, `search-field.html` | One button; the other two names include it | `theme/daisyui/components/` |
+| `components/search-button-field.html` | All. `search-button.html` and `search-field.html` are not ported | `theme/daisyui/components/` |
 | `components/search-modal.html` | All | `theme/daisyui/components/` |
 | `components/version-switcher.html` | All, drawn with the shared navbar dropdown | `theme/daisyui/components/` |
 | `theme/daisyui/layout.html` | `:13-29` (the mode attributes set before the first paint, and `color-scheme`), `:172` (the dialog's include) | The same path, into the frame FS-001 ports |
@@ -36,7 +36,7 @@ feature:
 Each merge is checked side by side against the prototype on the rows of "Pages to compare side by
 side" that name features 6, 7 or 8: Home in light and dark, Theme menu (open, then `dracula`
 picked), Search dialog (Ctrl+K, "layout" typed, the second result chosen), Full search page
-(`search.html?q=layout`), Version menu, and As pydata-sphinx-theme for the version switcher. At
+(`search.html?q=layout`) and Version menu. At
 390, 1100 and 1440 pixels wide.
 
 ## The shared pieces this feature builds
@@ -51,16 +51,16 @@ named.
   `data-mode-choice`, `data-light-theme`, `data-dark-theme`, `data-default-mode`), with one
   function that applies a choice, used by both the inline script that runs before the first paint
   and the page script. Read by the page-body styles' Pygments styles (#6), the logo per mode
-  (#4), and Furo's CSS variables (#8). Check daisyUI's `data-theme`, and Sphinx's own
+  (#4). Check daisyUI's `data-theme`, and Sphinx's own
   `pygments_dark_style` in `theme.toml`, which keys on a media query rather than an attribute,
   first.
 - **Task: move the logo per mode onto the mode attributes.** FS-001 picks the light or dark logo
   with a `prefers-color-scheme` media query, because the mode attributes do not exist yet. This
   feature moves that one rule onto `data-mode`, so the logo follows the reader's choice and a
   picked theme's own colour scheme (US2 scenario 5).
-- **The search button under three names.** One component; `search-button.html` and
-  `search-field.html` include `search-button-field.html`. Reused by the pydata-sphinx-theme
-  configurations (#8). Check: nothing.
+- **The search button under three names.** Becomes one component with one name,
+  `search-button-field`, the name the default `navbar_persistent` uses. The prototype's other two
+  names are dropped, not aliased. Check: nothing.
 - **The page's address.** A shared script module that turns a document name and anchor into the
   page's address for the build (`html`, `dirhtml`), from the `<body>` attributes FS-001 sets. Used
   here by the search dialog and reused by the version switcher. Check Sphinx's
@@ -76,7 +76,7 @@ named.
 
 FS-001's component-list defaults are the prototype's `theme.toml` values, with `navbar_center`
 empty. So `theme-switcher` and `version-switcher` sit in `navbar_end` and `search-button-field` in
-`navbar_persistent` by default (FR-006, FR-023, FR-027). This feature ships the components those
+`navbar_persistent` by default (FR-005, FR-022, FR-026). This feature ships the components those
 names resolve to, and changes none of the defaults.
 
 ## Reused from the page frame
@@ -92,26 +92,28 @@ From "Faked or skipped" in `PROTOTYPE.md`:
   search language support: the stemmer and stop words in `language_data.js` for the site's
   `language`, and research whether Sphinx's `Search` object in `searchtools.js` (`_parseQuery`,
   `performTermsSearch`, `performObjectSearch`) can be called directly on every supported Sphinx
-  version (7.4 to 9.2), rather than reimplemented (FR-016, SC-003).
-- **`search_as_you_type`.** Accepted and ignored. Honour it: default on, off stops results as the
-  reader types (FR-024).
+  version (7.4 to 9.2), rather than reimplemented (FR-015, SC-003).
+- **`search_as_you_type`.** Accepted and ignored in the prototype. It is the theme's own option
+  with a real meaning: default on, off stops results as the reader types (FR-023).
 - **Results built with `innerHTML`.** The results and the "nothing matches" line assign HTML built
   from escaped strings (`sphinx-daisyui.js:349`, `:360`). Build them with elements and
-  `textContent`, including the marking of matched words (FR-019, Article V).
-- **`show_version_warning_banner` and `check_switcher`.** Accepted and ignored. Honour both with
-  pydata-sphinx-theme's meanings (FR-029, FR-034). Read pydata-sphinx-theme 0.24's handling of both
-  first.
+  `textContent`, including the marking of matched words (FR-018, Article V).
+- **`show_version_warning_banner` and `check_switcher`.** Accepted and ignored in the prototype.
+  Both are the theme's own options with the behaviour FR-028 and FR-033 give them.
+  pydata-sphinx-theme 0.24's handling of options of the same name is worth reading first, as prior
+  art only.
 - **The daisyUI theme list written out by hand** (`__init__.py:22-28`), separately from
   `themes: all` in the stylesheet. Give the picker's full list one source with the compiled
   stylesheet (FR-003).
 - **Values printed unescaped.** Every value these templates print is escaped with `|e`, per amended
   Article V (constitution 1.1.0): `search_bar_text`, `json_url`, `version_match`, theme names
-  (FR-037). The inline script's values stay passed through `tojson`.
+  (FR-036). The inline script's values stay passed through `tojson`.
 - **Fixed text not translatable.** Mark the menu's, dialog's, switcher's and banner's own text for
   translation in the message catalogue FS-001 sets up, including text the page script writes
-  (FR-038). Research how the page script receives translated strings.
+  (FR-037). Research how the page script receives translated strings.
 - **Templates reading `theme_*` directly.** `search-*.html:1` and `search-modal.html:1` read
-  `theme_disable_search`. Read it through the `daisy` context (FR-039).
+  `theme_disable_search`. Read it through the `daisy` context (FR-038).
 - **`switcher.json` addresses from the site root.** The documentation's file lists `/`,
-  `/as-furo/` and `/as-pydata/`, which only work on the development server. Give it addresses that
-  work where the documentation is published.
+  `/as-furo/` and `/as-pydata/`, which only work on the development server, and those two builds
+  are no longer made. Give it entries and addresses that work where the documentation is
+  published.

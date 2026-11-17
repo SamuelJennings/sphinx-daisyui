@@ -17,34 +17,29 @@ issue #7 and `PROTOTYPE.md` features 6, 7 and 8, and taken as agreed.
   styles and Pygments styles are #6. Icon links, edit and view links and the two configuration
   presets are #8.
 - **Constraints.** Article V as amended (escaping, `textContent`), Article VIII (fixed text in the
-  message catalogue), Article X (borrowed names keep their meaning), Article XI (tokens only on the
+  message catalogue), Article XI (tokens only on the
   full search page), Article XIV (keyboard and screen reader).
 
 ## Self-resolved
 
 1. **Six stories.** Each tool splits into the site author's part and the reader's part, because
    the two are never merged into one story. Search options (`search_bar_text`, `disable_search`,
-   `search_as_you_type`, the three button names) are a site author's story of their own, small,
-   rather than scenarios under the reader's story.
-2. **`search_as_you_type` defaults to on.** pydata-sphinx-theme defaults it to off, but the accepted
-   design lists results as the reader types and sets the option's default to on. The accepted look
-   wins on the default. Off keeps pydata-sphinx-theme's meaning, so a pydata configuration that
-   sets it acts as it does there. Component list defaults already differ from pydata-sphinx-theme
-   in the same way (`version-switcher` in `navbar_end`).
-3. **`check_switcher` warns and builds.** As in pydata-sphinx-theme: the build reads the file once
-   and warns when it cannot. A warning fails a build run with warnings as errors, which is the
-   option's meaning there, and the option turns it off.
+   `search_as_you_type`, the search button) are a site author's story of their own, small,
+   rather than scenarios under the reader's story. The search button is one component,
+   `search-button-field`, the name the default `navbar_persistent` uses.
+2. **`search_as_you_type` is kept, on by default.** It changes what the reader gets, so it stays
+   as the theme's own option. The accepted design lists results as the reader types, so it is on
+   by default. Off, no results are listed as the reader types.
+3. **`check_switcher` warns and builds.** The build reads the file once and warns when it cannot.
+   A warning fails a build run with warnings as errors, and the option turns the check off.
 4. **`show_version_warning_banner` is a banner before the header**, on pages of versions other than
-   the preferred one, linking to the same place in the preferred version. That is
-   pydata-sphinx-theme's meaning. With no preferred entry in the file, no banner.
+   the preferred one, linking to the same place in the preferred version. With no preferred entry in
+   the file, no banner.
 5. **Unknown theme names are accepted.** daisyUI themes are CSS variables, and the accepted design's
    documentation shows a site defining colours in its own stylesheet. Warning on an unknown name
    would break a warnings-as-errors build for such a site. A `default_mode` outside `auto`, `light`
    and `dark` warns, because no fourth value can mean anything.
-6. **`html_context["default_mode"]` is honoured.** pydata-sphinx-theme reads the starting mode from
-   `html_context`, so a configuration copied from it would otherwise lose its mode (Article X). The
-   theme option takes precedence when both are set, since a site author who sets it has written it
-   for this theme.
+6. **The starting mode has one option, `default_mode`.** Nothing else sets it.
 7. **A reader's choice is kept per site.** Two sites on the same host must not share or break each
    other's stored choice. How it is kept is for the plan.
 8. **A stored theme the site no longer offers falls back to the starting mode**, rather than
