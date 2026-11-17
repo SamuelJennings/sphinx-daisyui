@@ -97,6 +97,53 @@ class TestThemeOptions:
             ThemeOptions({"layout": "xxx"}).layout()
 
 
+class TestNumber:
+    @pytest.mark.parametrize(
+        ("value", "expected"),
+        [(2, 2), (0, 0), ("3", 3), (" 4 ", 4), ("-1", -1), ("007", 7)],
+    )
+    def test_number_reads_an_int_or_a_string_of_digits(
+        self, value: Any, expected: int
+    ) -> None:
+        assert ThemeOptions({"name": value}).number("name", 9) == expected
+
+    @pytest.mark.parametrize("value", [True, False, None, "", "abc", "1.5", [3]])
+    def test_number_of_anything_else_is_the_default(self, value: Any) -> None:
+        assert ThemeOptions({"name": value}).number("name", 9) == 9
+
+    def test_number_of_a_missing_option_is_the_default(self) -> None:
+        assert ThemeOptions({}).number("name", 9) == 9
+
+
+class TestRecords:
+    def test_records_reads_a_list_of_dicts(self) -> None:
+        records = [{"name": "a", "url": "x"}, {"name": "b", "url": "y"}]
+
+        assert ThemeOptions({"name": records}).records("name") == records
+
+    def test_records_reads_a_tuple_of_dicts(self) -> None:
+        assert ThemeOptions({"name": ({"a": 1},)}).records("name") == [{"a": 1}]
+
+    def test_records_keeps_only_the_dicts_of_a_list(self) -> None:
+        options = ThemeOptions({"name": [{"a": 1}, "text", 3, None, {"b": 2}]})
+
+        assert options.records("name") == [{"a": 1}, {"b": 2}]
+
+    def test_records_reads_a_json_string(self) -> None:
+        options = ThemeOptions({"name": '[{"name": "a"}, 5, {"name": "b"}]'})
+
+        assert options.records("name") == [{"name": "a"}, {"name": "b"}]
+
+    @pytest.mark.parametrize(
+        "value", ["not json", '{"a": 1}', "", None, 5, {"a": 1}]
+    )
+    def test_records_of_anything_else_is_empty(self, value: Any) -> None:
+        assert ThemeOptions({"name": value}).records("name") == []
+
+    def test_records_of_a_missing_option_is_empty(self) -> None:
+        assert ThemeOptions({}).records("name") == []
+
+
 class TestStaticUrl:
     @staticmethod
     def pathto(path: str, resource: int = 0) -> str:

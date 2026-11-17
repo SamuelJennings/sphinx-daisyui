@@ -77,6 +77,47 @@ class ThemeOptions:
             return False
         return default
 
+    def number(self, name: str, default: int) -> int:
+        """Read an option as a whole number.
+
+        Args:
+            name: The option's name.
+            default: What to return when the option is unset, empty or not a
+                whole number. A flag is not a number.
+
+        Returns:
+            The number, reading ``"2"`` from ``-D name=2`` as 2.
+        """
+        value = self.values.get(name)
+        if isinstance(value, int) and not isinstance(value, bool):
+            return value
+        if isinstance(value, str):
+            try:
+                return int(value.strip())
+            except ValueError:
+                return default
+        return default
+
+    def records(self, name: str) -> list[dict[str, Any]]:
+        """Read an option as a list of dicts.
+
+        Args:
+            name: The option's name.
+
+        Returns:
+            The dicts of the option's list or tuple, or of the list a JSON
+            string holds, otherwise empty.
+        """
+        value = self.values.get(name)
+        if isinstance(value, str):
+            try:
+                value = json.loads(value)
+            except ValueError:
+                return []
+        if not isinstance(value, list | tuple):
+            return []
+        return [dict(item) for item in value if isinstance(item, dict)]
+
     def mapping(self, name: str) -> dict[str, Any]:
         """Read an option as a dict.
 
