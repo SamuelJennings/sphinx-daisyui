@@ -39,7 +39,7 @@ check reaches Sphinx without the crash report is planning work.
 
 The prototype accepts the option and does nothing, and names the announcement feature as the one
 that does it properly. FR-028 says it keeps its source theme's meaning. Research confirms which
-theme defines it and what it does before it is built (Article X).
+theme defines it and what it does before it is built.
 
 **ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
 
@@ -123,8 +123,8 @@ building, and the CI suite is left to a change that can edit the workflows.
 ## D15. The logo is `logo` only
 
 The maintainer ruled that the theme has its own options, modelled on pydata-sphinx-theme's, with
-one name and one shape per setting, and Article X was rewritten to say so. Furo's `light_logo`,
+one name and one shape per setting. Furo's `light_logo`,
 `dark_logo` and `sidebar_hide_name` and pydata-sphinx-theme's `logo_link` are dropped. The
-specification is amended to match (FR-021, FR-024, SC-003 and User Story 3).
+specification is amended to match (FR-021, FR-024 and User Story 3).
 
-**ADR:** none — the rule is the constitution's Article X; this records how this feature follows it.
+**ADR:** none — this records how this feature follows the maintainer's ruling.

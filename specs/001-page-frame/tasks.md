@@ -121,4 +121,4 @@ declared as a non-mirror path.
 
 - [ ] T030 [US3] Drop `light_logo`, `dark_logo`, `sidebar_hide_name` and `logo_link` from the
   theme, its tests, its documentation and the docs site's own configuration, so the logo is
-  `logo` only, with `html_logo` as the fallback (Article X as rewritten, decisions D15).
+  `logo` only, with `html_logo` as the fallback (decisions D15).

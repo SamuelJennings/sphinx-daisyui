@@ -26,7 +26,7 @@ and from the keyboard, and moves between pages from the foot of each page.
 
 Everything a site author writes here is a theme option in `html_theme_options`. The options are
 the theme's own, named and shaped after pydata-sphinx-theme's where it has the same setting, with
-one name and one shape for each (Article X).
+one name and one shape for each.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -368,8 +368,6 @@ button's presence. Check the scroll and key behaviour in a browser.
   five areas of the default layout code.
 - **SC-002**: Every valid layout code builds, and every code of the wrong shape stops the build
   with one message and no traceback.
-- **SC-003**: Every option this feature adds has one name and one shape, and no option exists
-  only to accept another theme's configuration.
 - **SC-004**: Every page passes a keyboard walk: the skip link first, the drawer opened and closed
   without a pointer, and every control the frame adds focused visibly.
 - **SC-005**: Each page shown at 390, 1100 and 1440 pixels wide matches the prototype's
@@ -402,8 +400,8 @@ button's presence. Check the scroll and key behaviour in a browser.
 
 - Q: Does the theme accept Furo's logo options or pydata-sphinx-theme's `logo_link` beside
   `logo`? → A: No. The maintainer ruled that the theme has its own options, modelled on
-  pydata-sphinx-theme's, with one name and one shape per setting, and a site coming from another
-  theme reconfigures (Article X as rewritten). The logo is `logo`, with `html_logo` as the
+  pydata-sphinx-theme's, with one name and one shape per setting, and a site that used Furo's or
+  pydata-sphinx-theme's options sets the theme's own. The logo is `logo`, with `html_logo` as the
   fallback.
 
 ## Assumptions
