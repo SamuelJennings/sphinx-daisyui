@@ -25,9 +25,14 @@ live in `tests/test_templates/`.
 - [ ] T003 [US1] `daisy.navigation` in `events.py` and the ported `components/sidebar-nav.html`.
   Tests in `tests/test_templates/test_sidebar_nav.py`: US1 scenarios 1-4 and 6-10, 13 and 14,
   the orphan, `dirhtml`, `singlehtml`, digit strings.
+- [ ] T014 [US1] A contributor page on how the theme is built, naming its Python, and the test
+  sites' `copyright` exempt from the builtin-shadowing lint.
 
 ### Group 2
 
+- [ ] T011 [US1] A component list and `external_links` take a Python list only: `ThemeOptions.components`
+  and `records` read no string form, `theme.toml` defaults become arrays, and FS-001's FR-006 and
+  `docs/reference/options.md` say so. Tests first in `tests/test_options.py`.
 - [ ] T004 [US1] Port the site navigation styles and `.daisy-section-label` into
   `assets/frame.css` and `navigation.js` into `theme/daisyui/static/scripts/`, with its script
   tag in `layout.html`. Rebuild the stylesheet. Check the toggles and scrolling into view in
@@ -42,6 +47,12 @@ live in `tests/test_templates/`.
 
 ### Group 3
 
+- [ ] T012 [US3] `secondary_sidebar_items` reaches the templates under its own name: it joins the
+  component options in `events.py`, the `secondary` key goes, and `layout.html` and the tests read
+  it by name (issue 47).
+- [ ] T013 [US3] The secondary sidebar and the On this page disclosure are left out on every index
+  page: search, `genindex` and its split pages, and the domain indices such as `py-modindex`.
+  Tests with a split index and a Python domain index (issue 44).
 - [ ] T007 [US3] `PageContents` in `navigation.py`, `daisy.page_toc`, `page_toc_count` and
   `show_toc_level`, the ported `components/page-toc.html` and the disclosure in `layout.html`.
   Tests in `tests/test_navigation.py` and `tests/test_templates/test_page_toc.py`: US3 scenarios

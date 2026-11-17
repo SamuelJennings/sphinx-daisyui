@@ -105,3 +105,10 @@ plain text.
 
 WAI-ARIA's `location` value is for the current item within a set of links to parts of the page.
 The site navigation's current page keeps `aria-current="page"`.
+
+## D16. Domain indices count as index pages
+
+A domain index such as `py-modindex` is a list of entries with no headings of its own, like
+`genindex`, so the secondary sidebar and the On this page disclosure are left out there too. The
+pages are told apart by the template Sphinx renders them with (`genindex*.html`,
+`domainindex.html`, `search.html`), which holds for every split and every domain.
