@@ -1,0 +1,8 @@
+{%- from "components/macros.html" import icon_button with context %}
+{%- if daisy.icon_links %}
+<ul class="flex items-center" aria-label="{{ (daisy.icon_links_label or _('Icon links'))|e }}">
+  {%- for link in daisy.icon_links %}
+    <li>{% call icon_button(link.name, "", link.name, href=link.url, tooltip_class="tooltip-bottom") %}{{ link.image }}{% endcall %}</li>
+  {%- endfor %}
+</ul>
+{%- endif %}

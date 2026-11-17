@@ -3,8 +3,12 @@
   {%- for name in names %}{% include ["components/" ~ name, name] ignore missing %}{% endfor -%}
 {%- endmacro %}
 
-{%- macro icon_button(label, icon, tooltip="", data={}) -%}
-  <button type="button" class="btn btn-ghost btn-sm btn-square{% if tooltip %} tooltip{% endif %}"{% if tooltip %} data-tip="{{ tooltip|e }}"{% endif %} aria-label="{{ label|e }}"{% for name, value in data.items() %} data-{{ name|e }}="{{ value|e }}"{% endfor %}>{{ daisy.icon(icon) }}</button>
+{#- A ghost icon button, or a link when href is given. The named icon fills it unless the
+    caller supplies its own content with call. tooltip_class adds a placement class such
+    as tooltip-bottom, written in full by the caller so Tailwind finds it. -#}
+{%- macro icon_button(label, icon, tooltip="", data={}, href="", tooltip_class="") -%}
+  {%- set tag = "a" if href else "button" -%}
+  <{{ tag }}{% if href %} href="{{ href|e }}"{% else %} type="button"{% endif %} class="btn btn-ghost btn-sm btn-square{% if tooltip %} tooltip{% if tooltip_class %} {{ tooltip_class|e }}{% endif %}{% endif %}"{% if tooltip %} data-tip="{{ tooltip|e }}"{% endif %} aria-label="{{ label|e }}"{% for name, value in data.items() %} data-{{ name|e }}="{{ value|e }}"{% endfor %}>{% if caller is defined %}{{ caller() }}{% else %}{{ daisy.icon(icon) }}{% endif %}</{{ tag }}>
 {%- endmacro %}
 
 {#- One dropdown in the navbar. The caller fills the trigger and the panel:
