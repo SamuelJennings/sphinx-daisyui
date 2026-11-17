@@ -127,6 +127,32 @@ one daisyUI theme. The [theme-switcher](components.md) component lets a reader c
   the layout code keeps the header in place. When off, the banner is the first thing on the page
   and scrolls away.
 
+## Search
+
+The theme draws a search button and a search dialog that list results from the index Sphinx
+writes. [Set up search](../developer/set-up-search-and-versions.md) shows the steps.
+
+### `search_bar_text`
+
+- **Type:** string
+- **Default:** `""`, which shows the words Search the docs in the reader's language
+- **Meaning:** The words on the search button and in the dialog's field. The text is shown as
+  written, so markup in it appears as characters and is never read as HTML.
+
+### `disable_search`
+
+- **Type:** boolean
+- **Default:** `False`
+- **Meaning:** When `True`, no page draws the search button or the dialog, and the keyboard
+  shortcuts that open the dialog do nothing. Sphinx's own search page is still built.
+
+### `search_as_you_type`
+
+- **Type:** boolean
+- **Default:** `True`
+- **Meaning:** Whether results are listed while the reader types. When `False`, nothing is
+  listed as they type, and Enter opens Sphinx's full search page with their words.
+
 ## Site navigation
 
 The navigation in the primary sidebar is the site's table of contents, drawn from its `toctree`

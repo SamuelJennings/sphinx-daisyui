@@ -62,6 +62,18 @@ The site's themes and its starting mode apply with or without it. A site that le
 out of every list draws no menu, and every page still follows `light_theme`, `dark_theme` and
 `default_mode`, and the reader's system when the mode is `"auto"`.
 
+## `search-button-field`
+
+Shows a button that reads Search the docs, or the text set in `search_bar_text`, with the keys
+that open the search dialog beside it: {kbd}`Ctrl+K` or {kbd}`⌘K` on any page, and {kbd}`/`
+when the reader is not typing in a field. It is named in `navbar_persistent` by default, and a
+site may name it in any other [component list](options.md) instead.
+
+The dialog comes with the button: it is written once at the end of every page, whichever list
+names the button. A site that sets `disable_search` to `True` draws neither the button nor the
+dialog, and the shortcuts do nothing. The [options](options.md) `search_bar_text` and
+`search_as_you_type` set its words and whether results appear as the reader types.
+
 ## `breadcrumbs`
 
 Shows the path to the page: a link home, a link to each page above it in the table of contents,

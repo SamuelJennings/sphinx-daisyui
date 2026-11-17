@@ -8,6 +8,9 @@ All notable changes to this project are recorded here. The format follows
 
 ### Added
 
+- A search dialog, opened by the `search-button-field` component or by Ctrl+K, ⌘K or `/`,
+  that lists pages, sections and API names as the reader types, and the `search_bar_text`,
+  `disable_search` and `search_as_you_type` options.
 - The `light_theme`, `dark_theme`, `default_mode` and `theme_picker` options, and the
   `theme-switcher` component, which lets a reader choose light, dark, the system's setting or a
   theme by name.
