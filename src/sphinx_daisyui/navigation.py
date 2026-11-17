@@ -285,11 +285,9 @@ class SiteNavigation:
         link = next(item[0].findall(nodes.reference), None) if item.children else None
         if link is not None:
             link["classes"] += ["daisy-nav-link"]
-            if on_path and not any(
-                "current" in n["classes"]
-                for n in item.findall(nodes.list_item)
-                if n is not item
-            ):
+            # Sphinx marks the current page's own link; an entry whose pages lie
+            # below the depth limit is only on the path.
+            if "current" in link["classes"]:
                 self.replace_with_current_link(link)
             elif on_path:
                 link["classes"] += ["daisy-on-path"]

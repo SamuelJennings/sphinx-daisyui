@@ -120,6 +120,16 @@ class TestSiteNavigation:
         assert len(page.having("aria-current")) == 1
 
     @NAV
+    def test_a_page_below_the_depth_limit_marks_no_entry_current(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = Page(str(navigation(app, "guide/one/two/three/four").menu(1)))
+
+        assert page.having("aria-current") == []
+        deepest = [a for a in page.find("a") if a.get("href") == "index.html"]
+        assert "daisy-on-path" in classes(deepest[0])
+
+    @NAV
     def test_the_entries_on_the_path_are_marked_on_the_path(
         self, app: SphinxTestApp
     ) -> None:
