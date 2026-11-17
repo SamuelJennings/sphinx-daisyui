@@ -35,3 +35,6 @@ All notable changes to this project are recorded here. The format follows
 - The `page-toc` component, which lists the headings of the page under On this page and marks
   the one being read, a closed disclosure with the same list above the page on narrow windows,
   and the `show_toc_level` option.
+- The `pygments_light_style` and `pygments_dark_style` options, which give code a Pygments style for each
+  colour mode, and documentation of the `daisy-sphinx-escape` class, which leaves raw HTML to daisyUI's
+  own styles, and of the daisyUI components compiled in for it.
