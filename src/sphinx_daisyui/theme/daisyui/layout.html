@@ -130,6 +130,7 @@
   {%- if d.back_to_top %}
     <button type="button" class="daisy-back-to-top btn btn-sm fixed bottom-6 left-1/2 z-30 -translate-x-1/2 gap-1 rounded-full shadow-lg" hidden>{{ d.icon("arrow-up", "size-4") }}{{ _("Back to top") }}</button>
   {%- endif %}
+  {%- if d.search.enabled %}{% include "components/search-modal.html" %}{% endif %}
 {%- endblock %}
 
 {%- block footer %}{% endblock %}

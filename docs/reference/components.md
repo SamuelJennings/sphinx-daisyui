@@ -98,8 +98,10 @@ A name that matches no template draws nothing and raises no warning.
 
 - `components(names)` draws each name in a list, looking in the theme's `components/` directory
   first and then in the site's templates.
-- `icon_button(label, icon, tooltip="")` draws a ghost button holding the named icon. The label
-  is the button's accessible name. When a tooltip is given, it shows on hover.
+- `icon_button(label, icon, tooltip="", data={})` draws a ghost button holding the named icon.
+  The label is the button's accessible name. When a tooltip is given, it shows on hover. Each
+  entry of `data` becomes a `data-` attribute on the button, so `{"daisy-search-close": ""}`
+  writes `data-daisy-search-close`; a page script finds the button by it.
 - `navbar_dropdown(tag="div", panel_tag="div", trigger_class="", panel_class="", label="",
   attrs={}, trigger_attrs={})` draws one menu in the navbar and is used with `call`. It draws
   the outer element, the button that opens the menu and the panel, and the caller fills the

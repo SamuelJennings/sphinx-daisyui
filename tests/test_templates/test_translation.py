@@ -19,6 +19,10 @@ TABLE = "Table"
 EQUATION = "Equation"
 CHOOSE_THEME = "Choose the colour theme"
 SYSTEM_MODE = "Match the system"
+SEARCH = "Search"
+SEARCH_PROMPT = "Type to search pages, sections and API names."
+SEARCH_UNAVAILABLE = "Search is not available here."
+MARKUP_TEXT = 'Suche "nicht" <b>da</b>'
 THEME = Path(sphinx_daisyui.__file__).parent
 SHIPPED = THEME / "locale" / "sphinx.pot"
 
@@ -34,6 +38,9 @@ def catalogue(app_params: object) -> Catalog:
     catalogue.add(EQUATION, "Gleichung")
     catalogue.add(CHOOSE_THEME, "Farbschema wählen")
     catalogue.add(SYSTEM_MODE, "Wie das System")
+    catalogue.add(SEARCH, "Suchen")
+    catalogue.add(SEARCH_PROMPT, "Seiten, Abschnitte und API-Namen suchen.")
+    catalogue.add(SEARCH_UNAVAILABLE, MARKUP_TEXT)
     srcdir = Path(app_params.kwargs["srcdir"])  # type: ignore[attr-defined]
     folder = srcdir / "locale" / "de" / "LC_MESSAGES"
     folder.mkdir(parents=True, exist_ok=True)
@@ -104,6 +111,33 @@ class TestTranslation:
         assert re.search(
             r'data-daisy-set-mode="auto"[^>]*>.*?' + re.escape(system.string), text
         )
+
+    @pytest.mark.sphinx("html", testroot="locale", freshenv=True)
+    def test_the_search_buttons_name_and_the_dialogs_prompt_are_translated(
+        self, catalogue: Catalog, app: SphinxTestApp
+    ) -> None:
+        app.build()
+
+        name = catalogue.get(SEARCH)
+        prompt = catalogue.get(SEARCH_PROMPT)
+        assert name is not None
+        assert prompt is not None
+        page = Page.read(Path(app.outdir) / "index.html")
+        button = page.classed("button", "daisy-search-open")
+        dialog = page.find("dialog", id="daisy-search")
+        assert [b.get("aria-label") for b in button] == [name.string]
+        assert dialog[0].get("data-daisy-prompt") == prompt.string
+
+    @pytest.mark.sphinx("html", testroot="locale", freshenv=True)
+    def test_a_translation_holding_markup_stays_inside_its_attribute(
+        self, catalogue: Catalog, app: SphinxTestApp
+    ) -> None:
+        app.build()
+
+        page = Page.read(Path(app.outdir) / "index.html")
+        dialog = page.find("dialog", id="daisy-search")
+        assert dialog[0].get("data-daisy-unavailable") == MARKUP_TEXT
+        assert not page.find("b")
 
     def test_every_message_the_templates_mark_is_in_the_shipped_template(self) -> None:
         marked = {

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sphinx-daisyui VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-17 19:11+0100\n"
+"POT-Creation-Date: 2026-11-17 19:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,6 +41,9 @@ msgstr ""
 msgid "Choose the colour theme"
 msgstr ""
 
+msgid "Close search"
+msgstr ""
+
 msgid "Close the navigation"
 msgstr ""
 
@@ -48,6 +51,9 @@ msgid "Dark"
 msgstr ""
 
 msgid "Documentation"
+msgstr ""
+
+msgid "Enter with nothing chosen opens the full results."
 msgstr ""
 
 msgid "Equation"
@@ -79,10 +85,17 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
+#, python-format
+msgid "Nothing matches %(query)s."
+msgstr ""
+
 msgid "On this page"
 msgstr ""
 
 msgid "Open the navigation"
+msgstr ""
+
+msgid "Page"
 msgstr ""
 
 msgid "Page tools"
@@ -92,6 +105,21 @@ msgid "Previous"
 msgstr ""
 
 msgid "Previous and next page"
+msgstr ""
+
+msgid "Search"
+msgstr ""
+
+msgid "Search is not available here."
+msgstr ""
+
+msgid "Search the docs"
+msgstr ""
+
+msgid "Search the documentation"
+msgstr ""
+
+msgid "Section"
 msgstr ""
 
 msgid "Sections"
@@ -115,4 +143,16 @@ msgid "Theme: %(theme_link)s %(version)s."
 msgstr ""
 
 msgid "Themes"
+msgstr ""
+
+msgid "Type to search pages, sections and API names."
+msgstr ""
+
+msgid "close"
+msgstr ""
+
+msgid "to move"
+msgstr ""
+
+msgid "to open"
 msgstr ""

@@ -1,0 +1,32 @@
+{%- from "components/macros.html" import icon_button with context %}
+{#- The data- attributes on the dialog are what search.js reads: the addresses of
+    Sphinx's own search files and the text it writes. -#}
+<dialog id="daisy-search" class="modal modal-top sm:modal-middle" aria-label="{{ _('Search the documentation')|e }}"
+  data-daisy-language-data="{{ pathto('_static/language_data.js', 1)|e }}"
+  data-daisy-searchtools="{{ pathto('_static/searchtools.js', 1)|e }}"
+  data-daisy-searchindex="{{ pathto('searchindex.js', 1)|e }}"
+  data-daisy-prompt="{{ _('Type to search pages, sections and API names.')|e }}"
+  data-daisy-nothing="{{ _('Nothing matches %(query)s.')|e }}"
+  data-daisy-unavailable="{{ _('Search is not available here.')|e }}"
+  data-daisy-page="{{ _('Page')|e }}"
+  data-daisy-section="{{ _('Section')|e }}"
+  data-daisy-as-you-type="{{ 'true' if daisy.search.as_you_type else 'false' }}">
+  <div class="modal-box flex max-h-[min(40rem,85dvh)] max-w-2xl flex-col gap-0 p-0 sm:rounded-box">
+    <form action="{{ pathto('search')|e }}" method="get" class="flex items-center gap-3 border-b border-base-300 px-4 py-3" role="search">
+      {{ daisy.icon("search", "size-5 shrink-0 opacity-60") }}
+      <input type="search" name="q" class="daisy-search-input min-w-0 flex-1 bg-transparent text-base outline-none" placeholder="{{ daisy.search.text|e }}" aria-label="{{ _('Search')|e }}" autocomplete="off" spellcheck="false" role="combobox" aria-controls="daisy-search-results" aria-autocomplete="list" aria-expanded="false">
+      <kbd class="kbd kbd-sm hidden sm:inline-flex">Esc</kbd>
+      <span class="sm:hidden">{{ icon_button(_("Close search"), "x", "", {"daisy-search-close": ""}) }}</span>
+    </form>
+    <div class="min-h-0 flex-1 overflow-y-auto p-2">
+      <p class="daisy-search-status daisy-muted px-3 py-6 text-center text-sm" aria-live="polite">{{ _("Type to search pages, sections and API names.") }}</p>
+      <ul id="daisy-search-results" class="daisy-search-results menu w-full gap-0.5 p-0" role="listbox"></ul>
+    </div>
+    <div class="daisy-muted hidden items-center gap-4 border-t border-base-300 px-4 py-2 text-xs sm:flex">
+      <span class="flex items-center gap-1"><kbd class="kbd kbd-xs">↑</kbd><kbd class="kbd kbd-xs">↓</kbd> {{ _("to move") }}</span>
+      <span class="flex items-center gap-1"><kbd class="kbd kbd-xs">↵</kbd> {{ _("to open") }}</span>
+      <span class="ms-auto">{{ _("Enter with nothing chosen opens the full results.") }}</span>
+    </div>
+  </div>
+  <form method="dialog" class="modal-backdrop"><button aria-label="{{ _('Close search')|e }}">{{ _("close") }}</button></form>
+</dialog>
