@@ -255,9 +255,33 @@ class TestReaderPage:
         body = [tag for tag in page.tags if tag[0] == "body"]
         assert body
         after_body = page.tags[page.tags.index(body[0]) + 1 :]
-        first = next(attrs for name, attrs in after_body if name in {"a", "label"})
+        first = next(
+            attrs
+            for name, attrs in after_body
+            if (name == "a" and "href" in attrs)
+            or name == "button"
+            or (attrs.get("tabindex") or "-1") != "-1"
+        )
         assert first["href"] == "#main-content"
         assert len(page.find("main", id="main-content")) == 1
+
+    @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
+    def test_the_drawer_opens_and_closes_from_keyboard_reachable_controls(
+        self, app: SphinxTestApp
+    ) -> None:
+        page = built(app)
+
+        controls = [
+            attrs
+            for name, attrs in page.tags
+            if name == "label" and attrs.get("for") == "daisy-drawer"
+        ]
+        reachable = [
+            attrs
+            for attrs in controls
+            if attrs.get("role") == "button" and attrs.get("tabindex") == "0"
+        ]
+        assert len(reachable) == 2
 
     @pytest.mark.sphinx("html", testroot="basic", freshenv=True)
     def test_the_page_has_one_main_landmark_and_no_main_role(

@@ -28,11 +28,29 @@
       if (drawer) drawer.checked = false;
     });
   });
+  const opener = document.querySelector("[data-daisy-drawer-open]");
+  const closer = document.querySelector("[data-daisy-drawer-close]");
   if (window.sphinxDaisyui && window.sphinxDaisyui.keys) {
     window.sphinxDaisyui.keys.on("Escape", () => {
-      if (drawer && drawer.checked) drawer.checked = false;
+      if (!drawer || !drawer.checked) return;
+      drawer.checked = false;
+      if (opener) opener.focus();
     });
   }
+
+  /* The menu and close buttons are labels, so they work without the script; Enter
+     and Space press them from the keyboard, and focus follows the drawer. */
+  [opener, closer].forEach((control) => {
+    if (!control || !drawer) return;
+    control.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      drawer.checked = !drawer.checked;
+      const next = drawer.checked ? closer : opener;
+      /* The drawer becomes visible as the next frame is drawn. */
+      if (next) setTimeout(() => next.focus(), 50);
+    });
+  });
 
   /* Below 40rem the navbar's end items move into the drawer, and back above it. */
   const end = document.querySelector("[data-daisy-navbar-end]");
