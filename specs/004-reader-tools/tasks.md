@@ -62,6 +62,8 @@ tests live in `tests/test_templates/`. Script behaviour is checked in headless C
 - [x] T014 [US3] The `<main>` element carries `role="main"`, the element Sphinx's search page
   reads each result's summary from, and stays the page's one main landmark.
 
+- [x] T018 [US3] A search result's kind stays on one line, however long the object type.
+
 ## Phase 4: User Story 4 - A site author sets up search or leaves it out (P2)
 
 ### Group 5
