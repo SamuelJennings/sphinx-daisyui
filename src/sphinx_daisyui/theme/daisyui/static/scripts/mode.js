@@ -46,20 +46,28 @@
     root.dataset.mode = scheme.includes("dark") ? "dark" : "light";
   }
 
+  /* Tell the page's other scripts that the drawn choice changed. */
+  function announce() {
+    document.dispatchEvent(new CustomEvent("sphinx-daisyui:mode"));
+  }
+
   /* Draw a choice: "auto", "light", "dark" or "theme:<name>". A choice the site no longer offers draws the starting mode. Returns the choice drawn. */
   function apply(choice) {
     if (choice === "auto" || choice === "light" || choice === "dark") {
       setMode(choice);
+      announce();
       return choice;
     }
     if (typeof choice === "string" && choice.startsWith(themePrefix)) {
       const name = choice.slice(themePrefix.length);
       if (offered.includes(name)) {
         setTheme(name);
+        announce();
         return choice;
       }
     }
     setMode(start);
+    announce();
     return start;
   }
 
@@ -87,6 +95,11 @@
     choice: choice,
     offered: offered,
   };
+
+  /* In auto the page follows the system, also when the theme menu is not placed. */
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+    if (root.dataset.modeChoice === "auto") apply("auto");
+  });
 
   apply(stored());
 })();

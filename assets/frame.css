@@ -19,6 +19,12 @@ html[data-mode-choice="dark"] [data-daisy-mode-icon="dark"],
 html[data-mode-choice="theme"] [data-daisy-mode-icon="theme"],
 html:not([data-mode-choice]) [data-daisy-mode-icon="auto"] { display: inline-flex; }
 
+/* In the drawer the menus sit at the start of the window, so their panels open from the start. */
+[data-daisy-navbar-end-slot] .daisy-dropdown > .dropdown-content {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+}
+
 /* Dimmed text in a menu keeps the muted colour's contrast. */
 .daisy-muted { color: var(--daisy-text-muted); }
 

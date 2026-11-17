@@ -132,3 +132,17 @@ class TestThemeSwitcher:
             for t in page.having("data-theme")
             if t["data-theme"] == MARKUP_NAME
         ]
+
+
+class TestThemeMenuScript:
+    @pytest.mark.sphinx("html", testroot="modes", freshenv=True)
+    def test_the_page_loads_the_menu_script_deferred(self, app: SphinxTestApp) -> None:
+        page = built(app)
+
+        found = [
+            tag
+            for tag in page.find("script")
+            if (tag["src"] or "").endswith("_static/scripts/theme-menu.js")
+        ]
+        assert len(found) == 1
+        assert "defer" in found[0]
