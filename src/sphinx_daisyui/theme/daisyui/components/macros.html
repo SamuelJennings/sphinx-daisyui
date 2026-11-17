@@ -11,6 +11,11 @@
   <{{ tag }}{% if href %} href="{{ href|e }}"{% else %} type="button"{% endif %} class="btn btn-ghost btn-sm btn-square{% if tooltip %} tooltip{% if tooltip_class %} {{ tooltip_class|e }}{% endif %}{% endif %}"{% if tooltip %} data-tip="{{ tooltip|e }}"{% endif %} aria-label="{{ label|e }}"{% for name, value in data.items() %} data-{{ name|e }}="{{ value|e }}"{% endfor %}>{% if caller is defined %}{{ caller() }}{% else %}{{ daisy.icon(icon) }}{% endif %}</{{ tag }}>
 {%- endmacro %}
 
+{#- A ghost link with an icon and its text, for the sidebar. rel is added when given. -#}
+{%- macro source_link(href, icon, label, rel="") -%}
+  <a class="btn btn-ghost btn-sm justify-start gap-2 px-2 font-normal text-base-content/80" href="{{ href|e }}"{% if rel %} rel="{{ rel|e }}"{% endif %}>{{ daisy.icon(icon, 'size-4') }}{{ label|e }}</a>
+{%- endmacro %}
+
 {#- One dropdown in the navbar. The caller fills the trigger and the panel:
     {% call(part) navbar_dropdown() %}{% if part == "trigger" %}...{% else %}...{% endif %}{% endcall %}
     tag and panel_tag are the outer and panel elements, trigger_class and panel_class

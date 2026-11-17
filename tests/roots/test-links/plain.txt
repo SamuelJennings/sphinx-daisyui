@@ -1,0 +1,4 @@
+Plain text page
+===============
+
+A page whose source ends in .txt.

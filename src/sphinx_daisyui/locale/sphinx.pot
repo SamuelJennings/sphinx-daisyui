@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sphinx-daisyui VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-17 21:28+0100\n"
+"POT-Creation-Date: 2026-11-17 21:37+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -57,6 +57,9 @@ msgid "Dark"
 msgstr ""
 
 msgid "Documentation"
+msgstr ""
+
+msgid "Edit this page"
 msgstr ""
 
 msgid "Enter with nothing chosen opens the full results."
@@ -170,6 +173,9 @@ msgid "Type to search pages, sections and API names."
 msgstr ""
 
 msgid "Version warning"
+msgstr ""
+
+msgid "View this page's source"
 msgstr ""
 
 msgid "close"
