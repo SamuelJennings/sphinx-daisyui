@@ -136,3 +136,5 @@ html[data-mode]:not([data-mode="dark"]) .daisy-logo-dark { display: none; }
 }
 
 .daisy-footer { color: var(--daisy-text-muted); }
+
+.daisy-prev-next-label { color: var(--daisy-text-muted); }

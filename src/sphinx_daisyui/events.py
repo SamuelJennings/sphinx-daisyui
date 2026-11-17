@@ -103,4 +103,5 @@ def add_page_context(
         "repository": REPOSITORY,
         **{name: options.components(name) for name in COMPONENT_OPTIONS},
         "secondary": options.components("secondary_sidebar_items"),
+        "show_prev_next": options.flag("show_prev_next", True),
     }

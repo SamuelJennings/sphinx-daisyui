@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sphinx-daisyui VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-17 14:23+0100\n"
+"POT-Creation-Date: 2026-11-17 14:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,10 +33,19 @@ msgstr ""
 msgid "Last updated %(last_updated)s."
 msgstr ""
 
+msgid "Next"
+msgstr ""
+
 msgid "Open the navigation"
 msgstr ""
 
 msgid "Page tools"
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "Previous and next page"
 msgstr ""
 
 msgid "Site navigation"
