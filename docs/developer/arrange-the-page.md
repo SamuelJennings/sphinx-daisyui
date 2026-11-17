@@ -64,3 +64,17 @@ nothing. [Components](../reference/components.md) names the setting for each one
 
 The footer now shows the template. A name that matches no template draws nothing and raises no
 warning, so a misspelt name leaves a gap and no message.
+
+## How the page behaves for a reader
+
+The browser changes the page as the window changes:
+
+- Below 64rem wide, the primary sidebar becomes a drawer. A button in the header opens it, and a
+  link in it, the close button, a press outside it or the Escape key closes it.
+- From 80rem wide, the secondary sidebar appears beside the page.
+- An area marked with an upper-case letter in the layout code stays in view while the page scrolls,
+  and the sticky areas sit below the header, whatever height it has.
+- Below 40rem wide, the items in `navbar_end` move into the drawer.
+- A skip link is the first thing a keyboard reader reaches, and it jumps to the page.
+
+The search and index pages leave out the secondary sidebar, as they have no headings of their own.
