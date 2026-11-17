@@ -268,7 +268,8 @@ button's presence. Check the scroll and key behaviour in a browser.
   `navbar_end`, `navbar_persistent`, `article_header_start`, `article_header_end`,
   `article_footer_items`, `content_footer_items`, `primary_sidebar_end`,
   `secondary_sidebar_items`, `footer_start`, `footer_center` and `footer_end`, with
-  pydata-sphinx-theme's names and types and the prototype's defaults, each as a list or a
+  pydata-sphinx-theme's names and types and the prototype's defaults (`navbar_center` empty,
+  with no header links), each as a list or a
   comma-separated string of names with or without `.html`.
 - **FR-007**: Each component list MUST draw its components in its area in the order given,
   looking first in the theme's components and then in the site's templates, and MUST skip a name
@@ -386,8 +387,9 @@ button's presence. Check the scroll and key behaviour in a browser.
   stories, one for the site author who arranges it and one for the reader who uses it, because a
   site author's and a reader's stories are never merged.
 - Q: What do component lists default to when they name components another feature ships (such as
-  `theme-switcher` or `page-toc`)? → A: pydata-sphinx-theme's defaults, as the prototype has
-  them. A name whose component does not exist yet draws nothing, as FR-007 already requires for
+  `theme-switcher` or `page-toc`)? → A: The prototype's defaults, which follow Furo's layout
+  with no header links, so `navbar_center` is empty where pydata-sphinx-theme puts
+  `navbar-nav`. A name whose component does not exist yet draws nothing, as FR-007 already requires for
   any unknown name, and starts drawing when its feature lands.
 - Q: Does `sticky_banners` belong here or with a later feature? → A: Here. The prototype accepted
   it and did nothing, and names this feature to do it properly (FR-028).

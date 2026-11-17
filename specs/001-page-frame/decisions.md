@@ -13,14 +13,16 @@ merged into one, so the page frame is two stories, and the spec has five.
 
 **ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
 
-## D2. Component lists keep pydata-sphinx-theme's defaults
+## D2. Component lists take the prototype's defaults
 
-`navbar_end` defaults to the version switcher, the theme switcher and the icon links,
-`navbar_persistent` to the search button, `article_header_start` to the breadcrumbs and
-`secondary_sidebar_items` to On this page. None of those components exists until its own feature
-is built. A name that resolves to no template draws nothing, so the defaults are set now and each
-component appears when its feature lands, with no default to change later. The defaults are the
-ones the prototype uses.
+The default layout follows Furo, with no header links. The defaults are the prototype's:
+`navbar_start` is the logo, `navbar_center` is empty (pydata-sphinx-theme puts `navbar-nav`
+there), `navbar_end` is the version switcher, the theme switcher and the icon links,
+`navbar_persistent` is the search button, `secondary_sidebar_items` is On this page, and the
+footer holds the copyright and Sphinx version at the start and the theme version at the end. Only
+the option names and types come from pydata-sphinx-theme. Several of those components arrive
+with later features. A name that resolves to no template draws nothing, so the defaults are set
+now and each component appears when its feature lands, with no default to change later.
 
 **ADR:** none — a reading of the specification for this feature, nothing downstream inherits it.
 
