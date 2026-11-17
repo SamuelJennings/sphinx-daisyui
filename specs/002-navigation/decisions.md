@@ -81,3 +81,27 @@ maps or aliases another theme's options or template names, and a site coming fro
 reconfigures. The options this feature uses keep pydata-sphinx-theme's names and shapes, because
 they are good names for the same settings, but they are the theme's own. The site navigation is
 the `sidebar-nav` component under that one name.
+
+## D12. Sphinx's toctree is read as nodes, with no new dependency
+
+The theme reads the site toctree with `global_toctree_for_doc` and the page's headings with
+`document_toc`, changes the nodes and renders them once. Both are on Sphinx 7.4 and 9.2 with the
+same signature (`research.md`). `beautifulsoup4` is not added, so no page is parsed back from
+HTML and the theme adds no runtime dependency.
+
+## D13. A branch's open state lives on its toggle
+
+The toggle's `aria-expanded` is the one record of whether a branch is open. The stylesheet hides
+the list of a closed branch, so the script changes one attribute and nothing can disagree with
+it.
+
+## D14. Header link titles are plain text
+
+A header link shows its page's title as text, escaped by the template. Markup in a title, such
+as code, would need styles in the navbar that nothing else there has, and the prototype shows
+plain text.
+
+## D15. The heading being read is marked with `aria-current="location"`
+
+WAI-ARIA's `location` value is for the current item within a set of links to parts of the page.
+The site navigation's current page keeps `aria-current="page"`.
