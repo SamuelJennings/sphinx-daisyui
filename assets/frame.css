@@ -132,3 +132,59 @@ html { scroll-padding-top: 5rem; }
 .daisy-footer { color: var(--daisy-text-muted); }
 
 .daisy-prev-next-label { color: var(--daisy-text-muted); }
+
+/* ------------------------------------------------------------------ */
+/* Sidebar navigation, drawn as daisyUI's menu                         */
+/* ------------------------------------------------------------------ */
+
+.daisy-nav { font-size: 0.875rem; }
+.daisy-section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--daisy-text-muted);
+}
+.daisy-nav-caption {
+  margin: 1.25rem 0 0.375rem;
+  padding-inline: 0.75rem;
+}
+.daisy-nav-caption:first-child { margin-top: 0; }
+.daisy-nav-list { display: flex; flex-direction: column; gap: 1px; }
+.daisy-nav-list .daisy-nav-list {
+  margin: 1px 0 2px 0.875rem;
+  padding-inline-start: 0.5rem;
+  border-inline-start: 1px solid var(--color-base-300);
+}
+/* An entry with children holds its link, its toggle and its list, with no row around them. */
+.daisy-nav-branch {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  column-gap: 0.125rem;
+}
+.daisy-nav-branch > .daisy-nav-list { grid-column: 1 / -1; }
+.daisy-nav-branch:has(> .daisy-nav-toggle[aria-expanded="false"]) > .daisy-nav-list { display: none; }
+.daisy-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radius-field);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  color: var(--daisy-text-muted);
+  transition: background-color 120ms, color 120ms;
+}
+.daisy-nav-link:hover { background: color-mix(in oklab, var(--color-base-content) 7%, transparent); color: var(--color-base-content); }
+.daisy-nav-link:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+.daisy-nav-link.daisy-on-path { color: var(--color-base-content); font-weight: 600; }
+.daisy-nav-link.menu-active {
+  background: color-mix(in oklab, var(--color-primary) 13%, transparent);
+  color: color-mix(in oklab, var(--color-primary) 70%, var(--color-base-content));
+  font-weight: 600;
+}
+.daisy-nav-toggle { margin-top: 0.125rem; color: var(--daisy-text-muted); }
+.daisy-nav-toggle svg { transition: transform 150ms ease; }
+.daisy-nav-toggle[aria-expanded="true"] svg { transform: rotate(90deg); }
