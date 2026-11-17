@@ -2,8 +2,9 @@
 
 The documentation is built with the theme itself.
 
-Set DAISY_LAYOUT to build these pages with another layout code, and DAISY_NAVBAR_CENTER to
-build them with a component in the middle of the navbar, to compare them.
+Set DAISY_LAYOUT to build these pages with another layout code, and
+DAISY_NAVBAR_CENTER to build them with a component in the middle of the navbar,
+to compare them.
 """
 
 import os
