@@ -11,11 +11,13 @@ from sphinx.util import logging
 from .brand import Brand
 from .icons import ICONS
 from .layout import LayoutCodeError
-from .navigation import PageContents, SiteNavigation
+from .navigation import HeaderLinks, PageContents, SiteNavigation
 from .options import ThemeOptions
 
 LOGGER = logging.getLogger(__name__)
 VERSION = version("sphinx-daisyui")
+NAVBAR_NAV = "navbar-nav.html"
+NAVBAR_ALIGNMENTS = ("content", "left", "right")
 COMPONENT_OPTIONS = (
     "navbar_start",
     "navbar_center",
@@ -123,6 +125,10 @@ def add_page_context(
         collapse=options.flag("collapse_navigation"),
         includehidden=options.flag("sidebar_includehidden", True),
     )
+    show_nav_level = options.number("show_nav_level", 1)
+    sectioned = NAVBAR_NAV in options.components("navbar_center")
+    placed = any(NAVBAR_NAV in options.components(n) for n in COMPONENT_OPTIONS)
+    align = options.text("navbar_align", "content")
     context["daisy"] = {
         "layout": options.layout(),
         "brand": Brand.from_options(options, context),
@@ -135,7 +141,23 @@ def add_page_context(
         "sticky_banners": options.flag("sticky_banners"),
         "announcement": "" if is_url else Markup(announcement),  # noqa: S704
         "announcement_url": announcement if is_url else "",
-        "navigation": site.menu(options.number("show_nav_level", 1)),
+        "sectioned": sectioned,
+        "navigation": (
+            site.section_menu(show_nav_level)
+            if sectioned
+            else site.menu(show_nav_level)
+        ),
+        "header": (
+            HeaderLinks(
+                site.top_level(),
+                options.records("external_links"),
+                options.number("header_links_before_dropdown", 5),
+                options.text("header_dropdown_text"),
+            )
+            if placed
+            else None
+        ),
+        "navbar_align": align if align in NAVBAR_ALIGNMENTS else "content",
     }
     show_toc_level = options.number("show_toc_level", 2)
     contents = PageContents(app.env, pagename, app.builder)

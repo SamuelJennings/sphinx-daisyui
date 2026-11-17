@@ -38,7 +38,7 @@
             {%- else %}{{ components([name]) }}{% endif %}
           {%- endfor %}
         </div>
-        <div class="hidden min-w-0 flex-1 items-center lg:flex justify-start ps-6">{{ components(d.navbar_center) }}</div>
+        <div class="hidden min-w-0 flex-1 items-center lg:flex" data-navbar-align="{{ d.navbar_align|e }}">{{ components(d.navbar_center) }}</div>
         <div class="ms-auto flex items-center gap-1">
           {{ components(d.navbar_persistent) }}
           <div class="hidden items-center gap-1 sm:flex" data-daisy-navbar-end>{{ components(d.navbar_end) }}</div>
@@ -53,6 +53,15 @@
           <label for="daisy-drawer" role="button" tabindex="0" data-daisy-drawer-close class="btn btn-ghost btn-sm btn-square ms-auto{% if lay.brand_in_sidebar %} lg:hidden{% endif %}" aria-label="{{ _('Close the navigation')|e }}">{{ d.icon("x") }}</label>
         </div>
         <div class="flex flex-wrap items-center gap-1 border-b border-base-300 p-3 sm:hidden empty:hidden" data-daisy-navbar-end-slot></div>
+        {%- if d.sectioned and d.header and (d.header.shown or d.header.more) %}
+          <nav class="border-b border-base-300 p-3 lg:hidden" aria-label="{{ _('Sections')|e }}">
+            <ul class="menu menu-sm w-full p-0">
+              {%- for link in d.header.shown + d.header.more %}
+                <li><a href="{{ link.href|e }}"{% if link.current %} class="menu-active" aria-current="page"{% endif %}>{{ link.title|e }}{% if link.external %}{{ d.icon("external-link", "size-3.5 opacity-60") }}<span class="sr-only">{{ _("(leads outside the site)") }}</span>{% endif %}</a></li>
+              {%- endfor %}
+            </ul>
+          </nav>
+        {%- endif %}
         <div class="daisy-sidebar-scroll px-3 py-4 lg:py-8 lg:ps-4 lg:pe-2">
           {{ components(sidebars) }}
           {{ components(d.primary_sidebar_end) }}

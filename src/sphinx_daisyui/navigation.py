@@ -2,6 +2,8 @@
 
 import copy
 import inspect
+from collections.abc import Sequence
+from dataclasses import dataclass
 from functools import cached_property
 from typing import Any
 
@@ -24,6 +26,68 @@ TOGGLE_HTML = (
     '<button type="button" class="daisy-nav-toggle btn btn-ghost btn-xs btn-square" '
     'aria-expanded="{expanded}" aria-label="{label}">{icon}</button>'
 )
+
+
+@dataclass(frozen=True)
+class HeaderLink:
+    """One link of the header: a top-level section or a link to another site.
+
+    Attributes:
+        title: The link's text.
+        href: Where it leads.
+        current: Whether it leads to the section holding the page being read.
+        external: Whether it leads outside the site.
+    """
+
+    title: str
+    href: str
+    current: bool
+    external: bool
+
+
+class HeaderLinks:
+    """The header's links, split into those shown and those in a menu.
+
+    Args:
+        links: The site's top-level sections.
+        external_links: Records with a ``name`` and a ``url``, drawn after the
+            sections; a record with no ``url`` is left out.
+        before_dropdown: How many links are shown before the rest go in the
+            menu.
+        dropdown_text: The menu's label, empty for the translated "More".
+
+    Attributes:
+        shown: The links drawn in the header.
+        more: The links in the menu.
+        more_text: The menu's label.
+        more_current: Whether a link in the menu is the current one.
+    """
+
+    shown: list[HeaderLink]
+    more: list[HeaderLink]
+    more_text: str
+    more_current: bool
+
+    def __init__(
+        self,
+        links: Sequence[HeaderLink],
+        external_links: Sequence[dict[str, Any]],
+        before_dropdown: int,
+        dropdown_text: str,
+    ) -> None:
+        externals = [
+            HeaderLink(
+                str(record.get("name", record["url"])), str(record["url"]), False, True
+            )
+            for record in external_links
+            if record.get("url")
+        ]
+        everything = [*links, *externals]
+        limit = max(before_dropdown, 0)
+        self.shown = everything[:limit]
+        self.more = everything[limit:]
+        self.more_text = dropdown_text or translate("More")
+        self.more_current = any(link.current for link in self.more)
 
 
 class CurrentLink(nodes.reference):
@@ -130,6 +194,65 @@ class SiteNavigation:
             caption["classes"] += ["daisy-section-label", "daisy-nav-caption"]
         # Sphinx wrote the titles and Docutils escaped them when rendering.
         return Markup(self.builder.render_partial(tree)["fragment"])  # type: ignore[attr-defined]  # noqa: S704
+
+    def top_level(self) -> list[HeaderLink]:
+        """List the site's top-level pages as header links.
+
+        Returns:
+            One link for each entry at the first level of the toctrees, in
+            order; empty when there is nothing to draw.
+        """
+        return [
+            HeaderLink(
+                title=link.astext(),
+                href=str(link.get("refuri") or "#"),
+                current="current" in item["classes"],
+                external=False,
+            )
+            for item in self.top_items()
+            if (link := next(item.findall(nodes.reference), None)) is not None
+        ]
+
+    def section_menu(self, show_nav_level: int) -> Markup:
+        """Draw the pages of the current top-level section as the menu.
+
+        Args:
+            show_nav_level: How many levels of entries are open on a page off
+                the current path.
+
+        Returns:
+            The menu's markup, empty when the page is in no section or the
+            section has no pages below it.
+        """
+        for item in self.top_items():
+            if "current" not in item["classes"]:
+                continue
+            bullets = next(
+                (c for c in item.children if isinstance(c, nodes.bullet_list)), None
+            )
+            if bullets is None:
+                return Markup()
+            bullets = copy.deepcopy(bullets)
+            self.decorate_list(bullets, 1, show_nav_level)
+            # Sphinx wrote the titles and Docutils escaped them when rendering.
+            return Markup(self.builder.render_partial(bullets)["fragment"])  # type: ignore[attr-defined]  # noqa: S704
+        return Markup()
+
+    def top_items(self) -> list[nodes.list_item]:
+        """List the entries at the first level of the toctrees.
+
+        Returns:
+            The entries in order, empty when the site has no toctree.
+        """
+        if self.tree is None:
+            return []
+        return [
+            item
+            for bullets in self.tree.children
+            if isinstance(bullets, nodes.bullet_list)
+            for item in bullets.children
+            if isinstance(item, nodes.list_item)
+        ]
 
     def decorate_list(
         self, bullets: nodes.bullet_list, depth: int, show_nav_level: int

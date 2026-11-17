@@ -1,0 +1,19 @@
+{%- if daisy.header and (daisy.header.shown or daisy.header.more) %}
+<nav aria-label="{{ _('Sections')|e }}" class="min-w-0">
+  <ul class="flex items-center gap-1">
+    {%- for link in daisy.header.shown %}
+      <li><a href="{{ link.href|e }}" class="btn btn-ghost btn-sm font-medium{% if link.current %} btn-active text-primary{% endif %}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title|e }}{% if link.external %}{{ daisy.icon("external-link", "size-3.5 opacity-60") }}<span class="sr-only">{{ _("(leads outside the site)") }}</span>{% endif %}</a></li>
+    {%- endfor %}
+    {%- if daisy.header.more %}
+      <li class="dropdown dropdown-end">
+        <div tabindex="0" role="button" aria-haspopup="menu" class="btn btn-ghost btn-sm font-medium{% if daisy.header.more_current %} btn-active text-primary{% endif %}"{% if daisy.header.more_current %} aria-current="true"{% endif %}>{{ daisy.header.more_text|e }}{{ daisy.icon("chevron-down", "size-4") }}</div>
+        <ul tabindex="-1" class="dropdown-content menu z-40 mt-2 w-56 rounded-box border border-base-300 bg-base-100 p-2 shadow-lg">
+          {%- for link in daisy.header.more %}
+            <li><a href="{{ link.href|e }}"{% if link.current %} class="menu-active" aria-current="page"{% endif %}>{{ link.title|e }}{% if link.external %}{{ daisy.icon("external-link", "size-3.5 opacity-60") }}<span class="sr-only">{{ _("(leads outside the site)") }}</span>{% endif %}</a></li>
+          {%- endfor %}
+        </ul>
+      </li>
+    {%- endif %}
+  </ul>
+</nav>
+{%- endif %}
