@@ -27,6 +27,7 @@ from .timeline import (
     visit_timeline_item,
 )
 from .versions import check_switcher
+from .wordmark import WordmarkDirective, visit_wordmark, wordmark
 
 THEME_DIR = Path(__file__).parent / "theme" / "daisyui"
 LOCALE_DIR = Path(__file__).parent / "locale"
@@ -49,6 +50,8 @@ def setup(app: Sphinx) -> ExtensionMetadata:
     app.add_node(timeline_item, html=(visit_timeline_item, depart_timeline_item))
     app.add_node(avatar, html=(visit_avatar, None))
     app.add_directive("avatar", AvatarDirective)
+    app.add_node(wordmark, html=(visit_wordmark, None))
+    app.add_directive("wordmark", WordmarkDirective)
     app.add_directive("timeline", TimelineDirective)
     app.add_directive("timeline-item", TimelineItemDirective)
     app.connect("builder-inited", check_layout)

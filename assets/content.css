@@ -261,7 +261,7 @@
   }
 
   /* The first paragraph under the page title introduces the page. */
-  :scope > section > h1 + p {
+  :scope > section > :is(h1, .daisy-wordmark) + p {
     font-size: 1.125rem;
     line-height: 1.65;
     color: var(--daisy-text-muted);
@@ -282,7 +282,7 @@
       font-size: 1.1875rem;
     }
 
-    :scope > section > h1 + p {
+    :scope > section > :is(h1, .daisy-wordmark) + p {
       font-size: 1.0625rem;
     }
   }
@@ -2115,4 +2115,22 @@ section:has(> .daisy-avatar-beside-title) > h1 + p {
   section:has(> .daisy-avatar-beside-title) > .daisy-avatar-beside-title {
     order: -1;
   }
+}
+
+/* Wordmark: a logo drawn in place of the page's title, which stays for screen readers. */
+section:has(> .daisy-wordmark) > h1 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.daisy-wordmark {
+  margin-bottom: 1.25rem;
+}
+.daisy-wordmark img {
+  width: auto;
+  max-width: 100%;
+  margin: 0;
 }
