@@ -15,6 +15,16 @@ from .links import check_icon_links
 from .modes import check_modes
 from .navigation import CurrentLink, depart_current_link, visit_current_link
 from .pygments import write_pygments_styles
+from .timeline import (
+    TimelineDirective,
+    TimelineItemDirective,
+    depart_timeline,
+    depart_timeline_item,
+    timeline,
+    timeline_item,
+    visit_timeline,
+    visit_timeline_item,
+)
 from .versions import check_switcher
 
 THEME_DIR = Path(__file__).parent / "theme" / "daisyui"
@@ -34,6 +44,10 @@ def setup(app: Sphinx) -> ExtensionMetadata:
     # The theme's text joins Sphinx's own domain, which is the one templates read.
     app.add_message_catalog("sphinx", str(LOCALE_DIR))
     app.add_node(CurrentLink, html=(visit_current_link, depart_current_link))
+    app.add_node(timeline, html=(visit_timeline, depart_timeline))
+    app.add_node(timeline_item, html=(visit_timeline_item, depart_timeline_item))
+    app.add_directive("timeline", TimelineDirective)
+    app.add_directive("timeline-item", TimelineItemDirective)
     app.connect("builder-inited", check_layout)
     app.connect("builder-inited", check_modes)
     app.connect("builder-inited", check_icon_links)

@@ -2049,3 +2049,21 @@ html:root, html[data-theme], html [data-theme] {
 }
 .daisy-sphinx-content .toctree-wrapper .daisy-nav-link:not(.menu-active):hover { color: var(--daisy-sphinx-heading); }
 .daisy-sphinx-content .toctree-wrapper .daisy-nav-toggle { margin-top: 0.3rem; }
+
+/* Timeline: the body of each event, which sits outside the page-body styles. */
+.daisy-timeline-body > * + * {
+  margin-top: 0.5rem;
+}
+.daisy-timeline-body a {
+  text-decoration: underline;
+}
+.daisy-timeline-body ul {
+  list-style: disc;
+  padding-inline-start: 1.25rem;
+}
+.daisy-timeline-body li {
+  display: list-item;
+}
+.daisy-timeline li:last-child .daisy-timeline-box {
+  margin-bottom: 0;
+}
