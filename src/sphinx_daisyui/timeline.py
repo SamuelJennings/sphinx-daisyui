@@ -11,7 +11,7 @@ A page lists events in order::
     :::
     ```
 
-Each item has a title, an optional date and place, and a body of ordinary content.
+Each item has a title, an optional date, place and badge, and a body of ordinary content.
 The items alternate sides of the line on a wide screen. With ``:compact:`` they all
 sit on one side, and on a narrow screen they always do.
 """
@@ -69,6 +69,7 @@ class TimelineItemDirective(SphinxDirective):
     option_spec: ClassVar[dict[str, Any]] = {
         "date": directives.unchanged,
         "place": directives.unchanged,
+        "badge": directives.unchanged,
     }
 
     def run(self) -> list[nodes.Node]:
@@ -81,6 +82,7 @@ class TimelineItemDirective(SphinxDirective):
             title=self.arguments[0],
             date=self.options.get("date", ""),
             place=self.options.get("place", ""),
+            badge=self.options.get("badge", ""),
         )
         self.set_source_info(item)
         self.state.nested_parse(self.content, self.content_offset, item)
@@ -133,7 +135,12 @@ def visit_timeline_item(translator: HTML5Translator, node: timeline_item) -> Non
         head.append(
             f'<p class="font-mono text-sm text-base-content/70">{escape(node["date"])}</p>'
         )
-    head.append(f'<p class="text-lg font-bold">{escape(node["title"])}</p>')
+    badge = (
+        f' <span class="badge badge-accent badge-sm align-middle">{escape(node["badge"])}</span>'
+        if node["badge"]
+        else ""
+    )
+    head.append(f'<p class="text-lg font-bold">{escape(node["title"])}{badge}</p>')
     if node["place"]:
         head.append(f'<p class="text-base-content/80">{escape(node["place"])}</p>')
     head.append('<div class="daisy-timeline-body mt-2">')

@@ -198,5 +198,7 @@ def add_page_context(
         sources=sources,
         top_buttons=sources.buttons(options.names("top_of_page_buttons")),
     )
-    if index_page:
+    meta = context.get("meta") or {}
+    removed = str(meta.get("html_theme.sidebar_secondary.remove", "")).lower()
+    if index_page or removed in {"true", "yes", "1"}:
         context["daisy"]["secondary_sidebar_items"] = []
