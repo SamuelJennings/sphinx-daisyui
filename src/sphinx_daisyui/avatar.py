@@ -10,7 +10,8 @@ A page shows a portrait in a circle::
 ``:shape:`` is ``circle`` (the default), ``rounded`` or ``square``. ``:dark:`` names a
 second image drawn in dark mode instead, for a logo with light and dark versions. ``:size:`` is any CSS
 length. With ``:beside-title:`` the avatar sits to the left of the page's title and the
-paragraph under it, centred on them, and stacks above them on a narrow screen.
+paragraph under it, centred on them, and stacks above them on a narrow screen. With
+``:beside-title: title`` it sits beside the title alone, and the paragraph runs under both.
 """
 
 from typing import Any, ClassVar
@@ -37,7 +38,7 @@ class AvatarDirective(SphinxDirective):
         "dark": directives.unchanged,
         "size": directives.unchanged,
         "shape": lambda value: directives.choice(value, tuple(SHAPES)),
-        "beside-title": directives.flag,
+        "beside-title": lambda value: directives.choice(value or "lead", ("lead", "title")),
     }
 
     def run(self) -> list[nodes.Node]:
@@ -54,7 +55,7 @@ class AvatarDirective(SphinxDirective):
             alt=self.options.get("alt", ""),
             size=self.options.get("size", "6rem"),
             shape=self.options.get("shape", "circle"),
-            beside_title="beside-title" in self.options,
+            beside_title=self.options.get("beside-title", ""),
         )
         self.set_source_info(node)
         return [node]
@@ -87,8 +88,10 @@ def visit_avatar(translator: HTML5Translator, node: avatar) -> None:
         images = f'<img src="{escape(resolve(node["uri"]))}" alt="{alt}">'
 
     classes = "daisy-sphinx-escape avatar daisy-avatar"
-    if node["beside_title"]:
+    if node["beside_title"] == "lead":
         classes += " daisy-avatar-beside-title"
+    elif node["beside_title"] == "title":
+        classes += " daisy-avatar-beside-title-only"
     shape = SHAPES[node["shape"]]
     translator.body.append(
         f'<div class="{classes}">'

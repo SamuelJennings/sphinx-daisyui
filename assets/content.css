@@ -261,7 +261,7 @@
   }
 
   /* The first paragraph under the page title introduces the page. */
-  :scope > section > :is(h1, .daisy-wordmark) + p {
+  :scope > section > :is(h1, .daisy-wordmark, .daisy-avatar-beside-title-only) + p {
     font-size: 1.125rem;
     line-height: 1.65;
     color: var(--daisy-text-muted);
@@ -282,7 +282,7 @@
       font-size: 1.1875rem;
     }
 
-    :scope > section > :is(h1, .daisy-wordmark) + p {
+    :scope > section > :is(h1, .daisy-wordmark, .daisy-avatar-beside-title-only) + p {
       font-size: 1.0625rem;
     }
   }
@@ -2133,4 +2133,26 @@ section:has(> .daisy-wordmark) > h1 {
   width: auto;
   max-width: 100%;
   margin: 0;
+}
+
+/* An avatar beside the page title alone: the paragraph under them runs full width. */
+section:has(> .daisy-avatar-beside-title-only) {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1.25rem;
+}
+section:has(> .daisy-avatar-beside-title-only) > * {
+  grid-column: 1 / -1;
+}
+section:has(> .daisy-avatar-beside-title-only) > .daisy-avatar-beside-title-only {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  margin-bottom: 1.25rem;
+}
+section:has(> .daisy-avatar-beside-title-only) > h1 {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  margin: 0 0 1.25rem;
 }
