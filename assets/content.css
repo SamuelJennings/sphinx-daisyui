@@ -2067,3 +2067,6 @@ html:root, html[data-theme], html [data-theme] {
 .daisy-timeline li:last-child .daisy-timeline-box {
   margin-bottom: 0;
 }
+.daisy-timeline {
+  margin-block: 1.5rem;
+}
