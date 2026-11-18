@@ -106,9 +106,10 @@
     --daisy-sphinx-code-inserted-bg: color-mix(in oklab, var(--color-success) 12%, var(--color-neutral));
     --daisy-sphinx-code-deleted-bg: color-mix(in oklab, var(--color-error) 12%, var(--color-neutral));
 
-    /* The text: about 75 characters a line however wide the page is.
-       Where the column sits is the layout's job. */
-    max-width: 46rem;
+    /* The text: about 75 characters a line however wide the page is, wider on
+       a page without the secondary sidebar. Where the column sits is the
+       layout's job. */
+    max-width: var(--daisy-content-width, 46rem);
     font-size: 1rem;
     line-height: 1.7;
     color: var(--daisy-sphinx-text);

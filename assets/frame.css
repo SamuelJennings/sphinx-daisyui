@@ -41,6 +41,7 @@ html:not([data-mode-choice]) [data-daisy-mode-icon="auto"] { display: inline-fle
   --daisy-main-width: 54rem;
   --daisy-secondary-width: 15rem;
   --daisy-header-height: 4.0625rem;
+  --daisy-content-width: 46rem;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto 1fr auto;
@@ -122,13 +123,19 @@ html:not([data-mode-choice]) [data-daisy-mode-icon="auto"] { display: inline-fle
 }
 
 @media (width >= 80rem) {
+  /* On a wide screen the page is one centred block, as wide as its three
+     columns, so the navbar's ends line up with the sidebars' edges. */
   .daisy-layout {
     grid-template-columns:
-      minmax(var(--daisy-primary-width), 1fr)
+      var(--daisy-primary-width)
       minmax(0, var(--daisy-main-width))
-      minmax(var(--daisy-secondary-width), 1fr);
+      var(--daisy-secondary-width);
     grid-template-areas: var(--daisy-areas-xl);
+    max-width: calc(var(--daisy-primary-width) + var(--daisy-main-width) + var(--daisy-secondary-width));
+    margin-inline: auto;
   }
+  /* A page without the secondary sidebar gives its column to the page. */
+  .daisy-layout[data-no-secondary] { --daisy-content-width: calc(46rem + var(--daisy-secondary-width)); }
   .daisy-area-secondary { display: block; min-width: 0; }
   .daisy-secondary-inner { width: var(--daisy-secondary-width); padding-block: 2rem; padding-inline-end: 1rem; }
   .daisy-layout[data-secondary-fixed] .daisy-secondary-inner {

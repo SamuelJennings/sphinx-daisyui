@@ -35,12 +35,12 @@
 {%- block content %}
   {%- set lay = d.layout %}
   {#- Single quotes round the style: the grid areas are double-quoted strings. #}
-  <div class="daisy-layout" style='--daisy-areas-lg: {{ lay.areas_medium }}; --daisy-areas-xl: {{ lay.areas_wide }}; --daisy-primary-top: {{ lay.primary_top|e }}; --daisy-secondary-top: {{ lay.secondary_top|e }};' data-layout="{{ lay.code|e }}"{% if lay.header_sticky %} data-header-fixed{% endif %}{% if lay.primary_sticky %} data-primary-fixed{% endif %}{% if lay.secondary_sticky %} data-secondary-fixed{% endif %}{% if lay.footer_sticky %} data-footer-fixed{% endif %}>
+  <div class="daisy-layout" style='--daisy-areas-lg: {{ lay.areas_medium }}; --daisy-areas-xl: {{ lay.areas_wide if d.secondary_sidebar_items else lay.areas_medium }}; --daisy-primary-top: {{ lay.primary_top|e }}; --daisy-secondary-top: {{ lay.secondary_top|e }};' data-layout="{{ lay.code|e }}"{% if lay.header_sticky %} data-header-fixed{% endif %}{% if lay.primary_sticky %} data-primary-fixed{% endif %}{% if lay.secondary_sticky %} data-secondary-fixed{% endif %}{% if lay.footer_sticky %} data-footer-fixed{% endif %}{% if not d.secondary_sidebar_items %} data-no-secondary{% endif %}>
     <input id="daisy-drawer" type="checkbox" class="hidden" aria-hidden="true" tabindex="-1">
 
     <header class="daisy-area-header daisy-navbar bg-base-100/90 backdrop-blur supports-[backdrop-filter]:bg-base-100/75">
       {%- if d.sticky_banners %}{% include "components/announcement.html" %}{% endif %}
-      <div class="navbar mx-auto min-h-16 max-w-[96rem] gap-2 px-3 sm:px-4">
+      <div class="navbar min-h-16 gap-2 px-3 sm:px-4">
         <label for="daisy-drawer" role="button" tabindex="0" data-daisy-drawer-open class="btn btn-ghost btn-square btn-sm lg:hidden" aria-label="{{ _('Open the navigation')|e }}">{{ d.icon("menu") }}</label>
         <div class="flex min-w-0 items-center gap-2">
           {%- for name in d.navbar_start %}
@@ -82,7 +82,7 @@
 
     {#- Sphinx's search page reads the text of the element with role="main" for each result's summary. #}
     <main id="main-content" role="main" class="daisy-area-main min-w-0 px-4 sm:px-6 lg:px-10" tabindex="-1">
-      <div class="mx-auto max-w-[46rem] pt-6 pb-10">
+      <div class="mx-auto max-w-(--daisy-content-width) pt-6 pb-10">
         {%- if d.article_header_start or d.article_header_end or d.top_buttons %}
           <div class="daisy-article-header flex min-h-8 items-center gap-3">
             <div class="min-w-0 flex-1">{{ components(d.article_header_start) }}</div>
