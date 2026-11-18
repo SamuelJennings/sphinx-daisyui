@@ -11,7 +11,8 @@ A page lists events in order::
     :::
     ```
 
-Each item has a title, an optional date, place and badge, and a body of ordinary content.
+Each item has a title, an optional date, place and badge, an optional ``:name:``
+that other pages link to, and a body of ordinary content.
 The items alternate sides of the line on a wide screen. With ``:compact:`` they all
 sit on one side, and on a narrow screen they always do.
 """
@@ -70,6 +71,7 @@ class TimelineItemDirective(SphinxDirective):
         "date": directives.unchanged,
         "place": directives.unchanged,
         "badge": directives.unchanged,
+        "name": directives.unchanged,
     }
 
     def run(self) -> list[nodes.Node]:
@@ -85,6 +87,7 @@ class TimelineItemDirective(SphinxDirective):
             badge=self.options.get("badge", ""),
         )
         self.set_source_info(item)
+        self.add_name(item)
         self.state.nested_parse(self.content, self.content_offset, item)
         return [item]
 
@@ -125,8 +128,9 @@ def visit_timeline_item(translator: HTML5Translator, node: timeline_item) -> Non
     start = not parent["compact"] and index % 2 == 0
     box = "timeline-start md:text-end" if start else "timeline-end"
     escape = translator.encode
+    anchor = f' id="{node["ids"][0]}"' if node["ids"] else ""
     head = [
-        "<li>",
+        f"<li{anchor}>",
         "<hr>" if index else "",
         f'<div class="timeline-middle">{DOT}</div>',
         f'<div class="{box} mb-10 daisy-timeline-box">',
