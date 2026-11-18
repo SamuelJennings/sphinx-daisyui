@@ -2070,3 +2070,48 @@ html:root, html[data-theme], html [data-theme] {
 .daisy-timeline {
   margin-block: 1.5rem;
 }
+
+/* Avatar: an image in a daisyUI avatar frame. */
+.daisy-avatar img {
+  margin: 0;
+}
+
+/* An avatar beside the page title: the title and the paragraph under it sit to its right,
+   centred on it. Below 40rem the avatar stacks above them. */
+section:has(> .daisy-avatar-beside-title) {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 2rem;
+}
+section:has(> .daisy-avatar-beside-title) > * {
+  grid-column: 1 / -1;
+}
+section:has(> .daisy-avatar-beside-title) > .daisy-avatar-beside-title {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: center;
+  margin-bottom: 1.5rem;
+}
+section:has(> .daisy-avatar-beside-title) > h1 {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  margin-bottom: 0.5rem;
+}
+section:has(> .daisy-avatar-beside-title) > h1 + p {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  margin-top: 0;
+}
+@media (width < 40rem) {
+  section:has(> .daisy-avatar-beside-title) > .daisy-avatar-beside-title,
+  section:has(> .daisy-avatar-beside-title) > h1,
+  section:has(> .daisy-avatar-beside-title) > h1 + p {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+  section:has(> .daisy-avatar-beside-title) > .daisy-avatar-beside-title {
+    order: -1;
+  }
+}

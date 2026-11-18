@@ -9,6 +9,7 @@ from pathlib import Path
 from sphinx.application import Sphinx
 from sphinx.util.typing import ExtensionMetadata
 
+from .avatar import AvatarDirective, avatar, visit_avatar
 from .body import install_translator
 from .events import add_page_context, check_layout
 from .links import check_icon_links
@@ -46,6 +47,8 @@ def setup(app: Sphinx) -> ExtensionMetadata:
     app.add_node(CurrentLink, html=(visit_current_link, depart_current_link))
     app.add_node(timeline, html=(visit_timeline, depart_timeline))
     app.add_node(timeline_item, html=(visit_timeline_item, depart_timeline_item))
+    app.add_node(avatar, html=(visit_avatar, None))
+    app.add_directive("avatar", AvatarDirective)
     app.add_directive("timeline", TimelineDirective)
     app.add_directive("timeline-item", TimelineItemDirective)
     app.connect("builder-inited", check_layout)
