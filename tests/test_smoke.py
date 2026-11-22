@@ -1,9 +1,7 @@
 import re
-from pathlib import Path
 
 import pytest
 from sphinx.testing.util import SphinxTestApp
-
 
 CONTENT_STYLESHEET = "sphinx-daisyui-content.css"
 # The custom properties a page that loads daisyUI 5 already has: daisyUI's theme
@@ -65,7 +63,8 @@ class TestContentStylesheet:
     ) -> None:
         app.build()
 
-        css = (app.outdir / "_static" / "styles" / CONTENT_STYLESHEET).read_text("utf-8")
+        styles = app.outdir / "_static" / "styles"
+        css = (styles / CONTENT_STYLESHEET).read_text("utf-8")
         declared = set(re.findall(r"(--[\w-]+):", css))
         read = set(re.findall(r"var\((--[\w-]+)", css))
         missing = {

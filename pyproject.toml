@@ -80,9 +80,10 @@ docs = [
 requires = ["hatchling", "hatch-jupyter-builder>=0.10"]
 build-backend = "hatchling.build"
 
-# The stylesheet is compiled from assets/ with npm when the package is built, and
-# ships in both the wheel and the sdist, so installing the theme never needs Node.
-# A build that finds it already compiled leaves it alone.
+# The stylesheets (the theme's, and the page-body styles on their own) are compiled
+# from assets/ with npm when the package is built, and ship in both the wheel and the
+# sdist, so installing the theme never needs Node. A build that finds them already
+# compiled leaves them alone.
 [tool.hatch.build.hooks.jupyter-builder]
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
