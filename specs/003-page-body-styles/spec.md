@@ -30,6 +30,9 @@ A site author who embeds raw HTML keeps daisyUI's own look on it with the escape
 author who prefers a Pygments style for their code brings it back with the
 `pygments_light_style` and `pygments_dark_style` options.
 
+A developer whose site already loads daisyUI 5, and shows the theme's pages inside its own, links
+the page-body styles on their own and fits them to the site with two custom properties.
+
 The theme adds no directive or role. It styles the HTML that Sphinx and the extensions it
 supports already write (Article XIII).
 
@@ -182,6 +185,47 @@ with each Pygments option set alone, both set and with an unknown style name, an
 
 ---
 
+### User Story 4 - A developer styles page bodies inside a site that already loads daisyUI (Priority: P3)
+
+A developer whose site already loads daisyUI 5 shows the theme's pages inside pages of their own,
+for example from the `.fjson` files of `sphinx-build -b json`. They link the page-body stylesheet
+the build writes, put the page-body class on the element holding a page's body, and get the
+theme's page-body look without a second copy of Tailwind and daisyUI. They set the reading width
+and the surface the page sits on to fit their site, and put the escape class on their own markup
+inside the body to keep it out of the styles.
+
+**Why this priority**: a site that embeds its documentation would otherwise keep its own copy of
+these styles, which drifts from the theme's.
+
+**Independent Test**: build test sites with the `html` and `json` builders and check that each
+writes the page-body stylesheet, that every custom property the stylesheet reads is declared in it
+or is one a daisyUI 5 page already has, and that the JSON build's page bodies carry the theme's
+page-body changes.
+
+**Acceptance Scenarios**:
+
+1. **Given** a site with `html_theme = "daisyui"`, **When** it builds with the `html`, `dirhtml`,
+   `singlehtml` or `json` builder, **Then** the build writes the page-body stylesheet to
+   `_static/styles/sphinx-daisyui-content.css` beside the theme's stylesheet.
+2. **Given** a site built with the `json` builder, **When** the build runs, **Then** it succeeds
+   without warnings, and each page's body holds the same page-body changes (scroll regions, named
+   permalinks, admonition icons) as the `html` builder writes.
+3. **Given** a page that loads daisyUI 5 and the page-body stylesheet but none of the theme's other
+   styles, **When** it shows a page body inside an element with the page-body class, **Then**
+   the body is drawn as the theme draws it.
+4. **Given** a host that sets `--daisy-sphinx-max-width` or `--daisy-sphinx-page-bg` on the
+   page-body element or an element around it, **When** a page body is shown, **Then** the reading
+   column takes that width, and the sunken surfaces are mixed from that surface.
+5. **Given** a host that sets neither property, **When** a page body is shown, **Then** it looks
+   as it does in the theme.
+6. **Given** a host's own markup inside the page-body element with the escape class, **When** the
+   page is shown, **Then** the page-body styles leave it alone.
+7. **Given** the theme's documentation, **When** a developer reads it, **Then** the stylesheet's
+   path, the page-body class, the escape class and the two custom properties with their defaults
+   are documented.
+
+---
+
 ### Edge Cases
 
 - A page with an empty body, such as Sphinx's search page before a search, builds and is left as
@@ -194,6 +238,8 @@ with each Pygments option set alone, both set and with an unknown style name, an
 - A page built by `dirhtml` or `singlehtml` gets the same page body as one built by `html`.
 - A Pygments style set while the reader's mode is not yet known before the first paint: the style
   for the mode the page starts in is the one shown, with no flash of the other.
+- A contents list in a page shown by a host is left out of the page-body styles, as it is in the
+  theme, where the site navigation's styles draw it. The host draws it.
 - An escape-class element written directly in reStructuredText with the `class` directive, rather
   than in raw HTML, leaves its contents out of the page-body styles just the same.
 
@@ -271,6 +317,21 @@ with each Pygments option set alone, both set and with an unknown style name, an
 - **FR-023**: The documentation site MUST carry the kitchen sink pages, which show every kind of
   block FR-001 lists, built with the theme on every documentation build.
 
+**The page-body styles outside the theme (US4)**
+
+- **FR-024**: Every build with the theme by an HTML builder, the JSON and pickle builders
+  included, MUST write the page-body styles on their own as
+  `_static/styles/sphinx-daisyui-content.css`, and the package MUST ship that file compiled.
+- **FR-025**: The page-body stylesheet MUST read no custom property from the theme's other
+  stylesheets. Anything it reads is declared in it, or is a daisyUI token, a Tailwind font or a
+  sphinx-design property, which a page that loads daisyUI 5 already has.
+- **FR-026**: The reading width and the surface the page sits on MUST be custom properties,
+  `--daisy-sphinx-max-width` and `--daisy-sphinx-page-bg`, that a host sets on the page-body
+  element or an element around it. Their defaults MUST be the theme's own values, so the theme's
+  look does not change.
+- **FR-027**: A build with the JSON or pickle builder MUST succeed, with the page-body changes in
+  every page's body.
+
 ### Key Entities
 
 - **Page body**: the HTML Sphinx writes for a page's content, which the page-body styles draw.
@@ -279,6 +340,8 @@ with each Pygments option set alone, both set and with an unknown style name, an
 - **Escape class**: `daisy-sphinx-escape`, the class that leaves its contents out of the
   page-body styles.
 - **Pygments style option**: one of the two options that set a Pygments style for a mode.
+- **Page-body stylesheet**: `sphinx-daisyui-content.css`, the page-body styles compiled on their
+  own for a host that already loads daisyUI 5.
 
 ## Success Criteria *(mandatory)*
 

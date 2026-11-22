@@ -5,7 +5,13 @@
 
    Spacing works from one rhythm. Blocks are separated by --daisy-sphinx-flow; boxes
    (admonitions, code, tables, cards) by a little more; a heading has far more
-   space above it than below, so it reads as the start of what follows. */
+   space above it than below, so it reads as the start of what follows.
+
+   The package also ships this file compiled on its own, for a page that already
+   loads daisyUI 5, so it reads nothing from the theme's other stylesheets. Two
+   properties a host may set on the page body or any element around it:
+   --daisy-sphinx-max-width, the reading width (46rem), and --daisy-sphinx-page-bg,
+   the surface the page sits on (base-100), from which the sunken surface is mixed. */
 
 /* Everything is scoped to the page body, so the theme's frame keeps daisyUI's own styles.
    Raw HTML inside an element with the class daisy-sphinx-escape is left alone, and so
@@ -27,7 +33,9 @@
     --daisy-sphinx-flow-list-loose: 0.75rem;
     --daisy-sphinx-pad-box: 1rem 1.25rem;
 
-    /* Text. */
+    /* Text. The dimmed text is the theme's own, declared again here so the file
+       stands alone. */
+    --daisy-text-muted: color-mix(in oklab, var(--color-base-content) 72%, transparent);
     --daisy-sphinx-heading: var(--color-base-content);
     --daisy-sphinx-text: color-mix(in oklab, var(--color-base-content) 86%, var(--color-base-100));
     --daisy-sphinx-link: color-mix(in oklab, var(--color-primary) 82%, var(--color-base-content));
@@ -36,8 +44,10 @@
     --daisy-sphinx-border: var(--border, 1px);
     --daisy-sphinx-rule: color-mix(in oklab, var(--color-base-content) 12%, var(--color-base-100));
     --daisy-sphinx-rule-strong: color-mix(in oklab, var(--color-base-content) 22%, var(--color-base-100));
-    /* The article sits on base-100, so a sunken surface is a shade darker. */
-    --daisy-sphinx-surface: color-mix(in oklab, var(--color-base-content) 5%, var(--color-base-100));
+    /* A sunken surface is a shade darker than the page it sits on. */
+    --daisy-sphinx-surface: color-mix(
+      in oklab, var(--color-base-content) 5%, var(--daisy-sphinx-page-bg, var(--color-base-100))
+    );
     --daisy-sphinx-signature-bg: var(--daisy-sphinx-surface);
     --daisy-sphinx-surface-soft: color-mix(in oklab, var(--color-base-200) 55%, var(--color-base-100));
     --daisy-sphinx-shadow: 0 1px 2px color-mix(in oklab, var(--color-base-content) 8%, transparent),
@@ -108,7 +118,7 @@
 
     /* The text: about 75 characters a line however wide the page is.
        Where the column sits is the layout's job. */
-    max-width: 46rem;
+    max-width: var(--daisy-sphinx-max-width, 46rem);
     font-size: 1rem;
     line-height: 1.7;
     color: var(--daisy-sphinx-text);

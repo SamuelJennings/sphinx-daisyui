@@ -1,3 +1,4 @@
+import json
 import re
 from pathlib import Path
 
@@ -127,6 +128,16 @@ class TestScrollRegions:
         _, page = built(app)
 
         assert len(regions(page)) == OUTER_TABLES + DISPLAY_EQUATIONS
+
+    @pytest.mark.sphinx("json", testroot="body")
+    def test_the_regions_are_written_by_the_json_builder(
+        self, app: SphinxTestApp
+    ) -> None:
+        app.build()
+
+        page = json.loads((Path(app.outdir) / "index.fjson").read_text("utf-8"))
+        assert app.warning.getvalue() == ""
+        assert len(regions(Page(page["body"]))) == OUTER_TABLES + DISPLAY_EQUATIONS
 
     @pytest.mark.sphinx("singlehtml", testroot="body")
     def test_the_regions_are_written_by_the_singlehtml_builder(

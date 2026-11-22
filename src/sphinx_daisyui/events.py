@@ -7,6 +7,7 @@ from markupsafe import Markup
 from sphinx.application import Sphinx
 from sphinx.builders.html import StandaloneHTMLBuilder
 from sphinx.util import logging
+from sphinxcontrib.serializinghtml import SerializingHTMLBuilder
 
 from .brand import Brand
 from .icons import ICONS
@@ -131,6 +132,10 @@ def add_page_context(
     if app.config.html_theme != "daisyui":
         return
     without_pygments_stylesheet(context)
+    # The JSON and pickle builders render no template and write the context out,
+    # which the objects below cannot be.
+    if isinstance(app.builder, SerializingHTMLBuilder):
+        return
     options = ThemeOptions.from_context(context)
     announcement = options.text("announcement").strip()
     is_url = announcement.startswith(("http://", "https://"))

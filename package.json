@@ -3,7 +3,7 @@
   "private": true,
   "description": "Compiles the theme's stylesheet. Python's build runs it, so users of the theme never need Node.",
   "scripts": {
-    "build": "node scripts/themes.mjs && tailwindcss -i assets/theme.css -o src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css --minify",
+    "build": "node scripts/themes.mjs && tailwindcss -i assets/theme.css -o src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css --minify && tailwindcss -i assets/content.css -o src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui-content.css --minify",
     "watch": "tailwindcss -i assets/theme.css -o src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css --watch",
     "icons": "node scripts/icons.mjs",
     "themes": "node scripts/themes.mjs"

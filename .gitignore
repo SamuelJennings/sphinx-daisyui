@@ -35,6 +35,7 @@ dist/
 # Sphinx build output
 _build/
 
-# Node, and the stylesheet compiled from assets/ when the package is built
+# Node, and the stylesheets compiled from assets/ when the package is built
 node_modules/
 src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css
+src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui-content.css
