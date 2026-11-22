@@ -6,6 +6,8 @@ All notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
+## [v0.2.0] - 2026-11-22
+
 ### Added
 
 - The page-body styles ship on their own as `_static/styles/sphinx-daisyui-content.css`, for a
