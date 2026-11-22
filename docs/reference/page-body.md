@@ -100,6 +100,51 @@ the escape class can use them:
 
 The theme's own components bring the classes they use, such as `btn` and `menu`.
 
+## The page-body styles outside the theme
+
+A site that already loads daisyUI 5 can show the theme's pages inside a page of its own, for
+example a Django site that renders the `.fjson` files of `sphinx-build -b json`. The page-body
+styles ship on their own for that, without a second copy of Tailwind and daisyUI. Any HTML build
+with `html_theme = "daisyui"`, the JSON builder included, writes them to
+`_static/styles/sphinx-daisyui-content.css`. Inside the installed package the file is
+`sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui-content.css`.
+
+The file reads only daisyUI's tokens and Tailwind's fonts, which the host page already has. To use
+it:
+
+1. Link the stylesheet from the page that shows the body.
+2. Put the class `daisy-sphinx-content` on the element that holds the page body.
+3. Put the class `daisy-sphinx-escape` on any of your own markup inside that element, so the
+   page-body styles leave it alone and it keeps your site's look.
+
+```html
+<link rel="stylesheet" href="/static/docs/_static/styles/sphinx-daisyui-content.css">
+
+<article class="daisy-sphinx-content">
+  {{ body }}
+  <div class="daisy-sphinx-escape">…your own markup…</div>
+</article>
+```
+
+Two custom properties fit the styles to the host. Set them on the page-body element or on any
+element around it.
+
+| Property | Default | What it sets |
+|---|---|---|
+| `--daisy-sphinx-max-width` | `46rem` | The width of the reading column. |
+| `--daisy-sphinx-page-bg` | `var(--color-base-100)` | The surface the page sits on. Highlighted quotes and API signatures are drawn a shade darker than it. |
+
+```css
+.docs-page {
+  --daisy-sphinx-max-width: 40rem;
+  --daisy-sphinx-page-bg: var(--color-base-200);
+}
+```
+
+The theme's site navigation draws a contents list that a page holds (a `toctree` in the page), so
+the page-body styles leave everything inside `.toctree-wrapper` alone. A host draws those lists with
+its own styles.
+
 ## Code highlighting
 
 By default the theme draws code with its own token colours, which follow the daisyUI theme. A

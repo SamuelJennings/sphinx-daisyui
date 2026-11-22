@@ -39,7 +39,13 @@ classifiers = [
     "Topic :: Text Processing :: Markup :: HTML",
     "Typing :: Typed",
 ]
-dependencies = ["docutils>=0.20", "markupsafe>=2.1", "pygments>=2.17", "sphinx>=7.4"]
+dependencies = [
+    "docutils>=0.20",
+    "markupsafe>=2.1",
+    "pygments>=2.17",
+    "sphinx>=7.4",
+    "sphinxcontrib-serializinghtml>=1.1.9",
+]
 
 [project.entry-points."sphinx.html_themes"]
 daisyui = "sphinx_daisyui"
@@ -74,20 +80,30 @@ docs = [
 requires = ["hatchling", "hatch-jupyter-builder>=0.10"]
 build-backend = "hatchling.build"
 
-# The stylesheet is compiled from assets/ with npm when the package is built, and
-# ships in both the wheel and the sdist, so installing the theme never needs Node.
-# A build that finds it already compiled leaves it alone.
+# The stylesheets (the theme's, and the page-body styles on their own) are compiled
+# from assets/ with npm when the package is built, and ship in both the wheel and the
+# sdist, so installing the theme never needs Node. A build that finds them already
+# compiled leaves them alone.
 [tool.hatch.build.hooks.jupyter-builder]
 build-function = "hatch_jupyter_builder.npm_builder"
-ensured-targets = ["src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css"]
-skip-if-exists = ["src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css"]
+ensured-targets = [
+    "src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css",
+    "src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui-content.css",
+]
+skip-if-exists = [
+    "src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css",
+    "src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui-content.css",
+]
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build"
 npm = ["npm"]
 
 [tool.hatch.build]
-artifacts = ["src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css"]
+artifacts = [
+    "src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui.css",
+    "src/sphinx_daisyui/theme/daisyui/static/styles/sphinx-daisyui-content.css",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/sphinx_daisyui"]

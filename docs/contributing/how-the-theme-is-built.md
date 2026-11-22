@@ -1,13 +1,16 @@
 # How the theme is built
 
 The theme is a set of Jinja templates and one stylesheet, with a little Python between Sphinx
-and the templates. This page says where each part lives, for a change that has to find it.
+and the templates. `npm run build` compiles the stylesheet from `assets/theme.css`, and compiles
+`assets/content.css` a second time on its own as the page-body stylesheet, which reads none of the
+other files in `assets/`. This page says where each part lives, for a change that has to find it.
 
 ## The page context
 
 Sphinx calls `add_page_context` in `sphinx_daisyui.events` for every page it writes. It reads the
 theme's options with `ThemeOptions` from `sphinx_daisyui.options` and gives the templates one
-dictionary, `daisy`, which is the only place a template reads an option from. `check_layout`
+dictionary, `daisy`, which is the only place a template reads an option from. The JSON and pickle builders write the context out instead of rendering a template, so
+`add_page_context` gives them no `daisy` dictionary. `check_layout`
 stops the build when the `layout` option is not a layout code, which `LayoutCode` in
 `sphinx_daisyui.layout` reads.
 

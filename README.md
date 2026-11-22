@@ -54,6 +54,16 @@ html_theme = "daisyui"
 - [Moving from Furo or pydata-sphinx-theme](https://samueljennings.github.io/sphinx-daisyui/developer/move-from-furo-or-pydata-sphinx-theme.html)
 - [Options reference](https://samueljennings.github.io/sphinx-daisyui/reference/options.html)
 
+### The page-body styles on their own
+
+A site that already loads daisyUI 5 can show Sphinx's pages inside its own pages, from the
+`.fjson` files of `sphinx-build -b json` for example, and style their bodies with
+`_static/styles/sphinx-daisyui-content.css` alone. Any build with `html_theme = "daisyui"` writes
+it. Put the class `daisy-sphinx-content` on the element that holds the page body, and
+`daisy-sphinx-escape` on your own markup inside it.
+[The page-body styles outside the theme](https://samueljennings.github.io/sphinx-daisyui/reference/page-body.html#the-page-body-styles-outside-the-theme)
+lists the custom properties that set the reading width and the page's surface.
+
 ## Scope & philosophy
 
 **What it is**

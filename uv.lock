@@ -1307,6 +1307,7 @@ dependencies = [
     { name = "sphinx", version = "9.0.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
     { name = "sphinx", version = "9.1.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.12.*'" },
     { name = "sphinx", version = "9.2.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.13'" },
+    { name = "sphinxcontrib-serializinghtml" },
 ]
 
 [package.dev-dependencies]
@@ -1334,6 +1335,7 @@ requires-dist = [
     { name = "markupsafe", specifier = ">=2.1" },
     { name = "pygments", specifier = ">=2.17" },
     { name = "sphinx", specifier = ">=7.4" },
+    { name = "sphinxcontrib-serializinghtml", specifier = ">=1.1.9" },
 ]
 
 [package.metadata.requires-dev]

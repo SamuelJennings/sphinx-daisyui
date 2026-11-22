@@ -6,6 +6,17 @@ All notable changes to this project are recorded here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- The page-body styles ship on their own as `_static/styles/sphinx-daisyui-content.css`, for a
+  site that already loads daisyUI 5 and shows the pages inside its own, and the
+  `--daisy-sphinx-max-width` and `--daisy-sphinx-page-bg` custom properties that fit them to it.
+
+### Fixed
+
+- A JSON or pickle build (`sphinx-build -b json`) with the theme no longer stops with
+  `Object of type LayoutCode is not JSON serializable`.
+
 ### Changed
 
 - The package is marked beta on PyPI, and its project links point at the documentation site.
